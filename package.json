@@ -1,0 +1,12 @@
+{
+  "scripts":{
+    "server": "node index.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "dependencies": {
+    "concurrently": "^7.1.0",
+    "express": "^4.17.3",
+    "save": "^2.4.0"
+  }
+}
