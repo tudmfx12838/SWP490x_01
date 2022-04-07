@@ -7,14 +7,16 @@
   "author": "",
   "license": "ISC",
   "scripts": {
+    "server-nodemon": "nodemon index.js",
     "server": "node index.js",
     "client": "npm run start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server-nodemon\" \"npm run client\""
   },
   "dependencies": {
     "concurrently": "^7.1.0",
     "create-react-app": "^5.0.0",
     "express": "^4.17.3",
+    "nodemon": "^2.0.15",
     "save": "^2.4.0"
   }
 }
