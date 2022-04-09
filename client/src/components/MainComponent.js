@@ -13,6 +13,12 @@ class Main extends Component {
             <React.Fragment>
                 <Header/>
                 <h2>Body</h2>
+                <h2>Body</h2>
+                <h2>Body</h2>
+
+                <h2>Body</h2>
+                <h2>Body</h2>
+                <h2>Body</h2>
                 <Footer/>
             </React.Fragment>
         )
