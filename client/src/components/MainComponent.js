@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
+import UserMangement from "./UserMangementComponent";
 
 class Main extends Component {
 
@@ -12,13 +13,7 @@ class Main extends Component {
         return(
             <React.Fragment>
                 <Header/>
-                <h2>Body</h2>
-                <h2>Body</h2>
-                <h2>Body</h2>
-
-                <h2>Body</h2>
-                <h2>Body</h2>
-                <h2>Body</h2>
+                <UserMangement/>
                 <Footer/>
             </React.Fragment>
         )

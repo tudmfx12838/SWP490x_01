@@ -56,7 +56,10 @@
 }
 
 .navbar-dark {
-  background-color: #512DA8;
+  background-color: red;
+}
+.nav-item {
+   color: white;
 }
 
 .jumbotron {
