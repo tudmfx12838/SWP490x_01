@@ -1,39 +1,22 @@
-import React, { Component } from 'react';
-import Main from './components/MainComponent';
-import './App.css';
-import axios from 'axios';
+import React, { Component } from "react";
+import Main from "./components/MainComponent";
+import "./App.css";
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { ConfigureStore } from './redux/configureStore';
+
+const store = ConfigureStore();
 
 class App extends Component {
-
-  render(){
+  render() {
     return (
-          <div>
-              <Main />
-          </div>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Main />
+        </BrowserRouter>
+      </Provider>
     );
   }
-  // state = {
-  //   message: ''
-  // };
-
-  // componentDidMount() {
-  //   axios.get('/api/test')
-  //        .then(result => this.setState({ message: result.data.message }))
-  // };
-
-  // render() {
-  //   return(
-  //     <div className="App">
-  //       <header className="App-header">
-  //         <h1>{ this.state.message }</h1>
-  //         <img src={logo} className="App-logo" alt="logo" />
-  //         <p>
-  //           Edit <code>src/App.js</code> and save to reload.
-  //         </p>
-  //       </header>
-  //     </div>
-  //   )
-  // };
-};
+}
 
 export default App;
