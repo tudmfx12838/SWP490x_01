@@ -21,19 +21,24 @@ class Header extends Component {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link as={NavLink} className="nav-link" to="/">Trang Chủ</Nav.Link>
-              <Nav.Link as={NavLink} className="nav-link" to="/sanpham">Sản Phẩm</Nav.Link>
+              <Nav.Link as={NavLink} className="nav-link" to="/trangchu">Trang Chủ</Nav.Link>
+              <NavDropdown title="Sản phẩm" id="basic-nav-dropdown">
+                <NavDropdown.Item><Link to ="/sanpham/thucphamkho">Thực phẩm khô</Link></NavDropdown.Item>
+                <NavDropdown.Item><Link to ="/sanpham/thucphamtuoi">Thực phẩm tươi</Link></NavDropdown.Item>
+                <NavDropdown.Item><Link to ="/sanpham/thucphamdonggoi">Thực phẩm đóng gói</Link></NavDropdown.Item>
+                <NavDropdown.Item><Link to ="/sanpham/giavi">Gia vị</Link></NavDropdown.Item>
+                <NavDropdown.Item><Link to ="/sanpham/thucuong">Đồ uống</Link></NavDropdown.Item>
+                <NavDropdown.Divider />
+              </NavDropdown>
+              <Nav.Link as={NavLink} className="nav-link" to="/giohang">Giỏ hàng</Nav.Link>
               <Nav.Link as={NavLink} className="nav-link" to="/quanly">Quản lý</Nav.Link>
             </Nav>
             <Nav>
               <Nav.Link href="#deets">
-                More deets
+                Đăng Ký
               </Nav.Link>
               <Nav.Link eventKey={2} href="#memes">
-                Dank memes
-              </Nav.Link>
-              <Nav.Link href="#deets2">
-                More deets2
+                Đặng Nhập
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>

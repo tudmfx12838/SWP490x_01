@@ -1,9 +1,12 @@
 import React, { Component, useState, useEffect } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';  
+import paginationFactory from 'react-bootstrap-table2-paginator';  
 import { Form } from "react-bootstrap";
 import axios from "axios";
 
 import { productTableColumns } from "../shared/defineColums";
+
 
 function RenderManagement({ data, columns }) {
   const CaptionElement = () => (
@@ -26,6 +29,24 @@ function RenderManagement({ data, columns }) {
     },
   ];
 
+  const options = {  
+    page: 2,   
+    sizePerPageList: [ {  
+      text: '5', value: 5  
+    }, {  
+      text: '10', value: 10  
+    }, {  
+      text: 'All', value: data.length  
+    } ],   
+    sizePerPage: 5,   
+    pageStartIndex: 0,   
+    paginationSize: 3,    
+    prePage: 'Prev',   
+    nextPage: 'Next',   
+    firstPage: 'First',   
+    lastPage: 'Last',   
+  };
+
   return (
     <>
       <h1>ProductManagement</h1>
@@ -43,6 +64,10 @@ function RenderManagement({ data, columns }) {
             selectRow={{ mode: "checkbox" }}
             defaultSorted={defaultSorted}
             tabIndexCell
+            filter={ filterFactory() }
+            pagination={ paginationFactory() }
+            insertRow
+            deleteRow
           />
         </div>
       </div>

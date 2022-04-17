@@ -1,3 +1,5 @@
+import { textFilter } from 'react-bootstrap-table2-filter';  
+
 export const productTableColumns = [
   {
     dataField: "_id",
@@ -7,6 +9,7 @@ export const productTableColumns = [
     dataField: "title",
     text: "Tên sản phẩm",
     sort: true,
+    filter: textFilter()
   },
   {
     dataField: "price",
@@ -115,3 +118,4 @@ export const orderTableColumns = [
     sort: true,
   },
 ];
+

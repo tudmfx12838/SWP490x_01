@@ -8,6 +8,7 @@
   "license": "ISC",
   "scripts": {
     "server-nodemon": "nodemon index.js",
+    "restoredb":"node restoreDB.js",
     "server": "nodemon index.js",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server-nodemon\" \"npm run client\""

@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
-import UserMangement from "./UserMangementComponent";
-import Product from "./ProductComponent";
+import Cart from "./CartComponent";
 import NotFound from "./NotFoundComponent";
 import Management from "./ManagementComponent";
+import Home from "./HomeComponent";
+import ProductDetail from "./ProductDetailComponent";
+import ProductDry from "./ProductDryFoodComponent";
+import ProductDrinks from "./ProductDrinksComponent";
+import ProductFresh from "./ProductFreshFoodComponent";
 
 //withRouter cau hinh ket noi React voi Redux
 // import { Switch, Route, Redirect, withRouter } from "react-router-dom";
@@ -68,18 +72,36 @@ class Main extends Component {
   }
 
   render() {
+    
+    const ProductWithIdAndType = () => {
+      // alert(useParams().productId);
+      const paramId = useParams().productId;
+      const paramTypeFood = useParams().typeFood;
+      return(
+        <ProductDetail product={this.props.products.products.filter((product) => product._id === paramId)[0]}/>      
+      );
+    }
+
     return (
       <React.Fragment>
         <Header />
 
         <Routes>
-          <Route exact path="/" element={<Product products={this.props.products.products}/>} />
+          <Route exact path="/trangchu" element={<Home products={this.props.products.products} />} />
+          <Route exact path="/" element={<Home products={this.props.products.products} />} />
+          <Route exact path="/sanpham" element={<Home products={this.props.products.products} />} />
+
+          <Route exact path="/sanpham/thucphamkho" element={<ProductDry products={this.props.products.products} />} />
+          <Route exact path="/sanpham/thucphamtuoi" element={<ProductFresh products={this.props.products.products} />} />
+          <Route exact path="/sanpham/thucuong" element={<ProductDrinks products={this.props.products.products} />} />
+          <Route path="/sanpham/:typeFood/:productId" element={<ProductWithIdAndType/>} />
+          
           <Route exact path="/quanly" element={<Management manageProducts={this.props.manageProducts.products}
                                                 manageUsers ={this.props.manageUsers.users}
                                                 manageEvents ={this.props.manageEvents.events}
                                                 manageOrders ={this.props.manageOrders.orders}/>} />
-          <Route exact path="/sanpham" element={<Product  products={this.props.products.products}/>} />
-          <Route exact path="/quanlynguoidung" element={<UserMangement />} />
+          
+          <Route exact path="/giohang" element={<Cart />} />
           <Route element={<NotFound />} />
         </Routes>
 
