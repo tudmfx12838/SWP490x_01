@@ -1,6 +1,10 @@
 import * as ActionTypes from "./ActionTypes";
 import axios from "axios";
 
+export const callMe = (value) => (dispatch) => {
+  alert(value);
+}
+
 export const fetchManageProducts = () => (dispatch) => {
   return fetch("admin/products")
     .then(

@@ -10,6 +10,8 @@ import ProductDry from "./ProductDryFoodComponent";
 import ProductDrinks from "./ProductDrinksComponent";
 import ProductFresh from "./ProductFreshFoodComponent";
 
+import CartTest from "./CartTestComponent";
+
 //withRouter cau hinh ket noi React voi Redux
 // import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
@@ -30,12 +32,12 @@ function withRouter(Component) {
       />
     );
   }
-
   return ComponentWithRouterProp;
 }
 
 const mapStateToProps = state => {
   return {
+    cart: state.cart,
     products: state.products,
     manageProducts: state.manageProducts,
     manageUsers: state.manageUsers,
@@ -50,6 +52,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchManageUsers: () => {dispatch(ActionCreators.fetchManageUsers())},
   fetchManageEvents: () => {dispatch(ActionCreators.fetchManageEvents())},
   fetchManageOrders: () => {dispatch(ActionCreators.fetchManageOrders())},
+  AddCart: (product, quantity) => {dispatch(ActionCreators.AddCart(product, quantity))},
+  callMe: (value) => dispatch(ActionCreators.callMe(value))
   // fetchDepartments: () => {dispatch(fetchDepartments())},
   // fetchStaffsSalary: () => {dispatch(fetchStaffsSalary())},
   // fetchDeleteStaff: (staffId) => {dispatch(fetchDeleteStaff(staffId))},
@@ -71,6 +75,11 @@ class Main extends Component {
     this.props.fetchManageOrders();
   }
 
+  alertTest(value){
+    this.props.AddCart(value,1);
+    this.props.callMe('Hello');
+  }
+
   render() {
     
     const ProductWithIdAndType = () => {
@@ -87,21 +96,24 @@ class Main extends Component {
         <Header />
 
         <Routes>
-          <Route exact path="/trangchu" element={<Home products={this.props.products.products} />} />
-          <Route exact path="/" element={<Home products={this.props.products.products} />} />
-          <Route exact path="/sanpham" element={<Home products={this.props.products.products} />} />
+          <Route exact path="/trangchu" element={<Home products={this.props.products.products} AddCart={(value) => this.alertTest(value)}/>} />
+          {/* <Route exact path="/" element={<Home products={this.props.products.products} AddCart={this.props.AddCart} />} />
+          <Route exact path="/sanpham" element={<Home products={this.props.products.products} AddCart={this.props.AddCart} />} /> */}
 
           <Route exact path="/sanpham/thucphamkho" element={<ProductDry products={this.props.products.products} />} />
           <Route exact path="/sanpham/thucphamtuoi" element={<ProductFresh products={this.props.products.products} />} />
           <Route exact path="/sanpham/thucuong" element={<ProductDrinks products={this.props.products.products} />} />
           <Route path="/sanpham/:typeFood/:productId" element={<ProductWithIdAndType/>} />
           
+          <Route exact path="/giohang" element={<CartTest cart={this.props.cart.cart} />} />
+
           <Route exact path="/quanly" element={<Management manageProducts={this.props.manageProducts.products}
                                                 manageUsers ={this.props.manageUsers.users}
                                                 manageEvents ={this.props.manageEvents.events}
                                                 manageOrders ={this.props.manageOrders.orders}/>} />
           
-          <Route exact path="/giohang" element={<Cart />} />
+          {/* <Route exact path="/giohang" element={<Cart />} /> */}
+
           <Route element={<NotFound />} />
         </Routes>
 

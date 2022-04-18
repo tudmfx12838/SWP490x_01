@@ -8,13 +8,16 @@ import {
   Nav,
   Navbar,
   CardGroup,
+  CloseButton,
 } from "react-bootstrap";
 import axios from "axios";
 import { Link, NavLink } from "react-router-dom";
+import { CHECKBOX_STATUS_UNCHECKED } from "react-bootstrap-table-next";
 
 const baseUrl = "/assets/";
 
-function RenderHomeItem({ products, type }) {
+
+function RenderHomeItem({ products, type, callback }) {
   return (
     <>
       <Row xs={2} md={3} lg={5} className="g-4">
@@ -34,7 +37,7 @@ function RenderHomeItem({ products, type }) {
                 </Card.Body>
               </Link>
               <Card.Footer>
-                <Button variant="primary">Thêm</Button>
+                <Button variant="primary" onClick={() => callback(p)}>Thêm</Button>
               </Card.Footer>
             </Card>
           </Col>
@@ -65,6 +68,9 @@ function RenderMenuHeader({ title, path }) {
 }
 
 const Home = (props) => {
+
+  const [quantity, setQuantity] = useState(0);
+
   const dryFoodItem = props.products.filter(
     (product) => product.type === "thucphamkho"
   );
@@ -77,18 +83,23 @@ const Home = (props) => {
     (product) => product.type === "thucuong"
   );
 
+  function HandleAddCart(product){
+    props.AddCart(product);
+    // alert(product._id);
+  }
+
   return (
     <Container>
       <RenderMenuHeader title={"Thực phẩm khô"} path={"/sanpham/thucphamkho"} />
-      <RenderHomeItem products={dryFoodItem} type={"thucphamkho"} />
+      <RenderHomeItem products={dryFoodItem} type={"thucphamkho"} callback={HandleAddCart}/>
       <RenderShowMore path={"/sanpham/thucphamkho"} />
 
       <RenderMenuHeader title={"Thực phẩm tươi"} path={"/sanpham/thucphamtuoi"} />
-      <RenderHomeItem products={freshFoodItem} type={"thucphamtuoi"} />
+      <RenderHomeItem products={freshFoodItem} type={"thucphamtuoi"} callback={HandleAddCart}/>
       <RenderShowMore path={"/sanpham/thucphamtuoi"} />
 
       <RenderMenuHeader title={"Đồ uống"} path={"/sanpham/thucuong"} />
-      <RenderHomeItem products={drinksItem} type={"thucuong"} />
+      <RenderHomeItem products={drinksItem} type={"thucuong"} callback={HandleAddCart}/>
       <RenderShowMore path={"/sanpham/thucuong"} />
     </Container>
   );

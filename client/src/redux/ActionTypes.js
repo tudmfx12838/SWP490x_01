@@ -34,3 +34,8 @@ export const PRODUCTS_LOADING = 'PRODUCTS_LOADING';
 //DISHES_FAILED can't find and load dishes from sever
 export const PRODUCTS_FAILED = 'PRODUCTS_FAILED';
 //ADD_DISHES is adding dishes to store
+
+
+export const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART';
+export const DELETE_PRODUCT_FROM_CART = 'DELETE_PRODUCT_FROM_CART';
+export const EDIT_PRODUCT_FROM_CART = 'EDIT_PRODUCT_FROM_CART';

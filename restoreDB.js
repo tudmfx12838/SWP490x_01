@@ -171,7 +171,7 @@ var userObj = [
 
 var productObj = [
 {
-	title: "Nước Mắm Nam Ngư 750ml",
+	title: "Nước Mắm",
 	price: 570,
     type: "thucphamkho",
 	description: "Nước mắm Namm Ngư nhập khẩu Việt Nam",
@@ -179,7 +179,7 @@ var productObj = [
 	mount: 10
 },
 {
-	title: "Nước Tương Chinsu 250ml",
+	title: "Nước Tương",
 	price: 400,
     type: "thucphamkho",
 	description: "Nước Tương Chinsu nhập khẩu Việt Nam",
@@ -187,7 +187,7 @@ var productObj = [
 	mount: 5
 },
 {
-	title: "Tương ớt Chinsu 250g",
+	title: "Tương ớt",
 	price: 200,
     type: "thucphamkho",
 	description: "Tương ớt Chinsu nhập khẩu Việt Nam",
@@ -211,7 +211,7 @@ var productObj = [
 	mount: 5
 },
 {
-	title: "Tiêu đen 500g",
+	title: "Tiêu đen",
 	price: 950,
     type: "thucphamkho",
 	description: "Tiêu đen nhập khẩu Việt Nam",
@@ -219,7 +219,7 @@ var productObj = [
 	mount: 2
 },
 {
-	title: "Bánh tráng 400g",
+	title: "Bánh tráng",
 	price: 400,
     type: "thucphamkho",
 	description: "Bánh tráng nhập khẩu Việt Nam",
@@ -227,7 +227,7 @@ var productObj = [
 	mount: 3
 },
 {
-	title: "Hạt nêm Knorr 500g",
+	title: "Hạt nêm",
 	price: 600,
     type: "thucphamkho",
 	description: "Hạt nêm Knorr nhập khẩu Việt Nam",
@@ -235,7 +235,7 @@ var productObj = [
 	mount: 7
 },
 {
-	title: "Muối Hảo Hảo 350g",
+	title: "Muối Hảo Hảo",
 	price: 650,
     type: "thucphamkho",
 	description: "Muối Hảo Hảo nhập khẩu Việt Nam",
@@ -332,7 +332,7 @@ var productObj = [
 	mount: 20
 },
 {
-	title: "Lòng heo non",
+	title: "Lòng heo",
 	price: 900,
     type: "thucphamtuoi",
 	description: "Lòng heo non đông lạnh",
@@ -364,7 +364,7 @@ var productObj = [
 	mount: 150
 },
 {
-	title: "Nước ngọt Sting",
+	title: "Nước Sting",
 	price: 130,
     type: "thucuong",
 	description: "Nước ngọt Sting nhập khẩu Việt Nam",
@@ -372,7 +372,7 @@ var productObj = [
 	mount: 150
 },
 {
-	title: "Nước ngọt Bò Húc",
+	title: "Nước Bò Húc",
 	price: 190,
     type: "thucuong",
 	description: "Nước ngọt Bò Húc nhập khẩu Việt Nam",
@@ -404,7 +404,7 @@ var productObj = [
 	mount: 15
 },
 {
-	title: "Nước ngọt Sting",
+	title: "Nước Sting",
 	price: 130,
     type: "thucuong",
 	description: "Nước ngọt Sting nhập khẩu Việt Nam",
@@ -412,7 +412,7 @@ var productObj = [
 	mount: 150
 },
 {
-	title: "Nước ngọt Bò Húc",
+	title: "Nước Bò Húc",
 	price: 190,
     type: "thucuong",
 	description: "Nước ngọt Bò Húc nhập khẩu Việt Nam",
