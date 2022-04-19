@@ -12,8 +12,8 @@ function RenderCart({ data, columns }) {}
 
 const key = cartData.map((el) => el.id);
 
-const CartTest = (props) => {
-  const [products, setProducts] = useState(props.cart); // transformers products
+const Cart = (props) => {
+  const [products, setProducts] = useState(cartData); // transformers products
   const [open, setOpen] = useState(false); // control for adding diaglog
   const [state, setState] = useState({
     row: null,
@@ -22,14 +22,14 @@ const CartTest = (props) => {
   });
 
   //Refer
-//   const entry = {
-//     id: null,
-//     area: null,
-//     rating: null,
-//     voltage: null,
-//     lat: null,
-//     Long: null,
-//   };
+  const entry = {
+    id: null,
+    area: null,
+    rating: null,
+    voltage: null,
+    lat: null,
+    Long: null,
+  };
 
   // hide checkbox for selection
   const selectRowProp = {
@@ -49,12 +49,18 @@ const CartTest = (props) => {
 
   const cartTableColumns = [
     {
-      dataField: "productId",
+      dataField: "_id",
       text: "Mã SP",
       editable: false,
     },
     {
-      dataField: "quantity",
+      dataField: "title",
+      text: "Tên sản phẩm",
+      sort: true,
+      editable: false,
+    },
+    {
+      dataField: "mount",
       text: "Số lượng",
       type: "number",
       validator: numberValidator,
@@ -148,24 +154,24 @@ const CartTest = (props) => {
     setProducts(products.filter((el) => el._id !== rowId));
   };
 
-//   const handleCancelAdd = () => {
-//     setOpen(false);
-//   };
+  const handleCancelAdd = () => {
+    setOpen(false);
+  };
 
-//   const handleSaveAdd = (tlmId) => {
-//     // check duplicated id
-//     if (products.filter((el) => el.id === tlmId).length) {
-//       // the same id is entered
-//       alert("the id you have entered is already taken!");
-//     } else {
-//       setProducts((prev) => {
-//         let newEntry = { ...entry, id: tlmId };
-//         let newVal = [newEntry, ...prev];
-//         return newVal;
-//       });
-//       setOpen(false);
-//     }
-//   };
+  const handleSaveAdd = (tlmId) => {
+    // check duplicated id
+    if (products.filter((el) => el.id === tlmId).length) {
+      // the same id is entered
+      alert("the id you have entered is already taken!");
+    } else {
+      setProducts((prev) => {
+        let newEntry = { ...entry, id: tlmId };
+        let newVal = [newEntry, ...prev];
+        return newVal;
+      });
+      setOpen(false);
+    }
+  };
 
   const CaptionElement = () => (
     <h3
@@ -241,4 +247,4 @@ const CartTest = (props) => {
   );
 };
 
-export default CartTest;
+export default Cart;

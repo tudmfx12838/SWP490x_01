@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-function RenderProduct({ product }) {
+function RenderProduct({ product, callback }) {
   return (
     <Card style={{ height: "18rem" }} className="mb-3">
       <Card.Img
@@ -26,26 +26,32 @@ function RenderProduct({ product }) {
         {/* <Card.Text>{product.description}</Card.Text> */}
       </Card.Body>
       <Card.Footer>
-        <Button variant="primary">Thêm</Button>
+        <Button variant="primary" onClick={() => callback(product)}>Thêm</Button>
       </Card.Footer>
     </Card>
   );
 }
 
-const ProductDetail = ({ product }) => {
+const ProductDetail = (props) => {
 
 var typeFoodTitle, pathTypeFood;
 
-if(product.type === 'thucphamkho'){
+if(props.product.type === 'thucphamkho'){
     typeFoodTitle = 'Thực phẩm khô';
     pathTypeFood = '/sanpham/thucphamkho';
-}else if(product.type === 'thucphamtuoi'){
+}else if(props.product.type === 'thucphamtuoi'){
     typeFoodTitle = 'Thực phẩm tươi';
     pathTypeFood = '/sanpham/thucphamtuoi';
-}else if(product.type === 'thucuong'){
+}else if(props.product.type === 'thucuong'){
     typeFoodTitle = 'Thức uống';
     pathTypeFood = '/sanpham/thucuong';
 }
+
+  
+  // function HandleAddCart(product){
+  //   alert(product.title);
+  //   props.AddCart(product);
+  // }
 
   return (
     <Container>
@@ -53,11 +59,11 @@ if(product.type === 'thucphamkho'){
         <Breadcrumb>
           <Breadcrumb.Item> <Link to='/'>Trang chủ</Link></Breadcrumb.Item>
           <Breadcrumb.Item><Link to={pathTypeFood}>{typeFoodTitle}</Link></Breadcrumb.Item>
-          <Breadcrumb.Item active>{product.title}</Breadcrumb.Item>
+          <Breadcrumb.Item active>{props.product.title}</Breadcrumb.Item>
         </Breadcrumb>
       </Row>
       <Row>
-        <RenderProduct product={product} />
+        <RenderProduct product={props.product} callback={props.AddCart}/>
       </Row>
     </Container>
   );

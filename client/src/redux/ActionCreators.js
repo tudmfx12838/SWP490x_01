@@ -1,7 +1,19 @@
 import { fetchProducts } from "./PageAactions";
-import { callMe, fetchManageProducts, fetchManageUsers,fetchManageEvents, fetchManageOrders } from "./AdminActions";
+import {
+  fetchManageProducts,
+  fetchManageUsers,
+  fetchManageEvents,
+  fetchManageOrders,
+} from "./AdminActions";
 
-import { AddCart } from "./CartActions";
+import {
+  AddCart,
+  GetNumberCart,
+  UpdateCart,
+  DeleteCart,
+  IncreaseQuantity,
+  DecreaseQuantity
+} from "./CartActions";
 
 export const ActionCreators = {
   fetchProducts: fetchProducts,
@@ -10,5 +22,9 @@ export const ActionCreators = {
   fetchManageEvents: fetchManageEvents,
   fetchManageOrders: fetchManageOrders,
   AddCart: AddCart,
-  callMe: callMe
-}
+  GetNumberCart: GetNumberCart,
+  UpdateCart: UpdateCart,
+  DeleteCart: DeleteCart,
+  IncreaseQuantity: IncreaseQuantity,
+  DecreaseQuantity: DecreaseQuantity,
+};

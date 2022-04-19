@@ -1,250 +1,102 @@
-import React, { Component, useState, useEffect } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
-import paginationFactory from "react-bootstrap-table2-paginator";
-import cellEditFactory from "react-bootstrap-table2-editor";
-import { Form } from "react-bootstrap";
-import axios from "axios";
-
-import { cartData } from "../shared/carts";
-
-function RenderCart({ data, columns }) {}
-
-const key = cartData.map((el) => el.id);
+import React, { Component } from "react";
+import {
+  Container,
+  Row,
+  Table,
+  Image,
+  Button,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
 
 const Cart = (props) => {
-  const [products, setProducts] = useState(cartData); // transformers products
-  const [open, setOpen] = useState(false); // control for adding diaglog
-  const [state, setState] = useState({
-    row: null,
-    state: null,
-    oldValue: null,
+  //  console.log(items)
+  let ListCart = [];
+  let TotalCart = 0;
+  Object.keys(props.cart.Carts).forEach(function (item) {
+    TotalCart += props.cart.Carts[item].quantity * props.cart.Carts[item].price;
+    ListCart.push(props.cart.Carts[item]);
   });
+  function TotalPrice(price, quantity) {
+    return Number(price * quantity).toLocaleString("en-US");
+  }
 
-  //Refer
-  const entry = {
-    id: null,
-    area: null,
-    rating: null,
-    voltage: null,
-    lat: null,
-    Long: null,
-  };
-
-  // hide checkbox for selection
-  const selectRowProp = {
-    mode: "checkbox",
-    hideSelectColumn: true,
-  };
-
-  const numberValidator = (newValue, row, column) => {
-    if (isNaN(newValue)) {
-      return {
-        valid: false,
-        message: "This field should be numeric",
-      };
-    }
-    return true;
-  };
-
-  const cartTableColumns = [
-    {
-      dataField: "_id",
-      text: "Mã SP",
-      editable: false,
-    },
-    {
-      dataField: "title",
-      text: "Tên sản phẩm",
-      sort: true,
-      editable: false,
-    },
-    {
-      dataField: "mount",
-      text: "Số lượng",
-      type: "number",
-      validator: numberValidator,
-      sort: true,
-      editable: true,
-    },
-    {
-      dataField: "price",
-      text: "Đơn giá",
-      sort: true,
-      editable: false,
-    },
-    {
-      dataField: "total",
-      text: "Thành tiền",
-      sort: true,
-      editable: false,
-    },
-    {
-      dataField: "action",
-      text: "Hành động",
-      sort: true,
-      editable: false,
-      isDummyField: true,
-      formatExtraData: state,
-      formatter: (cellContent, row) => {
-        if (row.state)
-          return (
-            <div>
-              <button
-                className="btn btn-secondary btn-xs"
-                onClick={() => {
-                  setState((prev) => {
-                    row.state = null;
-                    let newState = { ...prev, state: row.state, row: null };
-                    return newState;
-                  });
-                }}
-              >
-                  Lưu
-              </button>
-              <button
-                className="btn btn-primary btn-xs"
-                onClick={() => {
-                  setProducts((prev) => {
-                    let newVal = prev.map((el) => {
-                      if (el._id === row._id) {
-                        return state.oldValue;
-                      }
-                      return el;
-                    });
-                    return newVal;
-                  });
-                  setState((prev) => {
-                    row.state = null;
-                    let newState = { ...prev, state: row.state, row: null };
-                    return newState;
-                  });
-                }}
-              >
-                Hủy
-              </button>
-            </div>
-          );
-        else
-          return (
-            <div>
-              <button
-                className="btn btn-danger btn-xs"
-                onClick={() => handleDelete(row._id)}
-              >
-                {/* <DeleteIcon /> */}
-                Xóa
-              </button>
-            </div>
-          );
-      },
-    },
-  ];
-
-  // a function to save the old value
-  const handleStartEdit = (row) => {
-    setState((prev) => {
-      let newVal = { ...prev, oldValue: { ...row } };
-      return newVal;
-    });
-  };
-
-  //  delected the selected row
-  const handleDelete = (rowId) => {
-    setProducts(products.filter((el) => el._id !== rowId));
-  };
-
-  const handleCancelAdd = () => {
-    setOpen(false);
-  };
-
-  const handleSaveAdd = (tlmId) => {
-    // check duplicated id
-    if (products.filter((el) => el.id === tlmId).length) {
-      // the same id is entered
-      alert("the id you have entered is already taken!");
-    } else {
-      setProducts((prev) => {
-        let newEntry = { ...entry, id: tlmId };
-        let newVal = [newEntry, ...prev];
-        return newVal;
-      });
-      setOpen(false);
-    }
-  };
-
-  const CaptionElement = () => (
-    <h3
-      style={{
-        borderRadius: "0.25em",
-        textAlign: "center",
-        color: "purple",
-        border: "1px solid purple",
-        padding: "0.5em",
-      }}
-    >
-      Danh sách sản phẩm trong giỏ hàng
-    </h3>
-  );
-  const defaultSorted = [
-    {
-      dataField: "name",
-      order: "desc",
-    },
-  ];
-
-  const selectRow = {
-    mode: "checkbox", // multi select
-    clickToSelect: true,
-    // bgColor: '#fefefe',
-    // clickToSelectAndEditCell: true,
-  };
-  const cellEdit = {
-    mode: "dbclick",
-    blurToSave: true,
-    onStartEdit: (row, column, rowIndex, columnIndex) => {
-      console.log("start to edit!!!");
-      if (row.state !== "edited") {
-        console.log(row.state);
-        handleStartEdit(row);
-      }
-    },
-    beforeSaveCell: (oldValue, newValue, row, column) => {
-      console.log("Before Saving Cell!!");
-    },
-    afterSaveCell: (oldValue, newValue, row, column) => {
-      console.log("After Saving Cell!!");
-      if (oldValue !== newValue) {
-        row.state = "edited";
-        setState({ ...state, row: row, state: row.state });
-      }
-    },
-    nonEditableRows: () =>
-      state.row ? key.filter((el) => el !== state.row._id) : [],
-  };
-  return (
-    <>
-      <div className="container">
-        <div style={{ marginTop: 20 }}>
-          <BootstrapTable
-            bootstrap4
-            // striped
-            hover
-            keyField="_id"
-            data={products}
-            columns={cartTableColumns}
-            caption={<CaptionElement />}
-            selectRow={selectRowProp}
-            cellEdit={cellEditFactory(cellEdit)}
-            // defaultSorted={defaultSorted}
-            // tabIndexCell
-            // filter={ filterFactory() }
-            // pagination={ paginationFactory() }
-          />
-        </div>
-      </div>
-    </>
-  );
+  if (ListCart.length > 0) {
+    return (
+      <Container>
+        <Row className="col-md-12">
+          <Table className="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Sản phẩm</th>
+                <th>Hình ảnh</th>
+                <th>Đơn giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ListCart.map((item, key) => {
+                return (
+                  <tr key={key}>
+                    <td>
+                      <Button
+                        variant="danger"
+                        onClick={() => props.DeleteCart(key)}
+                      >
+                        X
+                      </Button>
+                    </td>
+                    <td>{item.title}</td>
+                    <td>
+                      <Image
+                        src={"/assets/" + item.imageUrl}
+                        style={{ width: "100px", height: "80px" }}
+                      />
+                    </td>
+                    <td>{item.price} ￥</td>
+                    <td>
+                      <Button
+                        variant="primary"
+                        style={{ margin: "2px" }}
+                        onClick={() => props.DecreaseQuantity(key)}
+                      >
+                        -
+                      </Button>
+                      <span className="btn btn-outline-info">
+                        {item.quantity}
+                      </span>
+                      <Button
+                        variant="primary"
+                        style={{ margin: "2px" }}
+                        onClick={() => props.IncreaseQuantity(key)}
+                      >
+                        +
+                      </Button>
+                    </td>
+                    <td>{TotalPrice(item.price, item.quantity)} ￥</td>
+                  </tr>
+                );
+              })}
+              <tr>
+                <td colSpan="5">Tổng</td>
+                <td>{Number(TotalCart).toLocaleString("en-US")} ￥</td>
+              </tr>
+            </tbody>
+          </Table>
+        </Row>
+      </Container>
+    );
+  }else{
+      return(
+          <Container>
+              <Row>
+                  <h1>Giỏ hàng trống!</h1>
+              </Row>
+          </Container>
+      )
+  }
 };
 
 export default Cart;

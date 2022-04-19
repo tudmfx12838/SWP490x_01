@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-function RenderProductItem({ products, type  }) {
+function RenderProductItem({ products, type, callback  }) {
   return (
     <>
       <Row xs={2} md={3} lg={5} className="g-4">
@@ -31,7 +31,7 @@ function RenderProductItem({ products, type  }) {
                 </Card.Body>
               </Link>
               <Card.Footer>
-                <Button variant="primary">Thêm</Button>
+                <Button variant="primary" onClick={() => callback(p)}>Thêm</Button>
               </Card.Footer>
             </Card>
           </Col>
@@ -41,7 +41,7 @@ function RenderProductItem({ products, type  }) {
   );
 }
 
-const ProductDry = ({ products }) => {
+const ProductDry = ({ products, AddCart }) => {
   const productTypes = products.filter((product) => product.type === "thucphamkho");
   return (
     <Container>
@@ -51,7 +51,7 @@ const ProductDry = ({ products }) => {
           <Breadcrumb.Item active>Thực phẩm khô</Breadcrumb.Item>
         </Breadcrumb>
       </Row>
-      <RenderProductItem products={productTypes} type={"thucphamkho"}/>
+      <RenderProductItem products={productTypes} type={"thucphamkho"} callback={AddCart}/>
     </Container>
   );
 };

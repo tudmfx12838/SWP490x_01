@@ -83,23 +83,22 @@ const Home = (props) => {
     (product) => product.type === "thucuong"
   );
 
-  function HandleAddCart(product){
-    props.AddCart(product);
-    // alert(product._id);
-  }
+  // function HandleAddCart(product){
+  //   props.AddCart(product);
+  // }
 
   return (
     <Container>
       <RenderMenuHeader title={"Thực phẩm khô"} path={"/sanpham/thucphamkho"} />
-      <RenderHomeItem products={dryFoodItem} type={"thucphamkho"} callback={HandleAddCart}/>
+      <RenderHomeItem products={dryFoodItem} type={"thucphamkho"} callback={props.AddCart}/>
       <RenderShowMore path={"/sanpham/thucphamkho"} />
 
       <RenderMenuHeader title={"Thực phẩm tươi"} path={"/sanpham/thucphamtuoi"} />
-      <RenderHomeItem products={freshFoodItem} type={"thucphamtuoi"} callback={HandleAddCart}/>
+      <RenderHomeItem products={freshFoodItem} type={"thucphamtuoi"} callback={props.AddCart}/>
       <RenderShowMore path={"/sanpham/thucphamtuoi"} />
 
       <RenderMenuHeader title={"Đồ uống"} path={"/sanpham/thucuong"} />
-      <RenderHomeItem products={drinksItem} type={"thucuong"} callback={HandleAddCart}/>
+      <RenderHomeItem products={drinksItem} type={"thucuong"} callback={props.AddCart}/>
       <RenderShowMore path={"/sanpham/thucuong"} />
     </Container>
   );
