@@ -12,4 +12,6 @@ router.get('/events', adminController.getEvents);
 
 router.get('/orders', adminController.getOrders);
 
+router.get('/admin/products', adminController.getAdminProducts);
+
 module.exports = router;

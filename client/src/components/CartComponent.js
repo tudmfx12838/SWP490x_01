@@ -1,16 +1,35 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import {
   Container,
   Row,
   Table,
   Image,
   Button,
+  Modal,
   InputGroup,
   FormControl,
 } from "react-bootstrap";
 
 const Cart = (props) => {
   //  console.log(items)
+  const [show, setShow] = useState(false);
+  const [storeKey, setStoreKey] = useState(null);
+
+  const handleClose = () => {
+    setShow(false);
+    setStoreKey(null);
+  };
+  const handleShow = (key) => {
+    setShow(true);
+    setStoreKey(key);
+    
+  };
+  const handleDelete = () => {
+    setShow(false);
+    props.DeleteCart(storeKey);
+    setStoreKey(null);
+  };
+
   let ListCart = [];
   let TotalCart = 0;
   Object.keys(props.cart.Carts).forEach(function (item) {
@@ -41,10 +60,7 @@ const Cart = (props) => {
                 return (
                   <tr key={key}>
                     <td>
-                      <Button
-                        variant="danger"
-                        onClick={() => props.DeleteCart(key)}
-                      >
+                      <Button variant="danger" onClick={() => handleShow(key)}>
                         X
                       </Button>
                     </td>
@@ -86,16 +102,34 @@ const Cart = (props) => {
             </tbody>
           </Table>
         </Row>
+        
+        <Modal
+          show={show}
+          onHide={handleClose}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Xác nhận tác vụ xóa</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Bạn có muốn xóa sản phẩm này khỏi giỏ hàng?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleDelete}>Có</Button>
+            <Button variant="secondary" onClick={handleClose}>
+              Không
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
     );
-  }else{
-      return(
-          <Container>
-              <Row>
-                  <h1>Giỏ hàng trống!</h1>
-              </Row>
-          </Container>
-      )
+  } else {
+    return (
+      <Container>
+        <Row>
+          <h1>Giỏ hàng trống!</h1>
+        </Row>
+      </Container>
+    );
   }
 };
 

@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Card,
   Button,
@@ -7,12 +7,10 @@ import {
   Col,
   Nav,
   Navbar,
-  CardGroup,
-  CloseButton,
 } from "react-bootstrap";
 import axios from "axios";
 import { Link, NavLink } from "react-router-dom";
-import { CHECKBOX_STATUS_UNCHECKED } from "react-bootstrap-table-next";
+import Event from "./EventComponent";
 
 const baseUrl = "/assets/";
 
@@ -89,6 +87,7 @@ const Home = (props) => {
 
   return (
     <Container>
+      <Event />
       <RenderMenuHeader title={"Thực phẩm khô"} path={"/sanpham/thucphamkho"} />
       <RenderHomeItem products={dryFoodItem} type={"thucphamkho"} callback={props.AddCart}/>
       <RenderShowMore path={"/sanpham/thucphamkho"} />

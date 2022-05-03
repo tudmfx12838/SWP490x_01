@@ -39,3 +39,21 @@ exports.getOrders = (req, res, next) => {
       })
       .catch((err) => console.log(err));
 };
+
+exports.getAdminProducts = (req, res, next) => {
+  res.render("admin/admin-products", {
+    pageTitle: "Login",
+    path: "/login",
+    // errorMessage: message,
+    // oldInput: { loginId: "" },
+    // validationErrors: [],
+    // isAuthenticated: req.session.isLoggedIn,
+    csrfToken: ''//req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
+  });
+  // Product.find()
+  //   .then((products) => {
+  //     res.json(products);
+  //     // console.log(products);
+  //   })
+  //   .catch((err) => console.log(err));
+};

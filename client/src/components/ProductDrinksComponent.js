@@ -10,6 +10,7 @@ import {
   Breadcrumb,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Event from "./EventComponent";
 
 function RenderProductItem({ products, type, callback }) {
   return (
@@ -45,6 +46,8 @@ const ProductDrinks = ({ products, AddCart }) => {
   const productTypes = products.filter((product) => product.type === "thucuong");
   return (
     <Container>
+      <Event />
+
       <Row>
         <Breadcrumb>
           <Breadcrumb.Item> <Link to='/'>Trang chủ</Link></Breadcrumb.Item>

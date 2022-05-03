@@ -207,7 +207,7 @@ class Main extends Component {
                                                 manageEvents ={this.props.manageEvents.events}
                                                 manageOrders ={this.props.manageOrders.orders}/>} />
 
-          <Route element={<NotFound />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
 
         <Footer />

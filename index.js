@@ -9,6 +9,11 @@ const MONGODB_URL = "mongodb+srv://admin:8888@cluster0.pi4yq.mongodb.net/myFirst
 
 const Product = require("./models/product");
 
+//Templace Engine EJS
+//And point to views's folder
+app.set("view engine", "ejs");
+app.set("views", "views");
+
 app.use('/admin', adminRoutes);
 app.use(clientRoutes);
 
