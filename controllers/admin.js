@@ -3,6 +3,7 @@ const Product = require("../models/product");
 const User = require("../models/user");
 const Event = require("../models/event");
 const Order = require("../models/order");
+const path = require("path");
 
 exports.getProducts = (req, res, next) => {
   Product.find()
@@ -45,7 +46,7 @@ exports.getAdminProducts = (req, res, next) => {
     .then((products) => {
       // res.json(products);
       res.render("admin/admin-products", {
-        pageTitle: "Login",
+        pageTitle: "Quản lý Sản Phẩm",
         path: "/login",
         products: products,
         // errorMessage: message,
@@ -64,13 +65,18 @@ exports.postAddProduct = (req, res, next) => {
   const price = req.body.price;
   const mount = req.body.mount;
   const description = req.body.description;
+  const image = req.file;
 
   // console.log('OK111111111111');
+  // console.log(JSON.stringify(image));
   // console.log(title);
-  // console.log(type);
-  // console.log(price);
-  // console.log(mount);
-  // console.log(description);
+  // console.log(JSON.stringify(req));
+  console.log(req.file);
+  if (!image) {
+    return res.redirect("/admin/manage/products");
+  }
+
+  const imageUrl = image.path;
 
   const product = new Product({
     title: title,
@@ -78,7 +84,7 @@ exports.postAddProduct = (req, res, next) => {
     price: price,
     mount: mount,
     description: description,
-    imageUrl: "abcdefgh",
+    imageUrl: imageUrl,
   });
 
   product
@@ -106,10 +112,14 @@ exports.postEditProduct = (req, res, next) => {
   const updatedPrice = req.body.price;
   const updatedMount = req.body.mount;
   const updatedDescription = req.body.description;
+  const updatedImageUrl = req.file;
+
+  console.log(updatedImageUrl);
+  console.log(req.body.image);
 
   Product.findById(productId)
     .then((product) => {
-      console.log(product);
+      // console.log(product.imageUrl);
       product.title = updatedTitle;
       product.type = updatedType;
       product.price = updatedPrice;
@@ -144,12 +154,73 @@ exports.postDeleteProduct = (req, res, next) => {
   const productId = req.body._id.split(",");
 
   Product.deleteMany({ _id: productId })
-  .then(result => {
-    console.log("Delete complete");
-    res.redirect("/admin/manage/products");
-  })
-  .catch(err => {
-    console.log(err);
+    .then((result) => {
+      console.log("Delete complete");
+      res.redirect("/admin/manage/products");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+exports.getAdminEvents = (req, res, next) => {
+  Event.find()
+    .then((events) => {
+      // res.json(products);
+      res.render("admin/admin-events", {
+        pageTitle: "Quản Lý Sự Kiện",
+        path: "/login",
+        events: events,
+        // errorMessage: message,
+        // oldInput: { loginId: "" },
+        // validationErrors: [],
+        // isAuthenticated: req.session.isLoggedIn,
+        csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.postAddEvent = (req, res, next) => {
+  const title = req.body.title;
+  const startDate = req.body.startDate;
+  const endDate = req.body.endDate;
+  const hasCoupon = req.body.hasCoupon;
+  const coupon = req.body.coupon;
+  const description = req.body.description;
+  const image = req.file;
+
+  // console.log(title);
+  // console.log(startDate);
+  // console.log(endDate);
+  // console.log(hasCoupon);
+  // console.log(coupon);
+  // // console.log(description);
+  // console.log(image);
+
+  // console.log(req.file);
+  if (!image) {
+    return res.redirect("/admin/manage/events");
+  }
+
+  const imageUrl = image.path;
+
+  const event = new Event({
+    title: title,
+    startDate: startDate,
+    endDate: endDate,
+    hasCoupon: hasCoupon,
+    coupon: coupon,
+    description: description,
+    imageUrl: imageUrl,
   });
 
+  event
+    .save()
+    .then((result) => {
+      return res.redirect("/admin/manage/events");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };

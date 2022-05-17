@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-
+const multer = require('multer');
+const path = require("path");
 
 const clientRoutes = require('./routes/client');
 const adminRoutes = require('./routes/admin');
@@ -12,6 +13,27 @@ const MONGODB_URL = "mongodb+srv://admin:8888@cluster0.pi4yq.mongodb.net/myFirst
 
 const Product = require("./models/product");
 
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'images');
+  },
+  filename: (req, file, cb) => {
+    // const date = new Date().now();
+    // console.log(new Date().toISOString());
+    cb(null, file.originalname);
+    // cb(null, (new Date().toISOString()) + '-' + file.originalname); //(new Date().toISOString())
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/png' || 
+      file.mimetype === 'image/jpg' || 
+      file.mimetype === 'image/jpeg') {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
 
 //Templace Engine EJS
 //And point to views's folder
@@ -20,6 +42,10 @@ app.set("views", "views");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'));  //image a name of image file at view edit-produt.ejs, {dest: 'images'} them folder luu tru
+
+app.use(express.static(path.join(__dirname, "public")));
+app.use('/images', express.static(path.join(__dirname, "images")));
 
 app.use('/admin', adminRoutes);
 app.use(clientRoutes);

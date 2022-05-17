@@ -9,7 +9,7 @@ var userObj = [
         name: "Nguyen Van A",
         adress: "Japan",
         doB: new Date("1995-03-03T00:00:00.000+00:00"),
-        imageUrl: "images\\avatar.jpg",
+        imageUrl: "images\/avatar.jpg",
         point: 100,
         cart:{items: []}
     },
@@ -20,7 +20,7 @@ var userObj = [
         name: "Nguyen Van B",
         adress: "Japan",
         doB: new Date("1997-02-03T00:00:00.000+00:00"),
-        imageUrl: "images\\avatar.jpg",
+        imageUrl: "images\/avatar.jpg",
         point: 200,
         cart:{items: []}
     },
@@ -31,7 +31,7 @@ var userObj = [
         name: "Tran Thi C",
         adress: "Japan",
         doB: new Date("1990-04-03T00:00:00.000+00:00"),
-        imageUrl: "images\\avatar.jpg",
+        imageUrl: "images\/avatar.jpg",
         point: 50,
         cart:{items: []}
     },
@@ -42,7 +42,7 @@ var userObj = [
         name: "Tran Van D",
         adress: "Japan",
         doB: new Date("1990-04-03T00:00:00.000+00:00"),
-        imageUrl: "images\\avatar.jpg",
+        imageUrl: "images\/avatar.jpg",
         point: 50,
         cart:{items: []}
     },
@@ -53,7 +53,7 @@ var userObj = [
         name: "Tran Van P",
         adress: "Japan",
         doB: new Date("1992-04-03T00:00:00.000+00:00"),
-        imageUrl: "images\\avatar.jpg",
+        imageUrl: "images\/avatar.jpg",
         point: 50,
         cart:{items: []}
     },
@@ -64,7 +64,7 @@ var userObj = [
         name: "Cao Van E",
         adress: "Japan",
         doB: new Date("1997-04-03T00:00:00.000+00:00"),
-        imageUrl: "images\\avatar.jpg",
+        imageUrl: "images\/avatar.jpg",
         point: 50,
         cart:{items: []}
     },
@@ -75,7 +75,7 @@ var userObj = [
         name: "Duong Van F",
         adress: "Japan",
         doB: new Date("1990-04-03T00:00:00.000+00:00"),
-        imageUrl: "images\\avatar.jpg",
+        imageUrl: "images\/avatar.jpg",
         point: 50,
         cart:{items: []}
     },
@@ -86,7 +86,7 @@ var userObj = [
         name: "Tran Van G",
         adress: "Japan",
         doB: new Date("1999-04-03T00:00:00.000+00:00"),
-        imageUrl: "images\\avatar.jpg",
+        imageUrl: "images\/avatar.jpg",
         point: 50,
         cart:{items: []}
     },
@@ -97,7 +97,7 @@ var userObj = [
         name: "Tran Van H",
         adress: "Japan",
         doB: new Date("1990-04-03T00:00:00.000+00:00"),
-        imageUrl: "images\\avatar.jpg",
+        imageUrl: "images\/avatar.jpg",
         point: 50,
         cart:{items: []}
     },
@@ -108,7 +108,7 @@ var userObj = [
         name: "Tran Van R",
         adress: "Japan",
         doB: new Date("1993-04-03T00:00:00.000+00:00"),
-        imageUrl: "images\\avatar.jpg",
+        imageUrl: "images\/avatar.jpg",
         point: 50,
         cart:{items: []}
     },
@@ -119,7 +119,7 @@ var userObj = [
         name: "Nguyen Thi H",
         adress: "Japan",
         doB: new Date("1990-04-03T00:00:00.000+00:00"),
-        imageUrl: "images\\avatar.jpg",
+        imageUrl: "images\/avatar.jpg",
         point: 50,
         cart:{items: []}
     },
@@ -130,7 +130,7 @@ var userObj = [
         name: "Nguyen Van L",
         adress: "Japan",
         doB: new Date("1991-04-03T00:00:00.000+00:00"),
-        imageUrl: "images\\avatar.jpg",
+        imageUrl: "images\/avatar.jpg",
         point: 50,
         cart:{items: []}
     },
@@ -141,7 +141,7 @@ var userObj = [
         name: "Duong Van H",
         adress: "Japan",
         doB: new Date("1990-06-03T00:00:00.000+00:00"),
-        imageUrl: "images\\avatar.jpg",
+        imageUrl: "images\/avatar.jpg",
         point: 50,
         cart:{items: []}
     },
@@ -152,7 +152,7 @@ var userObj = [
         name: "Cao Van K",
         adress: "Japan",
         doB: new Date("1990-05-03T00:00:00.000+00:00"),
-        imageUrl: "images\\avatar.jpg",
+        imageUrl: "images\/avatar.jpg",
         point: 50,
         cart:{items: []}
     },
@@ -163,7 +163,7 @@ var userObj = [
         name: "Tran Thi H",
         adress: "Japan",
         doB: new Date("1990-04-03T00:00:00.000+00:00"),
-        imageUrl: "images\\avatar.jpg",
+        imageUrl: "images\/avatar.jpg",
         point: 50,
         cart:{items: []}
     }
@@ -175,7 +175,7 @@ var productObj = [
 	price: 570,
     type: "thucphamkho",
 	description: "Nước mắm Namm Ngư nhập khẩu Việt Nam",
-	imageUrl: "images\\nuocmam.jpg",
+	imageUrl: "images\/nuocmam.jpg",
 	mount: 10
 },
 {
@@ -183,7 +183,7 @@ var productObj = [
 	price: 400,
     type: "thucphamkho",
 	description: "Nước Tương Chinsu nhập khẩu Việt Nam",
-	imageUrl: "images\\nuoctuongchinsu.jpg",
+	imageUrl: "images\/nuoctuongchinsu.jpg",
 	mount: 5
 },
 {
@@ -191,7 +191,7 @@ var productObj = [
 	price: 200,
     type: "thucphamkho",
 	description: "Tương ớt Chinsu nhập khẩu Việt Nam",
-	imageUrl: "images\\tuongotchinsu.jpg",
+	imageUrl: "images\/tuongotchinsu.jpg",
 	mount: 5
 },
 {
@@ -199,7 +199,7 @@ var productObj = [
 	price: 350,
     type: "thucphamkho",
 	description: "Mắm tôm nhập khẩu Việt Nam",
-	imageUrl: "images\\mamtom.jpg",
+	imageUrl: "images\/mamtom.jpg",
 	mount: 5
 },
 {
@@ -207,7 +207,7 @@ var productObj = [
 	price: 350,
     type: "thucphamkho",
 	description: "Mắm ruốc nhập khẩu Việt Nam",
-	imageUrl: "images\\mamruoc.jpg",
+	imageUrl: "images\/mamruoc.jpg",
 	mount: 5
 },
 {
@@ -215,7 +215,7 @@ var productObj = [
 	price: 950,
     type: "thucphamkho",
 	description: "Tiêu đen nhập khẩu Việt Nam",
-	imageUrl: "images\\tieuden.jpg",
+	imageUrl: "images\/tieuden.jpg",
 	mount: 2
 },
 {
@@ -223,7 +223,7 @@ var productObj = [
 	price: 400,
     type: "thucphamkho",
 	description: "Bánh tráng nhập khẩu Việt Nam",
-	imageUrl: "images\\banhtrang.jpg",
+	imageUrl: "images\/banhtrang.jpg",
 	mount: 3
 },
 {
@@ -231,7 +231,7 @@ var productObj = [
 	price: 600,
     type: "thucphamkho",
 	description: "Hạt nêm Knorr nhập khẩu Việt Nam",
-	imageUrl: "images\\hatnemknorr.jpg",
+	imageUrl: "images\/hatnemknorr.jpg",
 	mount: 7
 },
 {
@@ -239,7 +239,7 @@ var productObj = [
 	price: 650,
     type: "thucphamkho",
 	description: "Muối Hảo Hảo nhập khẩu Việt Nam",
-	imageUrl: "images\\muoihaohao.jpg",
+	imageUrl: "images\/muoihaohao.jpg",
 	mount: 8
 },
 {
@@ -247,7 +247,7 @@ var productObj = [
 	price: 99,
     type: "thucphamkho",
 	description: "Mì Hảo Hảo nhập khẩu Việt Nam",
-	imageUrl: "images\\mihaohao.jpg",
+	imageUrl: "images\/mihaohao.jpg",
 	mount: 20
 },
 {
@@ -255,7 +255,7 @@ var productObj = [
 	price: 120,
     type: "thucphamkho",
 	description: "Mì Omachi nhập khẩu Việt Nam",
-	imageUrl: "images\\miomachi.jpg",
+	imageUrl: "images\/miomachi.jpg",
 	mount: 20
 },
 {
@@ -263,7 +263,7 @@ var productObj = [
 	price: 150,
     type: "thucphamkho",
 	description: "Phở Vifon nhập khẩu Việt Nam",
-	imageUrl: "images\\phovifon.jpg",
+	imageUrl: "images\/phovifon.jpg",
 	mount: 30
 },
 {
@@ -271,7 +271,7 @@ var productObj = [
 	price: 250,
     type: "thucphamkho",
 	description: "Sa tế tôm nhập khẩu Việt Nam",
-	imageUrl: "images\\satetom.jpg",
+	imageUrl: "images\/satetom.jpg",
 	mount: 10
 	
 },
@@ -280,7 +280,7 @@ var productObj = [
 	price: 450,
     type: "thucphamkho",
 	description: "Bánh phồng tôm nhập khẩu Việt Nam",
-	imageUrl: "images\\banhphongtom.jpg",
+	imageUrl: "images\/banhphongtom.jpg",
 	mount: 20
 },
 {
@@ -288,7 +288,7 @@ var productObj = [
 	price: 270,
     type: "thucphamkho",
 	description: "Bún khô tôm nhập khẩu Việt Nam",
-	imageUrl: "images\\bunkho.jpg",
+	imageUrl: "images\/bunkho.jpg",
 	mount: 5
 },
 {
@@ -296,7 +296,7 @@ var productObj = [
 	price: 650,
     type: "thucphamtuoi",
 	description: "Gà ta đông lạnh",
-	imageUrl: "images\\gata.jpg",
+	imageUrl: "images\/gata.jpg",
 	mount: 20
 },
 {
@@ -304,7 +304,7 @@ var productObj = [
 	price: 900,
     type: "thucphamtuoi",
 	description: "Lòng heo non đông lạnh",
-	imageUrl: "images\\longnon.jpg",
+	imageUrl: "images\/longnon.jpg",
 	mount: 20
 },
 {
@@ -312,7 +312,7 @@ var productObj = [
 	price: 1200,
     type: "thucphamtuoi",
 	description: "Thịt bò non đông lạnh",
-	imageUrl: "images\\thitbo.jpg",
+	imageUrl: "images\/thitbo.jpg",
 	mount: 10
 },
 {
@@ -320,7 +320,7 @@ var productObj = [
 	price: 1000,
     type: "thucphamtuoi",
 	description: "Thịt heo non đông lạnh",
-	imageUrl: "images\\thitheo.jpg",
+	imageUrl: "images\/thitheo.jpg",
 	mount: 15
 },
 {
@@ -328,7 +328,7 @@ var productObj = [
 	price: 650,
     type: "thucphamtuoi",
 	description: "Gà ta đông lạnh",
-	imageUrl: "images\\gata.jpg",
+	imageUrl: "images\/gata.jpg",
 	mount: 20
 },
 {
@@ -336,7 +336,7 @@ var productObj = [
 	price: 900,
     type: "thucphamtuoi",
 	description: "Lòng heo non đông lạnh",
-	imageUrl: "images\\longnon.jpg",
+	imageUrl: "images\/longnon.jpg",
 	mount: 20
 },
 {
@@ -344,7 +344,7 @@ var productObj = [
 	price: 1200,
     type: "thucphamtuoi",
 	description: "Thịt bò non đông lạnh",
-	imageUrl: "images\\thitbo.jpg",
+	imageUrl: "images\/thitbo.jpg",
 	mount: 10
 },
 {
@@ -352,7 +352,7 @@ var productObj = [
 	price: 1000,
     type: "thucphamtuoi",
 	description: "Thịt heo non đông lạnh",
-	imageUrl: "images\\thitheo.jpg",
+	imageUrl: "images\/thitheo.jpg",
 	mount: 15
 },
 {
@@ -360,7 +360,7 @@ var productObj = [
 	price: 180,
     type: "thucuong",
 	description: "Bia 333 nhập khẩu Việt Nam",
-	imageUrl: "images\\bia333.jpg",
+	imageUrl: "images\/bia333.jpg",
 	mount: 150
 },
 {
@@ -368,7 +368,7 @@ var productObj = [
 	price: 130,
     type: "thucuong",
 	description: "Nước ngọt Sting nhập khẩu Việt Nam",
-	imageUrl: "images\\sting.jpg",
+	imageUrl: "images\/sting.jpg",
 	mount: 150
 },
 {
@@ -376,7 +376,7 @@ var productObj = [
 	price: 190,
     type: "thucuong",
 	description: "Nước ngọt Bò Húc nhập khẩu Việt Nam",
-	imageUrl: "images\\bohuc.jpg",
+	imageUrl: "images\/bohuc.jpg",
 	mount: 100
 },
 {
@@ -384,7 +384,7 @@ var productObj = [
 	price: 290,
     type: "thucuong",
 	description: "Bia Tiger nhập khẩu Việt Nam",
-	imageUrl: "images\\biatiger.jpg",
+	imageUrl: "images\/biatiger.jpg",
 	mount: 100
 },
 {
@@ -392,7 +392,7 @@ var productObj = [
 	price: 650,
     type: "thucphamtuoi",
 	description: "Xả cây tươi",
-	imageUrl: "images\\xacay.jpg",
+	imageUrl: "images\/xacay.jpg",
 	mount: 15
 },
 {
@@ -400,7 +400,7 @@ var productObj = [
 	price: 400,
     type: "thucphamtuoi",
 	description: "Rau răm tươi",
-	imageUrl: "images\\rauram.jpg",
+	imageUrl: "images\/rauram.jpg",
 	mount: 15
 },
 {
@@ -408,7 +408,7 @@ var productObj = [
 	price: 130,
     type: "thucuong",
 	description: "Nước ngọt Sting nhập khẩu Việt Nam",
-	imageUrl: "images\\sting.jpg",
+	imageUrl: "images\/sting.jpg",
 	mount: 150
 },
 {
@@ -416,7 +416,7 @@ var productObj = [
 	price: 190,
     type: "thucuong",
 	description: "Nước ngọt Bò Húc nhập khẩu Việt Nam",
-	imageUrl: "images\\bohuc.jpg",
+	imageUrl: "images\/bohuc.jpg",
 	mount: 100
 },
 {
@@ -424,7 +424,7 @@ var productObj = [
 	price: 290,
     type: "thucuong",
 	description: "Bia Tiger nhập khẩu Việt Nam",
-	imageUrl: "images\\biatiger.jpg",
+	imageUrl: "images\/biatiger.jpg",
 	mount: 100
 },
 
@@ -439,7 +439,7 @@ var eventObj = [
         hasCoupon: false,
         coupon: "",
         description: "Mừng Xuân 2020 giảm 10% khi mua hàng online(20/12/2019 ~ 10/01/2020)",
-        imageUrl: "images\sukienxuan2020.jpg"
+        imageUrl: "images\/sukienxuan2020.jpg"
     },
     {
         title: "Mừng ngày Phụ  Nữ 8/3/2020",
@@ -448,7 +448,7 @@ var eventObj = [
         hasCoupon: true,
         coupon: "PHUNU0803",
         description: "Mừng ngày Phụ  Nữ 8/3, nhập mã PHUNU0803 để giảm 15% khi mua hàng online trên 10000 yên(08/03/2020 ~ 10/03/2020)",
-        imageUrl: "images\phunu08032020.jpg"
+        imageUrl: "images\/phunu08032020.jpg"
     },
     {
         title: "Mừng ngày 30/4/2020",
@@ -457,7 +457,7 @@ var eventObj = [
         hasCoupon: false,
         coupon: "",
         description: "Mừng ngày 30/4/2020 giảm 10% khi mua hàng online(30/04/2020 ~ 01/05/2020)",
-        imageUrl: "images\mung30042020.jpg"
+        imageUrl: "images\/mung30042020.jpg"
     },
     {
         title: "Mừng ngày Nhà Giáo Việt Nam 20/11/2020",
@@ -466,7 +466,7 @@ var eventObj = [
         hasCoupon: true,
         coupon: "NHAGIAO2011",
         description: "Mừng ngày Nhà Giáo Việt Nam 20/11/2020, nhập mã NHAGIAO2011 để giảm 10% khi mua hàng online(19/11/2020 ~ 22/11/2020)",
-        imageUrl: "images\nhagiao20112020.jpg"
+        imageUrl: "images\/nhagiao20112020.jpg"
     },
     {
         title: "Giảm giá cuối năm",
@@ -475,7 +475,7 @@ var eventObj = [
         hasCoupon: false,
         coupon: "",
         description: "Giảm giá cuối năm 20% trên tổng hóa đơn khi mua hàng online(01/12/2020 ~ 19/12/2020)",
-        imageUrl: "images\giamgiacuoinam2020.jpg"
+        imageUrl: "images\/giamgiacuoinam2020.jpg"
     },
     {
         title: "Mừng Xuân 2021",
@@ -484,7 +484,7 @@ var eventObj = [
         hasCoupon: false,
         coupon: "",
         description: "Mừng Xuân 2021 giảm 10% khi mua hàng online(20/12/2020 ~ 10/01/2021)",
-        imageUrl: "images\sukienxuan2020.jpg"
+        imageUrl: "images\/sukienxuan2020.jpg"
     },
     {
         title: "Mừng ngày Phụ  Nữ 8/3/2021",
@@ -493,7 +493,7 @@ var eventObj = [
         hasCoupon: true,
         coupon: "PHUNU0803",
         description: "Mừng ngày Phụ  Nữ 8/3, nhập mã PHUNU0803 để giảm 15% khi mua hàng online trên 10000 yên(08/03/2021 ~ 10/03/2021)",
-        imageUrl: "images\phunu08032021.jpg"
+        imageUrl: "images\/phunu08032021.jpg"
     },
     {
         title: "Mừng ngày 30/4/2021",
@@ -502,7 +502,7 @@ var eventObj = [
         hasCoupon: false,
         coupon: "",
         description: "Mừng ngày 30/4/2021 giảm 10% khi mua hàng online(30/04/2021 ~ 01/05/2021)",
-        imageUrl: "images\mung30042021.jpg"
+        imageUrl: "images\/mung30042021.jpg"
     },
     {
         title: "Mừng ngày Nhà Giáo Việt Nam 20/11/2021",
@@ -511,7 +511,7 @@ var eventObj = [
         hasCoupon: true,
         coupon: "NHAGIAO2011",
         description: "Mừng ngày Nhà Giáo Việt Nam 20/11/2021, nhập mã NHAGIAO2011 để giảm 10% khi mua hàng online(19/11/2021 ~ 22/11/2021)",
-        imageUrl: "images\nhagiao20112021.jpg"
+        imageUrl: "images\/nhagiao20112021.jpg"
     },
     {
         title: "Giảm giá cuối năm",
@@ -520,7 +520,7 @@ var eventObj = [
         hasCoupon: false,
         coupon: "",
         description: "Giảm giá cuối năm 20% trên tổng hóa đơn khi mua hàng online(01/12/2021 ~ 19/12/2021)",
-        imageUrl: "images\giamgiacuoinam2021.jpg"
+        imageUrl: "images\/giamgiacuoinam2021.jpg"
     },
     {
         title: "Mừng Xuân 2022",
@@ -529,7 +529,7 @@ var eventObj = [
         hasCoupon: false,
         coupon: "",
         description: "Mừng Xuân 2022 giảm 10% khi mua hàng online(20/12/2021 ~ 10/01/2022)",
-        imageUrl: "images\sukienxuan2020.jpg"
+        imageUrl: "images\/sukienxuan2020.jpg"
     },
     {
         title: "Mừng ngày Phụ  Nữ 8/3/2022",
@@ -538,7 +538,7 @@ var eventObj = [
         hasCoupon: true,
         coupon: "PHUNU0803",
         description: "Mừng ngày Phụ  Nữ 8/3, nhập mã PHUNU0803 để giảm 15% khi mua hàng online trên 10000 yên(08/03/2022 ~ 10/03/2022)",
-        imageUrl: "images\phunu08032022.jpg"
+        imageUrl: "images\/phunu08032022.jpg"
     },
     {
         title: "Mừng ngày 30/4/2022",
@@ -547,7 +547,7 @@ var eventObj = [
         hasCoupon: false,
         coupon: "",
         description: "Mừng ngày 30/4/2022 giảm 10% khi mua hàng online(30/04/2022 ~ 01/05/2022)",
-        imageUrl: "images\mung30042022.jpg"
+        imageUrl: "images\/mung30042022.jpg"
     },
     {
         title: "Mừng ngày Nhà Giáo Việt Nam 20/11/2022",
@@ -556,7 +556,7 @@ var eventObj = [
         hasCoupon: true,
         coupon: "NHAGIAO2011",
         description: "Mừng ngày Nhà Giáo Việt Nam 20/11/2022, nhập mã NHAGIAO2011 để giảm 10% khi mua hàng online(19/11/2022 ~ 22/11/2022)",
-        imageUrl: "images\nhagiao20112022.jpg"
+        imageUrl: "images\/nhagiao20112022.jpg"
     },
     {
         title: "Giảm giá cuối năm",
@@ -565,7 +565,7 @@ var eventObj = [
         hasCoupon: false,
         coupon: "",
         description: "Giảm giá cuối năm 20% trên tổng hóa đơn khi mua hàng online(01/12/2022 ~ 19/12/2022)",
-        imageUrl: "images\giamgiacuoinam2022.jpg"
+        imageUrl: "images\/giamgiacuoinam2022.jpg"
     },
 ];
 

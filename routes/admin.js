@@ -20,6 +20,11 @@ router.post('/manage/edit-product', adminController.postEditProduct);
 
 router.post('/manage/delete-product', adminController.postDeleteProduct);
 
+router.get('/manage/events', adminController.getAdminEvents);
+
+router.post('/manage/add-event', adminController.postAddEvent);
+
+
 // router.get('/manage/events', adminController.getAdminProducts);
 
 // router.get('/manage/orders', adminController.getAdminProducts);
