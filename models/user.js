@@ -23,6 +23,14 @@ const userSchema = new Schema({
     type: Date,
     required: true
   },
+  phoneNumber: {
+    type: String,
+    required: true
+  },
+  address: {
+    type: String,
+    required: true
+  },
   imageUrl: {
     type: String,
     required: true

@@ -45,7 +45,7 @@
         </div>
         
         <div class="row">
-            <div id="addProductModal" class="modal">
+            <div id="addProductModal" class="modal" data-bs-backdrop="static">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -96,7 +96,7 @@
             </div>
     
     
-            <div id="editProductModal" class="modal">
+            <div id="editProductModal" class="modal" data-bs-backdrop="static">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -104,7 +104,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
-                           
+                            <form id="form-editProductModal" class="product-form"  action="/admin/manage/edit-product/?edit=true" method="POST" enctype="multipart/form-data">
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="title">Tên SP: </label>
                                     <input class="form-control" type="text" name="title" id="title" required>
@@ -139,14 +139,15 @@
                                 </div>
                                 <input type="hidden" name="_id" id="_id" val="">
     
-                                <button id="btn-confirmEditProduct" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmEditProductModal">Xác nhận</button>
-                                <button id="btn-cancel" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>     
+                                <button type="button" id="btn-confirmEditProduct" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmEditProductModal">Xác nhận</button>
+                                <button type="button" id="btn-cancel" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>     
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
     
-            <div id="confirmEditProductModal" class="modal">
+            <div id="confirmEditProductModal" class="modal" data-bs-backdrop="static">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -154,55 +155,45 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
-                            <form class="product-form"  action="/admin/manage/edit-product/?edit=true" method="POST">
+                            
                                 <div class="mb-3 mt-3">
                                     <label class="fw-bold form-label" for="title">Tên SP: </label>
                                     <span name="title" class="title"></span>
-                                    <input type="hidden" name="title" id="title">
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="fw-bold form-label" for="type">Loại sản phẩm: </label>
                                     <span name="type" class="type"></span>
-                                    <input type="hidden" name="type" id="type">
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="fw-bold form-label" for="price">Giá bán: </label>
                                     <span name="price" class="price"></span>
-                                    <input type="hidden" name="price" id="price">
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="fw-bold form-label" for="mount">Số lượng: </label>
                                     <span name="mount" class="mount"></span>
-                                    <input type="hidden" name="mount" id="mount">
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="fw-bold form-label" for="description">Mô tả: </label>
                                     <span name="description" class="description"></span>
-                                    <input type="hidden" name="description" id="description">
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="fw-bold form-label" for="image">Ảnh: </label>
                                     <span name="image" class="image"></span>
-                                    
-                                    <input class="form-control"
-                                        type="file hidden" 
-                                        name="image" 
-                                        id="image" 
-                                    >
+  
                                 </div>
                                 <input type="hidden" name="_id" id="_id" val="">
     
                                 <input type="hidden" name="_csrf">
                                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editProductModal" role="button">Trở về</button>
-                                <button class="btn btn-primary" type="submit">Cập nhật</button>
+                                <button type="button" id="btn-submitConfirmEditProduct" class="btn btn-primary">Cập nhật</button>
                                 <button type="button" id="btn-cancel" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>
-                            </form>
+                            
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div id="confirmDeleteProductModal" class="modal">
+            <div id="confirmDeleteProductModal" class="modal" data-bs-backdrop="static">
                 <div class="modal-dialog modal-md">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -270,7 +261,7 @@
                                 <input type="hidden" name="_id" id="_id" val="">
     
                                 <input type="hidden" name="_csrf">
-                                <button class="btn-editProduct btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal" >Sửa</button>
+                                <button id="btn-editProduct" type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal" >Sửa</button>
                                 <button type="button" id="btn-cancel" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
                         </div>
                     </div>

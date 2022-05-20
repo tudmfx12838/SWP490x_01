@@ -23,6 +23,10 @@ const eventSchema = new Schema({
     type:　String,
     required: false
   },
+  discount: {
+    type: Number,
+    require: false
+  },
   description: {
     type: String,
     required: true

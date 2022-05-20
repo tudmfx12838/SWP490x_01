@@ -24,6 +24,15 @@ router.get('/manage/events', adminController.getAdminEvents);
 
 router.post('/manage/add-event', adminController.postAddEvent);
 
+router.post('/manage/delete-event', adminController.postDeleteEvent);
+
+router.post('/manage/edit-event', adminController.postEditEvent);
+
+router.get('/manage/users', adminController.getAdminUsers);
+
+router.post('/manage/add-user', adminController.postAddUser);
+
+
 
 // router.get('/manage/events', adminController.getAdminProducts);
 

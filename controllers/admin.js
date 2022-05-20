@@ -5,6 +5,8 @@ const Event = require("../models/event");
 const Order = require("../models/order");
 const path = require("path");
 
+const fileHelper = require("../util/file");
+
 exports.getProducts = (req, res, next) => {
   Product.find()
     .then((products) => {
@@ -114,23 +116,26 @@ exports.postEditProduct = (req, res, next) => {
   const updatedDescription = req.body.description;
   const updatedImageUrl = req.file;
 
-  console.log(updatedImageUrl);
-  console.log(req.body.image);
+  // console.log(productId);
+  // console.log(updatedTitle);
+  // console.log(updatedType);
+  // console.log(updatedPrice);
+  // console.log(updatedMount);
+  // console.log(updatedDescription);
+  // console.log(updatedImageUrl);
 
   Product.findById(productId)
     .then((product) => {
-      // console.log(product.imageUrl);
       product.title = updatedTitle;
       product.type = updatedType;
       product.price = updatedPrice;
       product.mount = updatedMount;
       product.description = updatedDescription;
-      // product.imageUrl = updatedImageUrl;
 
-      // if (image) {
-      //   fileHelper.deleteFile(product.imageUrl);
-      //   product.imageUrl = image.path;
-      // }
+      if (updatedImageUrl) {
+        fileHelper.deleteFile(product.imageUrl);
+        product.imageUrl = updatedImageUrl.path;
+      }
 
       return product.save().then((result) => {
         console.log("Updated Product");
@@ -188,6 +193,7 @@ exports.postAddEvent = (req, res, next) => {
   const hasCoupon = req.body.hasCoupon;
   const coupon = req.body.coupon;
   const description = req.body.description;
+  const discount = req.body.discount;
   const image = req.file;
 
   // console.log(title);
@@ -211,6 +217,7 @@ exports.postAddEvent = (req, res, next) => {
     endDate: endDate,
     hasCoupon: hasCoupon,
     coupon: coupon,
+    discount: discount,
     description: description,
     imageUrl: imageUrl,
   });
@@ -224,3 +231,151 @@ exports.postAddEvent = (req, res, next) => {
       console.log(err);
     });
 };
+
+exports.postDeleteEvent = (req, res, next) => {
+  const deleteMode = req.query.delete;
+  if (!deleteMode) {
+    return res.redirect("/");
+  }
+
+  const eventIds = req.body._id.split(",");
+
+  // console.log(req.body._id);
+  // console.log(eventIds);
+
+  Event.deleteMany({ _id: eventIds })
+    .then((result) => {
+      console.log("Delete complete");
+      res.redirect("/admin/manage/events");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+exports.postEditEvent = (req, res, next) => {
+  //Checking edit mode
+  //http://localhost:4000/admin/manage/edit-event/?edit=true
+  const editMode = req.query.edit;
+  if (!editMode) {
+    return res.redirect("/");
+  }
+
+  const eventId = req.body._id;
+  const updatedTitle = req.body.title;
+  const updatedStartDate = req.body.startDate;
+  const updatedEndDate = req.body.endDate;
+  const updatedHasCoupon = req.body.hasCoupon;
+  const updatedCoupon = req.body.coupon;
+  const updatedDiscount = req.body.discount;
+  const updatedDescription = req.body.description;
+  const updatedImageUrl = req.file;
+
+  // console.log(eventId);
+  // console.log(updatedTitle);
+  // console.log(updatedStartDate);
+//  console.log(updatedEndDate);
+//   console.log(updatedHasCoupon);
+//   console.log(updatedCoupon);
+//   console.log(updatedDiscount); 
+  // console.log(updatedDescription);
+  console.log(updatedImageUrl);
+
+  Event.findById(eventId)
+    .then((event) => {
+      
+      event.title = updatedTitle;
+      event.startDate = updatedStartDate;
+      event.endDate = updatedEndDate;
+      event.hasCoupon = updatedHasCoupon;
+      event.coupon = updatedCoupon;
+      event.discount = updatedDiscount;
+      event.description = updatedDescription;
+
+      if (updatedImageUrl) {
+        // fileHelper.deleteFile(event.imageUrl);
+        event.imageUrl = updatedImageUrl.path;
+      }
+
+      return event.save().then((result) => {
+        console.log("Updated Event");
+        res.redirect("/admin/manage/events");
+      }); //Ham save nay cua mongoose
+    })
+    .catch((err) => {
+      console.log(err);
+      // const error = new Error(err);
+      // error.httpStatusCode = 500;
+      // return next(error);
+    });
+};
+
+exports.getAdminUsers = (req, res, next) => {
+  User.find()
+    .then((users) => {
+      // res.json(products);
+      res.render("admin/admin-users", {
+        pageTitle: "Quản Lý Người Dùng",
+        path: "/login",
+        users: users,
+        // errorMessage: message,
+        // oldInput: { loginId: "" },
+        // validationErrors: [],
+        // isAuthenticated: req.session.isLoggedIn,
+        csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
+
+exports.postAddUser = (req, res, next) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const permission = req.body.permission;
+  const name = req.body.name;
+  const doB = req.body.doB;
+  const phoneNumber = req.body.phoneNumber;
+  const address = req.body.address;
+  const point = req.body.point;
+  const image = req.file;
+
+  //  email: "user13@gmail.com",
+  // password: "123456",
+  // permission: "user",
+  // name: "Tran Thi H",
+  // doB: new Date("1990-04-03T00:00:00.000+00:00"),
+  // phoneNumber: '0901234567',
+  // address: 'HiroshimaShi',
+  // imageUrl: "images\/avatar.jpg",
+  // point: 50,
+  // cart:{items: []}
+  console.log(email);
+  console.log(password);
+  console.log(permission);
+  console.log(name);
+  console.log(doB);
+  console.log(phoneNumber);
+  console.log(address);
+  console.log(point);
+  console.log(image);
+
+  // console.log(req.file);
+  // if (!image) {
+  //   return res.redirect("/admin/manage/users");
+  // }
+
+  // const imageUrl = image.path;
+
+  // const user = new User({
+  //   email: email,
+  //   password: password,
+  //   permission: permission,
+  //   name: name,
+  //   doB: doB,
+  //   phoneNumber: phoneNumber,
+  //   address: address,
+  //   point: point,
+  //   imageUrl: imageUrl,
+  // });
+}

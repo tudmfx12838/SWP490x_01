@@ -1,0 +1,141 @@
+<%- include('../includes/page-head.ejs') %>
+
+</head>
+
+<body>
+   <%- include('../includes/page-navigation.ejs') %>
+    <main class="container">
+
+        <div class="row">
+            <div class="text-center">
+                <h1>Quản Lý Người Dùng</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="toolbar">
+                <button id="btn-add" class="btn-toolbar btn btn-success" data-bs-toggle="modal" data-bs-target="#addItemModal">+</button>
+                <button id="btn-delete" class="btn-toolbar btn btn-danger"> x </button>
+            </div>
+        </div>
+        <!-- email: "user13@gmail.com",
+        password: "123456",
+        permission: "user",
+        name: "Tran Thi H",
+        doB: new Date("1990-04-03T00:00:00.000+00:00"),
+        phoneNumber: '0901234567',
+        address: 'HiroshimaShi',
+        imageUrl: "images\/avatar.jpg",
+        point: 50,
+        cart:{items: []} -->
+        <div class="row">
+            <table 
+            id="table" 
+            data-click-to-select="true"
+            data-pagination="true"
+            data-show-columns="true"
+            data-show-columns-toggle-all="true"
+            data-search="true"
+            data-toolbar=".toolbar"
+            >
+            <thead>
+                <tr>
+                <th data-field="state" data-checkbox="true"></th>
+                <th data-field="_id" data-visible="false">Mã User</th>
+                <th data-field="email" data-visible="false">Mail</th>
+                <th data-field="permission">Quyền</th>
+                <th data-field="name">Tên</th>
+                <th data-field="doB" data-visible="false">Ngày sinh</th>
+                <th data-field="phoneNumber" data-visible="false">Số ĐT</th>
+                <th data-field="address" data-visible="false">Địa chỉ</th>
+                <th data-field="imageUrl" data-visible="false">Ảnh</th>
+                <th data-field="point" data-visible="false">Điểm</th>
+                <th data-field="cart" data-visible="false">Giỏ</th>
+                <th data-field="action" data-width="150" data-formatter="actionEditEvent" data-events="actionEditUserEvents">Action</th>
+                </tr>
+            </thead>
+            </table>
+        </div>
+
+        <div class="row">
+            <div id="addItemModal" class="modal" data-bs-backdrop="static">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Thêm Sự Người Dùng Mới</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="product-form"  action="/admin/manage/add-user/" method="POST" enctype="multipart/form-data">
+                                <div class="mb-3 mt-3">
+                                    <label class="form-label" for="email">Email: </label>
+                                    <input class="form-control" type="email" name="email" id="email" value="" required>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="form-label" for="password">Mật khẩu: </label>
+                                    <input class="form-control" type="password" name="password" id="password" value="" required>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="form-label" for="passwordConfirm">Xác nhận mật khẩu: </label>
+                                    <input class="form-control" type="password" name="passwordConfirm" id="passwordConfirm" value="" required>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="form-label" for="permission">Quyền: </label>
+                                    <select class="form-select" name="permission" id="permission" value="user" required>
+                                        <option value="user">user</option>
+                                        <option value="admin">admin</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="form-label" for="name">Tên: </label>
+                                    <input class="form-control" type="text" name="name" id="name" value="" required>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="form-label" for="doB">Ngày sinh: </label>
+                                    <input class="form-control" type="date" name="doB" id="doB" value="" required>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="form-label" for="phoneNumber">Điện thoại: </label>
+                                    <input class="form-control" type="tel" name="phoneNumber" id="phoneNumber" value="" required>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="form-label" for="postcode">Mã bưu điện: </label>
+                                    <input class="form-control" type="number" name="postcode" id="postcode" value="" required>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="form-label" for="getAddressFromPostCode">Tỉnh/Thành: </label>
+                                    <input class="form-control" type="text" name="getAddressFromPostCode" id="getAddressFromPostCode" value="" required>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="form-label" for="homeNumber">Số nhà: </label>
+                                    <input class="form-control" type="text" name="homeNumber" id="homeNumber" value="" required>
+                                </div>
+                                <input type="hidden" name="address" id="address" value="" required>
+                                <div class="mb-3 mt-3">
+                                    <label class="form-label" for="point">Điểm: </label>
+                                    <input class="form-control" type="number" name="point" id="point" value="" required>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="form-label" for="image">Ảnh: </label>
+                                    <input class="form-control"
+                                        type="file" 
+                                        name="image" 
+                                        id="image" 
+                                    >
+                                </div>
+                                <input type="hidden" name="_csrf">
+                                <button class="btn btn-primary" type="submit">Thêm</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        
+    </main>
+
+   <script id="admin-users-page" src="/js/script-admin-users.js" users-data='<%- JSON.stringify(users) %>'></script>
+
+   <%- include('../includes/page-end.ejs') %>
