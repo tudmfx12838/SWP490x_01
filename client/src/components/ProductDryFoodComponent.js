@@ -46,7 +46,6 @@ const ProductDry = ({ products, AddCart }) => {
   const productTypes = products.filter((product) => product.type === "thucphamkho");
   return (
     <Container>
-      <Event />
 
       <Row>
         <Breadcrumb>

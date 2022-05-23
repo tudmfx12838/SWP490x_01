@@ -46,8 +46,6 @@ const ProductDrinks = ({ products, AddCart }) => {
   const productTypes = products.filter((product) => product.type === "thucuong");
   return (
     <Container>
-      <Event />
-
       <Row>
         <Breadcrumb>
           <Breadcrumb.Item> <Link to='/'>Trang chủ</Link></Breadcrumb.Item>

@@ -10,6 +10,7 @@ import ProductDrinks from "./ProductDrinksComponent";
 import ProductFresh from "./ProductFreshFoodComponent";
 
 import Cart from "./CartComponent";
+import Order from "./OrderComponent";
 
 //withRouter cau hinh ket noi React voi Redux
 // import { Switch, Route, Redirect, withRouter } from "react-router-dom";
@@ -74,12 +75,6 @@ const mapDispatchToProps = (dispatch) => ({
   DecreaseQuantity: (product) => {
     dispatch(ActionCreators.DecreaseQuantity(product));
   },
-
-  // fetchDepartments: () => {dispatch(fetchDepartments())},
-  // fetchStaffsSalary: () => {dispatch(fetchStaffsSalary())},
-  // fetchDeleteStaff: (staffId) => {dispatch(fetchDeleteStaff(staffId))},
-  // postStaff: (name, doB, salaryScale, startDate, departmentId, annualLeave, overTime, image, salary) => dispatch(postStaff(name, doB, salaryScale, startDate, departmentId, annualLeave, overTime, image, salary)),
-  // putStaff: (staffId, name, doB, salaryScale, startDate, departmentId, annualLeave, overTime, image, salary) => dispatch(putStaff(staffId, name, doB, salaryScale, startDate, departmentId, annualLeave, overTime, image, salary))
 });
 
 class Main extends Component {
@@ -120,6 +115,7 @@ class Main extends Component {
     return (
       <React.Fragment>
         <Header numberCart={this.props.cart.numberCart} />
+        {/* <NavbarHeader/> */}
 
         <Routes>
           <Route
@@ -202,12 +198,31 @@ class Main extends Component {
             }
           />
 
-          <Route exact path="/quanly" element={<Management manageProducts={this.props.manageProducts.products}
-                                                manageUsers ={this.props.manageUsers.users}
-                                                manageEvents ={this.props.manageEvents.events}
-                                                manageOrders ={this.props.manageOrders.orders}/>} />
+          <Route
+            exact
+            path="/dathang"
+            element={
+              <Order
+                cart={this.props.cart}
+                products={this.props.products.products}
+              />
+            }
+          />
 
-          <Route path='*' element={<NotFound />} />
+          <Route
+            exact
+            path="/quanly"
+            element={
+              <Management
+                manageProducts={this.props.manageProducts.products}
+                manageUsers={this.props.manageUsers.users}
+                manageEvents={this.props.manageEvents.events}
+                manageOrders={this.props.manageOrders.orders}
+              />
+            }
+          />
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
 
         <Footer />

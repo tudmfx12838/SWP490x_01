@@ -32,6 +32,9 @@ router.get('/manage/users', adminController.getAdminUsers);
 
 router.post('/manage/add-user', adminController.postAddUser);
 
+router.post('/manage/delete-user', adminController.postDeleteUser);
+
+router.post('/manage/edit-user', adminController.postEditUser);
 
 
 // router.get('/manage/events', adminController.getAdminProducts);

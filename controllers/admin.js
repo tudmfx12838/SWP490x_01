@@ -336,46 +336,132 @@ exports.postAddUser = (req, res, next) => {
   const name = req.body.name;
   const doB = req.body.doB;
   const phoneNumber = req.body.phoneNumber;
-  const address = req.body.address;
+  const address = '〒' + req.body.postcode + ' - ' + req.body.address;
   const point = req.body.point;
   const image = req.file;
 
-  //  email: "user13@gmail.com",
-  // password: "123456",
-  // permission: "user",
-  // name: "Tran Thi H",
-  // doB: new Date("1990-04-03T00:00:00.000+00:00"),
-  // phoneNumber: '0901234567',
-  // address: 'HiroshimaShi',
-  // imageUrl: "images\/avatar.jpg",
-  // point: 50,
-  // cart:{items: []}
-  console.log(email);
-  console.log(password);
-  console.log(permission);
-  console.log(name);
-  console.log(doB);
-  console.log(phoneNumber);
-  console.log(address);
-  console.log(point);
-  console.log(image);
+  // console.log(email);
+  // console.log(password);
+  // console.log(permission);
+  // console.log(name);
+  // console.log(doB);
+  // console.log(phoneNumber);
+  // console.log(address);
+  // console.log(point);
+  // console.log(image);
 
-  // console.log(req.file);
-  // if (!image) {
-  //   return res.redirect("/admin/manage/users");
-  // }
+  var imageUrl = "";
+  console.log(req.file);
+  if (!image) {
+    imageUrl = "images/avatar.jpg";
+  }else{
+    imageUrl = image.path;
+  }
 
-  // const imageUrl = image.path;
+  const user = new User({
+    email: email,
+    password: password,
+    permission: permission,
+    name: name,
+    doB: doB,
+    phoneNumber: phoneNumber,
+    address: address,
+    point: point,
+    imageUrl: imageUrl,
+  });
 
-  // const user = new User({
-  //   email: email,
-  //   password: password,
-  //   permission: permission,
-  //   name: name,
-  //   doB: doB,
-  //   phoneNumber: phoneNumber,
-  //   address: address,
-  //   point: point,
-  //   imageUrl: imageUrl,
-  // });
+  user
+  .save()
+  .then((result) => {
+    return res.redirect("/admin/manage/users");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 }
+
+exports.postDeleteUser = (req, res, next) => {
+  const deleteMode = req.query.delete;
+  if (!deleteMode) {
+    return res.redirect("/");
+  }
+
+  const eventIds = req.body._id.split(",");
+
+  // console.log(req.body._id);
+  // console.log(eventIds);
+
+  User.deleteMany({ _id: eventIds })
+    .then((result) => {
+      console.log("Delete complete");
+      res.redirect("/admin/manage/users");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+
+exports.postEditUser = (req, res, next) => {
+  //Checking edit mode
+  //http://localhost:4000/admin/manage/edit-event/?edit=true
+  const editMode = req.query.edit;
+  if (!editMode) {
+    return res.redirect("/");
+  }
+
+  const userId = req.body._id;
+  const updatedEmail = req.body.email;
+  const updatedPassword = req.body.password;
+  const updatedPermission = req.body.permission;
+  const updatedName = req.body.name;
+  const updatedDoB = req.body.doB;
+  const updatedPhoneNumber = req.body.phoneNumber;
+  const updatedAddress = '〒' + req.body.postcode + '-' + req.body.address;
+  const updatedPoint = req.body.point;
+  const updatedImageUrl = req.file;
+
+  // console.log(userId);
+  // console.log(updatedEmail);
+  // console.log(updatedPassword);
+  // console.log(updatedPermission);
+  // console.log(updatedName);
+  // console.log(updatedDoB);
+  // console.log(updatedPhoneNumber);
+  // console.log(updatedAddress);
+  // console.log(updatedPoint);
+  // console.log(updatedImageUrl);
+
+
+  User.findById(userId)
+    .then((user) => {
+      
+      if(updatedPassword){
+        user.password = updatedPassword;
+      }
+
+      user.email = updatedEmail;
+      user.permission = updatedPermission;
+      user.name = updatedName;
+      user.doB = updatedDoB;
+      user.phoneNumber = updatedPhoneNumber;
+      user.address = updatedAddress;
+      user.point = updatedPoint;
+
+      if (updatedImageUrl) {
+        // fileHelper.deleteFile(event.imageUrl);
+        user.imageUrl = updatedImageUrl.path;
+      }
+
+      return event.save().then((result) => {
+        console.log("Updated Event");
+        res.redirect("/admin/manage/events");
+      }); //Ham save nay cua mongoose
+    })
+    .catch((err) => {
+      console.log(err);
+      // const error = new Error(err);
+      // error.httpStatusCode = 500;
+      // return next(error);
+    });
+};

@@ -9,10 +9,8 @@ import {
   InputGroup,
   FormControl,
 } from "react-bootstrap";
-import { Link, NavLink } from "react-router-dom";
 
-const Cart = (props) => {
-  //  console.log(items)
+const Order = (props) => {
   const [show, setShow] = useState(false);
   const [storeKey, setStoreKey] = useState(null);
 
@@ -23,7 +21,6 @@ const Cart = (props) => {
   const handleShow = (key) => {
     setShow(true);
     setStoreKey(key);
-    
   };
   const handleDelete = () => {
     setShow(false);
@@ -48,7 +45,6 @@ const Cart = (props) => {
           <Table className="table">
             <thead>
               <tr>
-                <th></th>
                 <th>Sản phẩm</th>
                 <th>Hình ảnh</th>
                 <th>Đơn giá</th>
@@ -60,11 +56,6 @@ const Cart = (props) => {
               {ListCart.map((item, key) => {
                 return (
                   <tr key={key}>
-                    <td>
-                      <Button variant="danger" onClick={() => handleShow(key)}>
-                        X
-                      </Button>
-                    </td>
                     <td>{item.title}</td>
                     <td>
                       <Image
@@ -73,25 +64,7 @@ const Cart = (props) => {
                       />
                     </td>
                     <td>{item.price} ￥</td>
-                    <td>
-                      <Button
-                        variant="primary"
-                        style={{ margin: "2px" }}
-                        onClick={() => props.DecreaseQuantity(key)}
-                      >
-                        -
-                      </Button>
-                      <span className="btn btn-outline-info">
-                        {item.quantity}
-                      </span>
-                      <Button
-                        variant="primary"
-                        style={{ margin: "2px" }}
-                        onClick={() => props.IncreaseQuantity(key)}
-                      >
-                        +
-                      </Button>
-                    </td>
+                    <td>{item.quantity}</td>
                     <td>{TotalPrice(item.price, item.quantity)} ￥</td>
                   </tr>
                 );
@@ -103,16 +76,7 @@ const Cart = (props) => {
             </tbody>
           </Table>
         </Row>
-        <Row>
-                <Link
-                  as={NavLink}
-                  className="btn btn-primary"
-                  to="/dathang"
-                >
-                  Đặt hàng
-                </Link>
-        </Row>
-        
+
         <Modal
           show={show}
           onHide={handleClose}
@@ -124,7 +88,9 @@ const Cart = (props) => {
           </Modal.Header>
           <Modal.Body>Bạn có muốn xóa sản phẩm này khỏi giỏ hàng?</Modal.Body>
           <Modal.Footer>
-            <Button variant="primary" onClick={handleDelete}>Có</Button>
+            <Button variant="primary" onClick={handleDelete}>
+              Có
+            </Button>
             <Button variant="secondary" onClick={handleClose}>
               Không
             </Button>
@@ -143,4 +109,4 @@ const Cart = (props) => {
   }
 };
 
-export default Cart;
+export default Order;

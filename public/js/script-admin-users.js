@@ -1,450 +1,402 @@
 var oldRowValue = {
-    title: "",
-    startDate: null,
-    endDate: null,
-    hasCoupon: null,
-    coupon: "",
-    discount: null,
-    description: "",
-    imageUrl: "",
-  };
-  
-  var newRowValue = {
-    title: "",
-    startDate: null,
-    endDate: null,
-    hasCoupon: null,
-    coupon: "",
-    discount: null,
-    description: "",
-    imageUrl: "",
-  };
-  
-  $(function () {
-    var $table = $("#table");
-    var $btn_delete = $("#btn-delete");
+  email: "",
+  password: "",
+  permission: "",
+  name: "",
+  doB: null,
+  phoneNumber: null,
+  postcode: null,
+  address: null,
+  point: null,
+  imageUrl: "",
+};
+
+var newRowValue = {
+  email: "",
+  password: "",
+  permission: "",
+  name: "",
+  doB: null,
+  phoneNumber: null,
+  postcode: null,
+  address: null,
+  point: null,
+  imageUrl: "",
+};
+
+$(function () {
+  var $table = $("#table");
+  var $btn_delete = $("#btn-delete");
+  $btn_delete.prop("disabled", true);
+
+  // var json = "<%- JSON.stringify(products) %>";
+  var json = $("#admin-users-page").attr("users-data");
+  // alert(json);
+  var myArr = eval(json); //Json.parse(json)
+
+  $table.bootstrapTable({ data: myArr });
+
+  $table.on(
+    "check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table",
+    function () {
+      $btn_delete.prop(
+        "disabled",
+        !$table.bootstrapTable("getSelections").length
+      );
+    }
+  );
+
+  $btn_delete.click(function () {
+    var users = $.map($table.bootstrapTable("getSelections"), function (row) {
+      return {
+        _id: row._id,
+        name: row.name,
+      };
+    });
+
+    var userName = "";
+    var userId = [];
+    for (let i = 0; i < users.length; i++) {
+      if (i == users.length - 1) {
+        userName += users[i].name;
+      } else {
+        userName += users[i].name + ", ";
+      }
+      userId.push(users[i]._id);
+    }
+
+    $("#confirmDeleteItemModal").find(".name").text(userName);
+    $("#confirmDeleteItemModal").find("#_id").val(userId);
+    $("#confirmDeleteItemModal").modal("show");
+
     $btn_delete.prop("disabled", true);
-  
-    // var json = "<%- JSON.stringify(products) %>";
-    var json = $("#admin-users-page").attr("users-data");
-    // alert(json);
-    var myArr = eval(json); //Json.parse(json)
-  
-    $table.bootstrapTable({ data: myArr });
-  
-    // $table.on(
-    //   "check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table",
-    //   function () {
-    //     $btn_delete.prop(
-    //       "disabled",
-    //       !$table.bootstrapTable("getSelections").length
-    //     );
-    //   }
-    // );
-    // $btn_delete.click(function () {
-    //   var events = $.map($table.bootstrapTable("getSelections"), function (row) {
-    //     return {
-    //       _id: row._id,
-    //       title: row.title,
-    //     };
-    //   });
-  
-    //   var eventTitle = "";
-    //   var eventId = [];
-    //   for (let i = 0; i < events.length; i++) {
-    //     if (i == events.length - 1) {
-    //       eventTitle += events[i].title;
-    //     } else {
-    //       eventTitle += events[i].title + ", ";
-    //     }
-    //     eventId.push(events[i]._id);
-    //   }
-  
-    //   $("#confirmDeleteItemModal").find(".title").text(eventTitle);
-    //   $("#confirmDeleteItemModal").find("#_id").val(eventId);
-    //   $("#confirmDeleteItemModal").modal("show");
-  
-    //   $btn_delete.prop("disabled", true);
-    // });
-  
-    // //Set backup to null
-    // $("#editItemModal, #detailItemModal")
-    //   .find("#btn-cancel, .btn-close")
-    //   .click(function () {
-    //     oldRowValue = {
-    //       title: "",
-    //       startDate: null,
-    //       endDate: null,
-    //       hasCoupon: null,
-    //       coupon: "",
-    //       discount: null,
-    //       description: "",
-    //       imageUrl: "",
-    //     };
-  
-    //     newRowValue = {
-    //       title: "",
-    //       startDate: null,
-    //       endDate: null,
-    //       hasCoupon: null,
-    //       coupon: "",
-    //       discount: null,
-    //       description: "",
-    //       imageUrl: "",
-    //     };
-    //   });
-  
-    // $("#confirmDeleteItemModal")
-    //   .find("#btn-cancel, .btn-close")
-    //   .click(function () {
-    //     $btn_delete.prop("disabled", false);
-    //     // $table.bootstrapTable('uncheckAll');
-    //   });
-  
-    // $("#addItemModal")
-    //   .find("#hasCoupon_cbx")
-    //   .change(function () {
-    //     if (this.checked) {
-    //       $("#addItemModal").find("#coupon").prop("disabled", false);
-    //       // $("addItemModal").find("#coupon").prop('required',true);
-    //       $("#addItemModal").find("#hasCoupon").val(true);
-    //     } else {
-    //       $("#addItemModal").find("#coupon").prop("disabled", true);
-    //       // $("addItemModal").find("#coupon").prop('required', false);
-    //       $("#addItemModal").find("#hasCoupon").val(false);
-    //     }
-    //   });
-  
-    // $("#editItemModal")
-    //   .find("#hasCoupon_cbx")
-    //   .change(function () {
-    //     if (this.checked) {
-    //       $("#editItemModal").find("#coupon").prop("disabled", false);
-    //       // $("editItemModal").find("#coupon").prop('required',true);
-    //       $("#editItemModal").find("#hasCoupon").val(true);
-    //     } else {
-    //       $("#editItemModal").find("#coupon").prop("disabled", true);
-    //       // $("editItemModal").find("#coupon").prop('required', false);
-    //       $("#editItemModal").find("#hasCoupon").val(false);
-    //     }
-    //   });
-  
-    // $("#detailItemModal")
-    //   .find("#btn-editItem")
-    //   .click(function () {
-    //     alert(JSON.stringify(oldRowValue));
-    //     $("#editItemModal").find("#title").val(oldRowValue.title);
-    //     $("#editItemModal").find("#startDate").val(oldRowValue.startDate);
-    //     $("#editItemModal").find("#endDate").val(oldRowValue.endDate);
-  
-    //     $("#editItemModal").find("#hasCoupon").val(oldRowValue.hasCoupon);
-    //     if (oldRowValue.hasCoupon === false) {
-    //       $("#editItemModal").find("#coupon").prop("disabled", true);
-    //       $("#editItemModal").find("#hasCoupon_cbx").prop("checked", false);
-    //     } else {
-    //       $("#editItemModal").find("#coupon").prop("disabled", false);
-    //       $("#editItemModal").find("#hasCoupon_cbx").prop("checked", true);
-    //     }
-  
-    //     $("#editItemModal").find("#coupon").val(oldRowValue.coupon);
-    //     $("#editItemModal").find("#discount").val(oldRowValue.discount);
-    //     $("#editItemModal").find("#description").val(oldRowValue.description);
-    //     $("#editItemModal").find("#_id").val(oldRowValue._id);
-    //     $("#editItemModal").find("#image").val(oldRowValue.imageUrl);
-    //   });
-  
-    // $("#editItemModal")
-    //   .find("#btn-confirmEditItem")
-    //   .click(function () {
-    //     // alert($('#editItemModal').find('#hasCoupon_cbx').val());
-    //     // if($('#editItemModal').find('#hasCoupon_cbx').is(":checked")){
-    //     //   alert('checked');
-    //     //   $("editItemModal").find("#coupon").prop('required',true);
-    //     // }else{
-    //     //   alert('unchecked');
-    //     //   $("editItemModal").find("#coupon").prop('required',false);
-    //     // }
-    //   });
-  
-    // $("#confirmEditItemModal").on("shown.bs.modal", function (event) {
-    //   newRowValue = {
-    //     _id: $("#editItemModal").find("#_id").val(),
-    //     title: $("#editItemModal").find("#title").val(),
-    //     startDate: $("#editItemModal").find("#startDate").val(),
-    //     endDate: $("#editItemModal").find("#endDate").val(),
-    //     hasCoupon: $("#editItemModal").find("#hasCoupon").val(),
-    //     coupon: $("#editItemModal").find("#coupon").val(),
-    //     discount: $("#editItemModal").find("#discount").val(),
-    //     description: $("#editItemModal").find("#description").val(),
-    //     imageUrl: $("#editItemModal").find("#image").val(),
-    //     // imageUrl: $('#editProductModal').find('#image').prop('files')[0],
-    //   };
-  
-    //   // alert('newRowValue ' +  JSON.stringify(newRowValue) + '\n oldRowValue' + JSON.stringify(oldRowValue));
-  
-    //   if (String(newRowValue.title) === String(oldRowValue.title)) {
-    //     $("#confirmEditItemModal")
-    //       .find(".title")
-    //       .text(oldRowValue.title)
-    //       .css("color", "black");
-    //   } else {
-    //     $("#confirmEditItemModal")
-    //       .find(".title")
-    //       .text(oldRowValue.title + "  -->  " + newRowValue.title)
-    //       .css("color", "red");
-    //   }
-  
-    //   if (String(newRowValue.startDate) === String(oldRowValue.startDate)) {
-    //     $("#confirmEditItemModal")
-    //       .find(".startDate")
-    //       .text(oldRowValue.startDate)
-    //       .css("color", "black");
-    //   } else {
-    //     $("#confirmEditItemModal")
-    //       .find(".startDate")
-    //       .text(oldRowValue.startDate + "  -->  " + newRowValue.startDate)
-    //       .css("color", "red");
-    //   }
-  
-    //   if (String(newRowValue.endDate) === String(oldRowValue.endDate)) {
-    //     $("#confirmEditItemModal")
-    //       .find(".endDate")
-    //       .text(oldRowValue.endDate)
-    //       .css("color", "black");
-    //   } else {
-    //     $("#confirmEditItemModal")
-    //       .find(".endDate")
-    //       .text(oldRowValue.endDate + "  -->  " + newRowValue.endDate)
-    //       .css("color", "red");
-    //   }
-  
-    //   if (String(newRowValue.hasCoupon) === String(oldRowValue.hasCoupon)) {
-    //     $("#confirmEditItemModal")
-    //       .find(".hasCoupon")
-    //       .text(oldRowValue.hasCoupon)
-    //       .css("color", "black");
-    //   } else {
-    //     $("#confirmEditItemModal")
-    //       .find(".hasCoupon")
-    //       .text(oldRowValue.hasCoupon + "  -->  " + newRowValue.hasCoupon)
-    //       .css("color", "red");
-    //   }
-  
-    //   if (newRowValue.hasCoupon === false) {
-    //     newRowValue.coupon = "";
-    //   }
-  
-    //   if (String(newRowValue.coupon) === String(oldRowValue.coupon)) {
-    //     $("#confirmEditItemModal")
-    //       .find(".coupon")
-    //       .text(oldRowValue.coupon)
-    //       .css("color", "black");
-    //   } else {
-    //     $("#confirmEditItemModal")
-    //       .find(".coupon")
-    //       .text(oldRowValue.coupon + "  -->  " + newRowValue.coupon)
-    //       .css("color", "red");
-    //   }
-  
-    //   if (String(newRowValue.discount) === String(oldRowValue.discount)) {
-    //     $("#confirmEditItemModal")
-    //       .find(".discount")
-    //       .text(oldRowValue.discount)
-    //       .css("color", "black");
-    //   } else {
-    //     $("#confirmEditItemModal")
-    //       .find(".discount")
-    //       .text(oldRowValue.discount + "  -->  " + newRowValue.discount)
-    //       .css("color", "red");
-    //   }
-  
-    //   if (String(newRowValue.description) === String(oldRowValue.description)) {
-    //     $("#confirmEditItemModal")
-    //       .find(".description")
-    //       .text(oldRowValue.description)
-    //       .css("color", "black");
-    //   } else {
-    //     $("#confirmEditItemModal")
-    //       .find(".description")
-    //       .text(oldRowValue.description + "  -->  " + newRowValue.description)
-    //       .css("color", "red");
-    //   }
-  
-    //   // // alert($('#editProductModal').find('#image').val().replace("C:\\fakepath\\", "images\/"));
-    //   // // alert(oldRowValue.imageUrl);
-    //   if (newRowValue.imageUrl) {
-    //     const newImage = newRowValue.imageUrl.replace(
-    //       "C:\\fakepath\\",
-    //       "images/"
-    //     );
-    //     const oldImage = oldRowValue.imageUrl;
-    //     if (newImage === oldImage || newImage === "") {
-    //       $("#confirmEditItemModal")
-    //         .find(".image")
-    //         .text(oldRowValue.imageUrl)
-    //         .css("color", "black");
-    //     } else {
-    //       $("#confirmEditItemModal")
-    //         .find(".image")
-    //         .text(oldRowValue.imageUrl + "  -->  " + newImage)
-    //         .css("color", "red");
-    //     }
-    //   } else {
-    //     $("#confirmEditItemModal")
-    //       .find(".image")
-    //       .text(oldRowValue.imageUrl)
-    //       .css("color", "black");
-    //   }
-  
-    //   if (String(newRowValue._id) === String(oldRowValue._id)) {
-    //     $("#confirmEditItemModal").find("#_id").val(oldRowValue._id);
-    //   } else {
-    //     $("#confirmEditItemModal").find("#_id").val(oldRowValue._id);
-    //   }
-    // });
-  
-    // //Submit editproduct form
-    // $("#confirmEditItemModal")
-    //   .find("#btn-submitConfirmEditItem")
-    //   .click(function () {
-    //     $("#form-editItemModal").submit();
-    //   });
   });
-  
-//   window.actionEditEventEvents = {
-//     "click .btn-editItem": function (e, value, row, index) {
-//       var startDate_obj = new Date(row.startDate);
-//       var startDate_day =
-//         startDate_obj.getDate() < 10
-//           ? "0" + startDate_obj.getDate()
-//           : startDate_obj.getDate();
-//       var startDate_month =
-//         startDate_obj.getMonth() + 1 < 10
-//           ? "0" + (startDate_obj.getMonth() + 1)
-//           : startDate_obj.getMonth() + 1;
-//       var startDate =
-//         startDate_obj.getFullYear() + "-" + startDate_month + "-" + startDate_day;
-  
-//       var endDate_obj = new Date(row.endDate);
-//       var endDate_day =
-//         endDate_obj.getDate() < 10
-//           ? "0" + endDate_obj.getDate()
-//           : endDate_obj.getDate();
-//       var endDate_month =
-//         endDate_obj.getMonth() + 1 < 10
-//           ? "0" + (endDate_obj.getMonth() + 1)
-//           : endDate_obj.getMonth() + 1;
-//       var endDate =
-//         endDate_obj.getFullYear() + "-" + endDate_month + "-" + endDate_day;
-  
-//       // if (oldRowValue._id === undefined) {
-  
-//       $("#editItemModal").find("#title").val(row.title);
-//       $("#editItemModal").find("#startDate").val(startDate);
-//       $("#editItemModal").find("#endDate").val(endDate);
-  
-//       $("#editItemModal").find("#hasCoupon").val(row.hasCoupon);
-//       if (row.hasCoupon === false) {
-//         $("#editItemModal").find("#coupon").prop("disabled", true);
-//         $("#editItemModal").find("#hasCoupon_cbx").prop("checked", false);
-//       } else {
-//         $("#editItemModal").find("#coupon").prop("disabled", false);
-//         $("#editItemModal").find("#hasCoupon_cbx").prop("checked", true);
-//       }
-  
-//       $("#editItemModal").find("#coupon").val(row.coupon);
-//       $("#editItemModal").find("#discount").val(row.discount);
-//       $("#editItemModal").find("#description").val(row.description);
-//       $("#editItemModal").find("#_id").val(row._id);
-//       // $("#editItemModal").find("#imageUrl").val(row.imageUrl);
-  
-//       oldRowValue = {
-//         _id: row._id,
-//         title: row.title,
-//         startDate: startDate,
-//         endDate: endDate,
-//         hasCoupon: row.hasCoupon,
-//         coupon: row.coupon,
-//         discount: row.discount,
-//         description: row.description,
-//         imageUrl: row.imageUrl,
-//       };
-//       // } else {
-//       // $("#editItemModal").find("#title").val(oldRowValue.title);
-//       // $("#editItemModal").find("#startDate").val(oldRowValue.startDate);
-//       // $("#editItemModal").find("#endDate").val(oldRowValue.endDate);
-  
-//       // $("#editItemModal").find("#hasCoupon").val(oldRowValue.hasCoupon);
-//       // if (oldRowValue.hasCoupon === false) {
-//       //   $("#editItemModal").find("#coupon").prop("disabled", true);
-//       //   $("#editItemModal").find("#hasCoupon_cbx").prop("checked", false);
-//       // } else {
-//       //   $("#editItemModal").find("#coupon").prop("disabled", false);
-//       //   $("#editItemModal").find("#hasCoupon_cbx").prop("checked", true);
-//       // }
-  
-//       // $("#editItemModal").find("#coupon").val(oldRowValue.coupon);
-//       // $("#editItemModal").find("#discount").val(oldRowValue.discount);
-//       // $("#editItemModal").find("#description").val(oldRowValue.description);
-//       // $("#editItemModal").find("#_id").val(oldRowValue._id);
-//       // $("#editItemModal")
-//       //   .find("#imageUrl")
-//       //   .attr("src", oldRowValue.imageUrl.replace("images", "/images"));
-//       // }
-//     },
-//     "click .btn-detailItem"(e, value, row, index) {
-//       var startDate_obj = new Date(row.startDate);
-//       var startDate_day =
-//         startDate_obj.getDate() < 10
-//           ? "0" + startDate_obj.getDate()
-//           : startDate_obj.getDate();
-//       var startDate_month =
-//         startDate_obj.getMonth() + 1 < 10
-//           ? "0" + (startDate_obj.getMonth() + 1)
-//           : startDate_obj.getMonth() + 1;
-//       var startDate =
-//         startDate_obj.getFullYear() + "-" + startDate_month + "-" + startDate_day;
-  
-//       var endDate_obj = new Date(row.endDate);
-//       var endDate_day =
-//         endDate_obj.getDate() < 10
-//           ? "0" + endDate_obj.getDate()
-//           : endDate_obj.getDate();
-//       var endDate_month =
-//         endDate_obj.getMonth() + 1 < 10
-//           ? "0" + (endDate_obj.getMonth() + 1)
-//           : endDate_obj.getMonth() + 1;
-//       var endDate =
-//         endDate_obj.getFullYear() + "-" + endDate_month + "-" + endDate_day;
-  
-//       $("#detailItemModal").find(".title").text(row.title);
-//       $("#detailItemModal").find(".startDate").text(row.startDate);
-//       $("#detailItemModal").find(".endDate").text(row.endDate);
-//       $("#detailItemModal").find(".hasCoupon").text(row.hasCoupon);
-//       $("#detailItemModal").find(".coupon").text(row.coupon);
-//       $("#detailItemModal").find(".discount").text(row.discount);
-//       $("#detailItemModal").find(".description").text(row.description);
-//       $("#detailItemModal").find("#_id").text(row._id);
-//       $("#detailItemModal")
-//         .find("#imageUrl")
-//         .attr("src", row.imageUrl.replace("images", "/images"));
-  
-//       oldRowValue = {
-//         _id: row._id,
-//         title: row.title,
-//         startDate: startDate,
-//         endDate: endDate,
-//         hasCoupon: row.hasCoupon,
-//         coupon: row.coupon,
-//         discount: row.discount,
-//         description: row.description,
-//         imageUrl: row.imageUrl,
-//       };
-//     },
-//   };
-  
-  function actionEditEvent(index, row) {
-    return `<button class="btn-detailItem btn btn-secondary" data-bs-toggle="modal" data-bs-target="#detailItemModal" >Chi tiết</button>
+
+  $("#editItemModal, #detailItemModal")
+    .find("#btn-cancel, .btn-close")
+    .click(function () {
+      oldRowValue = {
+        title: "",
+        startDate: null,
+        endDate: null,
+        hasCoupon: null,
+        coupon: "",
+        discount: null,
+        description: "",
+        imageUrl: "",
+      };
+
+      newRowValue = {
+        title: "",
+        startDate: null,
+        endDate: null,
+        hasCoupon: null,
+        coupon: "",
+        discount: null,
+        description: "",
+        imageUrl: "",
+      };
+    });
+
+  $("#confirmDeleteItemModal")
+    .find("#btn-cancel, .btn-close")
+    .click(function () {
+      $btn_delete.prop("disabled", false);
+      // $table.bootstrapTable('uncheckAll');
+    });
+
+  $("#detailItemModal")
+    .find("#btn-editItem")
+    .click(function () {
+      $("#editItemModal").find("#email").val(oldRowValue.email);
+      //   $("#editItemModal").find("#password").val(row.password);
+      $("#editItemModal").find("#permission").val(oldRowValue.permission);
+      $("#editItemModal").find("#name").val(oldRowValue.name);
+      $("#editItemModal").find("#doB").val(oldRowValue.doB);
+      $("#editItemModal").find("#phoneNumber").val(oldRowValue.phoneNumber);
+      $("#editItemModal").find("#postcode").val(oldRowValue.postcode);
+      $("#editItemModal").find("#address").val(oldRowValue.address);
+      $("#editItemModal").find("#point").val(oldRowValue.point);
+      $("#editItemModal").find("#_id").val(oldRowValue._id);
+      //   alert(JSON.stringify(oldRowValue));
+    });
+
+  $("#confirmEditItemModal").on("shown.bs.modal", function (event) {
+    newRowValue = {
+      _id: $("#editItemModal").find("#_id").val(),
+      email: $("#editItemModal").find("#email").val(),
+      password: $("#editItemModal").find("#password").val(),
+      permission: $("#editItemModal").find("#permission").val(),
+      name: $("#editItemModal").find("#name").val(),
+      doB: $("#editItemModal").find("#doB").val(),
+      phoneNumber: $("#editItemModal").find("#phoneNumber").val(),
+      postcode: $("#editItemModal").find("#postcode").val(),
+      address: $("#editItemModal").find("#address").val(),
+      point: $("#editItemModal").find("#point").val(),
+      imageUrl: $("#editItemModal").find("#image").val(),
+      // imageUrl: $('#editProductModal').find('#image').prop('files')[0],
+    };
+
+    // alert('newRowValue ' +  JSON.stringify(newRowValue) + '\n oldRowValue' + JSON.stringify(oldRowValue));
+
+    if (String(newRowValue.email) === String(oldRowValue.email)) {
+      $("#confirmEditItemModal")
+        .find(".email")
+        .text(oldRowValue.email)
+        .css("color", "black");
+    } else {
+      $("#confirmEditItemModal")
+        .find(".email")
+        .text(oldRowValue.email + "  -->  " + newRowValue.email)
+        .css("color", "red");
+    }
+
+    if (String(newRowValue.password) === "") {
+      $("#confirmEditItemModal")
+        .find(".password")
+        .text("Mật khẩu không đổi")
+        .css("color", "black");
+    } else {
+      $("#confirmEditItemModal")
+        .find(".password")
+        .text("Thay đổi mật khẩu mới")
+        .css("color", "red");
+    }
+
+    if (String(newRowValue.permission) === String(oldRowValue.permission)) {
+      $("#confirmEditItemModal")
+        .find(".permission")
+        .text(oldRowValue.permission)
+        .css("color", "black");
+    } else {
+      $("#confirmEditItemModal")
+        .find(".permission")
+        .text(oldRowValue.permission + "  -->  " + newRowValue.permission)
+        .css("color", "red");
+    }
+
+    if (String(newRowValue.name) === String(oldRowValue.name)) {
+      $("#confirmEditItemModal")
+        .find(".name")
+        .text(oldRowValue.name)
+        .css("color", "black");
+    } else {
+      $("#confirmEditItemModal")
+        .find(".name")
+        .text(oldRowValue.name + "  -->  " + newRowValue.name)
+        .css("color", "red");
+    }
+
+    if (String(newRowValue.doB) === String(oldRowValue.doB)) {
+      $("#confirmEditItemModal")
+        .find(".doB")
+        .text(oldRowValue.doB)
+        .css("color", "black");
+    } else {
+      $("#confirmEditItemModal")
+        .find(".doB")
+        .text(oldRowValue.doB + "  -->  " + newRowValue.doB)
+        .css("color", "red");
+    }
+
+    if (String(newRowValue.phoneNumber) === String(oldRowValue.phoneNumber)) {
+      $("#confirmEditItemModal")
+        .find(".phoneNumber")
+        .text(oldRowValue.phoneNumber)
+        .css("color", "black");
+    } else {
+      $("#confirmEditItemModal")
+        .find(".phoneNumber")
+        .text(oldRowValue.phoneNumber + "  -->  " + newRowValue.phoneNumber)
+        .css("color", "red");
+    }
+
+    if (String(newRowValue.postcode) === String(oldRowValue.postcode)) {
+      $("#confirmEditItemModal")
+        .find(".postcode")
+        .text(oldRowValue.postcode)
+        .css("color", "black");
+    } else {
+      $("#confirmEditItemModal")
+        .find(".postcode")
+        .text(oldRowValue.postcode + "  -->  " + newRowValue.postcode)
+        .css("color", "red");
+    }
+
+    if (String(newRowValue.address) === String(oldRowValue.address)) {
+      $("#confirmEditItemModal")
+        .find(".address")
+        .text(oldRowValue.address)
+        .css("color", "black");
+    } else {
+      $("#confirmEditItemModal")
+        .find(".address")
+        .text(oldRowValue.address + "  -->  " + newRowValue.address)
+        .css("color", "red");
+    }
+
+    if (String(newRowValue.point) === String(oldRowValue.point)) {
+      $("#confirmEditItemModal")
+        .find(".point")
+        .text(oldRowValue.point)
+        .css("color", "black");
+    } else {
+      $("#confirmEditItemModal")
+        .find(".point")
+        .text(oldRowValue.point + "  -->  " + newRowValue.point)
+        .css("color", "red");
+    }
+
+    // // // alert($('#editProductModal').find('#image').val().replace("C:\\fakepath\\", "images\/"));
+    // // // alert(oldRowValue.imageUrl);
+    if (newRowValue.imageUrl) {
+      const newImage = newRowValue.imageUrl.replace(
+        "C:\\fakepath\\",
+        "images/"
+      );
+      const oldImage = oldRowValue.imageUrl;
+      if (newImage === oldImage || newImage === "") {
+        $("#confirmEditItemModal")
+          .find(".image")
+          .text(oldRowValue.imageUrl)
+          .css("color", "black");
+      } else {
+        $("#confirmEditItemModal")
+          .find(".image")
+          .text(oldRowValue.imageUrl + "  -->  " + newImage)
+          .css("color", "red");
+      }
+    } else {
+      $("#confirmEditItemModal")
+        .find(".image")
+        .text(oldRowValue.imageUrl)
+        .css("color", "black");
+    }
+
+    if (String(newRowValue._id) === String(oldRowValue._id)) {
+      $("#confirmEditItemModal").find("#_id").val(oldRowValue._id);
+    } else {
+      $("#confirmEditItemModal").find("#_id").val(oldRowValue._id);
+    }
+  });
+
+  //Submit editproduct form
+  $("#confirmEditItemModal")
+    .find("#btn-submitConfirmEditItem")
+    .click(function () {
+      $("#form-editItemModal").submit();
+    });
+});
+
+window.actionEditUserEvents = {
+  "click .btn-editItem": function (e, value, row, index) {
+    var doB_obj = new Date(row.doB);
+    var doB_day =
+      doB_obj.getDate() < 10 ? "0" + doB_obj.getDate() : doB_obj.getDate();
+    var doB_month =
+      doB_obj.getMonth() + 1 < 10
+        ? "0" + (doB_obj.getMonth() + 1)
+        : doB_obj.getMonth() + 1;
+    var doB = doB_obj.getFullYear() + "-" + doB_month + "-" + doB_day;
+
+    const postcode = row.address.substr(1, 7);
+    const address = row.address.substr(9, row.address.length - 1);
+
+    //   // if (oldRowValue._id === undefined) {
+
+    $("#editItemModal").find("#email").val(row.email);
+    //   $("#editItemModal").find("#password").val(row.password);
+    $("#editItemModal").find("#permission").val(row.permission);
+    $("#editItemModal").find("#name").val(row.name);
+    $("#editItemModal").find("#doB").val(doB);
+    $("#editItemModal").find("#phoneNumber").val(row.phoneNumber);
+    $("#editItemModal").find("#postcode").val(postcode);
+    $("#editItemModal").find("#address").val(address);
+    $("#editItemModal").find("#point").val(row.point);
+    $("#editItemModal").find("#_id").val(row._id);
+    // $("#editItemModal").find("#imageUrl").val(row.imageUrl);
+
+    oldRowValue = {
+      _id: row._id,
+      email: row.email,
+      // password: row.password,
+      permission: row.permission,
+      name: row.name,
+      doB: doB,
+      phoneNumber: row.phoneNumber,
+      postcode: postcode,
+      address: address,
+      point: row.point,
+      imageUrl: row.imageUrl,
+    };
+    // } else {
+    // $("#editItemModal").find("#title").val(oldRowValue.title);
+    // $("#editItemModal").find("#startDate").val(oldRowValue.startDate);
+    // $("#editItemModal").find("#endDate").val(oldRowValue.endDate);
+
+    // $("#editItemModal").find("#hasCoupon").val(oldRowValue.hasCoupon);
+    // if (oldRowValue.hasCoupon === false) {
+    //   $("#editItemModal").find("#coupon").prop("disabled", true);
+    //   $("#editItemModal").find("#hasCoupon_cbx").prop("checked", false);
+    // } else {
+    //   $("#editItemModal").find("#coupon").prop("disabled", false);
+    //   $("#editItemModal").find("#hasCoupon_cbx").prop("checked", true);
+    // }
+
+    // $("#editItemModal").find("#coupon").val(oldRowValue.coupon);
+    // $("#editItemModal").find("#discount").val(oldRowValue.discount);
+    // $("#editItemModal").find("#description").val(oldRowValue.description);
+    // $("#editItemModal").find("#_id").val(oldRowValue._id);
+    // $("#editItemModal")
+    //   .find("#imageUrl")
+    //   .attr("src", oldRowValue.imageUrl.replace("images", "/images"));
+    //   }
+  },
+  "click .btn-detailItem"(e, value, row, index) {
+    alert(JSON.stringify(row));
+    var doB_obj = new Date(row.doB);
+    var doB_day =
+      doB_obj.getDate() < 10 ? "0" + doB_obj.getDate() : doB_obj.getDate();
+    var doB_month =
+      doB_obj.getMonth() + 1 < 10
+        ? "0" + (doB_obj.getMonth() + 1)
+        : doB_obj.getMonth() + 1;
+    var doB = doB_obj.getFullYear() + "-" + doB_month + "-" + doB_day;
+
+    const postcode = row.address.substr(1, 7);
+    const address = row.address.substr(9, row.address.length - 1);
+
+    $("#detailItemModal").find(".email").text(row.email);
+    //   $("#detailItemModal").find(".password").val(row.password);
+    $("#detailItemModal").find(".permission").text(row.permission);
+    $("#detailItemModal").find(".name").text(row.name);
+    $("#detailItemModal").find(".doB").text(doB);
+    $("#detailItemModal").find(".phoneNumber").text(row.phoneNumber);
+    $("#detailItemModal").find(".postcode").text(postcode);
+    $("#detailItemModal").find(".address").text(address);
+    $("#detailItemModal").find(".point").text(row.point);
+    $("#detailItemModal").find("#_id").val(row._id);
+    $("#detailItemModal")
+      .find("#imageUrl")
+      .attr("src", row.imageUrl.replace("images", "/images"));
+
+    oldRowValue = {
+      _id: row._id,
+      email: row.email,
+      // password: row.password,
+      permission: row.permission,
+      name: row.name,
+      doB: doB,
+      phoneNumber: row.phoneNumber,
+      postcode: postcode,
+      address: address,
+      point: row.point,
+      imageUrl: row.imageUrl,
+    };
+  },
+};
+
+function actionEditEvent(index, row) {
+  return `<button class="btn-detailItem btn btn-secondary" data-bs-toggle="modal" data-bs-target="#detailItemModal" >Chi tiết</button>
                   <button class="btn-editItem btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editItemModal" >Sửa</button>`;
-  }
-  
+}

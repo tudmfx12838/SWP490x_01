@@ -10,7 +10,8 @@ import {
   InputGroup,
   FormControl,
   Button,
-  Image
+  Image,
+  Form,
 } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
 
@@ -18,16 +19,17 @@ import { Link, NavLink } from "react-router-dom";
 
 function RenderSearch() {
   return (
-    <InputGroup className="mb-3">
+    <Form className="d-flex">
       <FormControl
         placeholder="Nhập sản phẩm muốn tìm"
-        // aria-label="Recipient's username"
-        // aria-describedby="basic-addon2"
+        type="search"
+        className="me-2"
+        aria-label="Search"
       />
-      <Button variant="outline-secondary" id="button-addon2">
-        Tìm Kiếm
+      <Button variant="outline-success" id="button-addon2">
+        Tìm
       </Button>
-    </InputGroup>
+    </Form>
   );
 }
 
@@ -39,33 +41,67 @@ class Header extends Component {
       isModalOpen: false,
     };
   }
-
+  // #F80346
   render() {
     return (
-      <React.Fragment>
-        <Container>
+      <div className="sticky-top">
+        <Container className="d-none d-lg-block bg-white">
           <Row>
-            <Col>
+            <Col className="col-12 col-md-1">
               <Image
-                src={"/assets/images/nuocmam.jpg"}
+                src={"/assets/images/logoVietFood.png"}
                 style={{ width: "100px", height: "80px" }}
               />
             </Col>
-            <Col>
-              <RenderSearch />
+            <Col className="col-12 col-md-8">
+              <Row>
+                <Col className="col-2"></Col>
+                <Col className="col-8 mt-4">
+                  <RenderSearch />
+                </Col>
+                <Col className="col-2"></Col>
+              </Row>
+            </Col>
+            <Col className="col-12 col-md-3">
+              <Nav>
+                <Nav.Link href="/login" className="text-danger">
+                  Đặng Nhập
+                </Nav.Link>
+                <Nav.Link
+                  as={NavLink}
+                  className="nav-link text-danger"
+                  to="/giohang"
+                >
+                  Giỏ hàng<Badge bg="success">{this.props.numberCart}</Badge>
+                </Nav.Link>
+              </Nav>
             </Col>
           </Row>
         </Container>
 
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-          <Navbar.Brand href="#home">Thực phẩm Việt-Nhật</Navbar.Brand>
+        <Navbar
+          // sticky="top"
+          collapseOnSelect
+          expand="lg"
+          variant="dark"
+          className="navbar-custom"
+        >
+          <Navbar.Brand className="d-none d-lg-block" href="#home">
+            Thực phẩm Việt
+          </Navbar.Brand>
+          <Navbar.Brand className="d-lg-none rounded" href="#home">
+            <Image
+              src={"/assets/images/logoVietFood.png"}
+              style={{ width: "40px", height: "30px" }}
+            />
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
               <Nav.Link as={NavLink} className="nav-link" to="/trangchu">
                 Trang Chủ
               </Nav.Link>
-              <NavDropdown title="Sản phẩm" id="basic-nav-dropdown">
+              <NavDropdown title="Sản phẩm" id="nav-dropdown" >
                 <NavDropdown.Item>
                   <Link to="/sanpham/thucphamkho">Thực phẩm khô</Link>
                 </NavDropdown.Item>
@@ -73,33 +109,26 @@ class Header extends Component {
                   <Link to="/sanpham/thucphamtuoi">Thực phẩm tươi</Link>
                 </NavDropdown.Item>
                 <NavDropdown.Item>
-                  <Link to="/sanpham/thucphamdonggoi">Thực phẩm đóng gói</Link>
+                  <Link to="/sanpham/thucuong">Thức uống</Link>
                 </NavDropdown.Item>
-                <NavDropdown.Item>
-                  <Link to="/sanpham/giavi">Gia vị</Link>
-                </NavDropdown.Item>
-                <NavDropdown.Item>
-                  <Link to="/sanpham/thucuong">Đồ uống</Link>
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
               </NavDropdown>
-              <Nav.Link as={NavLink} className="nav-link" to="/giohang">
-                Giỏ hàng<Badge bg="success">{this.props.numberCart}</Badge>
-              </Nav.Link>
-              <Nav.Link as={NavLink} className="nav-link" to="/quanly">
-                Quản lý
-              </Nav.Link>
-            </Nav>
-            <Nav>
-              <Nav.Link href="#deets">Đăng Ký</Nav.Link>
-              <Nav.Link eventKey={2} href="#memes">
+              <Nav.Link href="/login" className="d-lg-none">
                 Đặng Nhập
               </Nav.Link>
+              <Nav.Link
+                as={NavLink}
+                className="nav-link d-lg-none"
+                to="/giohang"
+              >
+                Giỏ hàng<Badge bg="success">{this.props.numberCart}</Badge>
+              </Nav.Link>
             </Nav>
+            <div className="d-lg-none">
+              <RenderSearch />
+            </div>
           </Navbar.Collapse>
         </Navbar>
-
-      </React.Fragment>
+      </div>
     );
   }
 }

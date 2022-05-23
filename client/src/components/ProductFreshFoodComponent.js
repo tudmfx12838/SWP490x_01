@@ -48,7 +48,6 @@ const ProductFresh = ({ products, AddCart }) => {
   );
   return (
     <Container>
-      <Event />
 
       <Row>
         <Breadcrumb>
