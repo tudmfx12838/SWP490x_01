@@ -10,6 +10,7 @@
     "bootstrap": "^4.6.0",
     "bootstrap-social": "^5.1.1",
     "font-awesome": "^4.7.0",
+    "japan-address-autofill": "^0.4.4",
     "react": "^18.0.0",
     "react-bootstrap": "^2.2.3",
     "react-bootstrap-table": "^4.3.1",

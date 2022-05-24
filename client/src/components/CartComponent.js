@@ -109,7 +109,7 @@ const Cart = (props) => {
                   className="btn btn-primary"
                   to="/dathang"
                 >
-                  Đặt hàng
+                  Xác nhận đơn hàng
                 </Link>
         </Row>
         
