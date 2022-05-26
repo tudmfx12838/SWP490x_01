@@ -1,4 +1,4 @@
-import { fetchProducts } from "./PageAactions";
+import { fetchProducts, fetchOrderInfo } from "./PageAactions";
 import {
   fetchManageProducts,
   fetchManageUsers,
@@ -17,10 +17,11 @@ import {
 
 export const ActionCreators = {
   fetchProducts: fetchProducts,
-  fetchManageProducts: fetchManageProducts,
-  fetchManageUsers: fetchManageUsers,
-  fetchManageEvents: fetchManageEvents,
-  fetchManageOrders: fetchManageOrders,
+  fetchOrderInfo: fetchOrderInfo,
+  // fetchManageProducts: fetchManageProducts,
+  // fetchManageUsers: fetchManageUsers,
+  // fetchManageEvents: fetchManageEvents,
+  // fetchManageOrders: fetchManageOrders,
   AddCart: AddCart,
   GetNumberCart: GetNumberCart,
   UpdateCart: UpdateCart,

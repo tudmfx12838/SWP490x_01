@@ -74,6 +74,7 @@ exports.postAddProduct = (req, res, next) => {
   // console.log(title);
   // console.log(JSON.stringify(req));
   console.log(req.file);
+
   if (!image) {
     return res.redirect("/admin/manage/products");
   }

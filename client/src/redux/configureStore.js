@@ -22,10 +22,10 @@ export const ConfigureStore = () => {
     combineReducers({
       products: Products,
       cart: Cart,
-      manageProducts: manageProducts,
-      manageUsers: manageUsers,
-      manageEvents: manageEvents,
-      manageOrders: manageOrders,
+      // manageProducts: manageProducts,
+      // manageUsers: manageUsers,
+      // manageEvents: manageEvents,
+      // manageOrders: manageOrders,
       // departments: Departments,
       // staffsSalary: StaffsSalary
     }),

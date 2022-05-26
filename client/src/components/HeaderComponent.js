@@ -48,10 +48,12 @@ class Header extends Component {
         <Container className="d-none d-lg-block bg-white">
           <Row>
             <Col className="col-12 col-md-1">
-              <Image
-                src={"/assets/images/logoVietFood.png"}
-                style={{ width: "100px", height: "80px" }}
-              />
+              <Link to="/trangchu">
+                <Image
+                  src={"/assets/images/logoVietFood.png"}
+                  style={{ width: "100px", height: "80px" }}
+                />
+              </Link>
             </Col>
             <Col className="col-12 col-md-8">
               <Row>
@@ -86,10 +88,10 @@ class Header extends Component {
           variant="dark"
           className="navbar-custom"
         >
-          <Navbar.Brand className="d-none d-lg-block" href="#home">
+          <Navbar.Brand as={NavLink}  className="d-none d-lg-block" to="/trangchu">
             Thực phẩm Việt
           </Navbar.Brand>
-          <Navbar.Brand className="d-lg-none rounded" href="#home">
+          <Navbar.Brand as={NavLink} className="d-lg-none rounded" to="/trangchu">
             <Image
               src={"/assets/images/logoVietFood.png"}
               style={{ width: "40px", height: "30px" }}
@@ -112,6 +114,9 @@ class Header extends Component {
                   <Link to="/sanpham/thucuong">Thức uống</Link>
                 </NavDropdown.Item>
               </NavDropdown>
+              <Nav.Link as={NavLink} className="nav-link" to="/tracuu">
+                Tra cứu
+              </Nav.Link>
               <Nav.Link href="/login" className="d-lg-none">
                 Đặng Nhập
               </Nav.Link>

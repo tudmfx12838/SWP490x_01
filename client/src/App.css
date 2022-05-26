@@ -52,3 +52,15 @@
 .navbar-text{
   color: white;
 }
+
+.form-red{
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: .875em;
+  color: #d9534f;
+}
+
+.red-border{
+  border: 1px solid #dc3545;
+}

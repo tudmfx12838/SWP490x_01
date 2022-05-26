@@ -12,7 +12,9 @@ import {
   Col,
 } from "react-bootstrap";
 
+import { Formik } from "formik";
 import { getAddressByZip } from "japan-address-autofill";
+import axios from "axios";
 
 const Order = (props) => {
   const [name, setName] = useState("");
@@ -22,6 +24,107 @@ const Order = (props) => {
   const [addressFromPostCode, setAddressFromPostCode] = useState("");
   const [inputAddress, setInputAddress] = useState("");
   const [inputNode, setInputNode] = useState("");
+
+  const [form, setForm] = useState({});
+  const [errors, setErrors] = useState({});
+  const setField = (field, value) => {
+    setForm({
+      ...form,
+      [field]: value,
+    });
+
+    if (!!errors[field]) {
+      setErrors({
+        ...errors,
+        [field]: null,
+      });
+    }
+  };
+
+  function validateForm() {
+    // const required = (val) => val && val.length;
+    const maxLength = (val, len) => !val || val.length <= len;
+    const minLength = (val, len) => val && val.length >= len;
+    const isNumber = (val) => !isNaN(Number(val));
+    const validEmail = (val) =>
+      /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
+
+    const { name, email, number, postcode, address1, address2, coupon } = form;
+    const newErrors = {};
+
+    if (!name || name === "") {
+      newErrors.name = "Xin nhập tên khách hàng!";
+    } else if (isNumber(name)) {
+      newErrors.name = "Xin nhập tên là ký tự chữ viết";
+    } else if (!minLength(name, 2)) {
+      newErrors.name = "Xin nhập tên là nhiều hơn 2 ký tự chữ viết";
+    }
+
+    if (!email || email === "") {
+      newErrors.email = "Xin nhập email!";
+    } else if (!validEmail(email)) {
+      newErrors.email = "Email không hợp lệ";
+    }
+
+    if (!number || number === "") {
+      newErrors.number = "Xin nhập số điện thoại!";
+    } else if (!isNumber(Number(number))) {
+      newErrors.number = "Xin nhập số điện thoại là chữ số";
+    } else if (!minLength(number, 10)) {
+      newErrors.number = "Xin nhập số điện thoại là 10 chữ số";
+    } else if (!maxLength(number, 11)) {
+      newErrors.number = "Xin nhập số điện thoại là 10 chữ số";
+    }
+
+    if (!postcode || postcode === "") {
+      newErrors.postcode = "Xin nhập mã bưu điện";
+    } else if (!isNumber(Number(postcode))) {
+      newErrors.postcode = "Xin nhập mã bưu điện là chữ số";
+    } else if (!minLength(postcode, 7)) {
+      newErrors.postcode = "Xin nhập mã bưu điện là 7 chữ số";
+    } else if (!maxLength(postcode, 8)) {
+      newErrors.postcode = "Xin nhập mã bưu điện là 7 chữ số";
+    }
+
+    if (!address1 || address1 === "")
+      newErrors.address1 = "Xin nhập địa chỉ tỉnh/thành";
+    if (!address2 || address2 === "")
+      newErrors.address2 = "Xin nhập địa chỉ đường/số nhà";
+
+    return newErrors;
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const products = ListCart.map((item) => {
+      return {
+        productId: item._id,
+        quantity: item.quantity,
+        price: item.price,
+      };
+    });
+    const orderInfo = {
+      name: name,
+      email: email,
+      number: number,
+      postcode: postcode,
+      addressFromPostCode: addressFromPostCode,
+      inputAddress: inputAddress,
+      inputNode: inputNode,
+      products: products,
+    };
+
+    // alert(JSON.stringify(form));
+    const formErrors = validateForm();
+
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+    } else {
+      alert("Form submitted");
+      props.fetchOrderInfo(orderInfo);
+    }
+  };
 
   function handlePostCodechange(e) {
     getAddressByZip(e.target.value).then((response) => {
@@ -34,23 +137,32 @@ const Order = (props) => {
     // alert(addressFromPostCode);
   }
 
-  function handleOrder() {
-    const orderInfo = {
-        name: name,
-        email: email,
-        number: number,
-        postcode: postcode,
-        addressFromPostCode: addressFromPostCode,
-        inputAddress: inputAddress,
-        inputNode: inputNode,
-    }
-    alert(JSON.stringify(orderInfo));
+  // Chưa hoàn thiện ...
+  function handleCheckCouponExist(coupon){
+    alert(coupon);
   }
 
-  const handleSubmit = event => {
-      event.preventDefault();
-      alert(name);
-  }
+  // function handleOrder() {
+  //   const products = ListCart.map((item) => {
+  //     return {
+  //       productId: item._id,
+  //       quantity: item.quantity,
+  //       price: item.price,
+  //     };
+  //   });
+  //   const orderInfo = {
+  //     name: name,
+  //     email: email,
+  //     number: number,
+  //     postcode: postcode,
+  //     addressFromPostCode: addressFromPostCode,
+  //     inputAddress: inputAddress,
+  //     inputNode: inputNode,
+  //     products: products,
+  //   };
+  //   // alert(JSON.stringify(orderInfo));
+  //   props.fetchOrderInfo(orderInfo);
+  // }
 
   let ListCart = [];
   let TotalCart = 0;
@@ -79,14 +191,21 @@ const Order = (props) => {
               </Form.Label>
               <Col sm={9}>
                 <Form.Control
+                  className={!!errors.name && "red-border"}
                   onBlur={(event) => {
                     setName(event.target.value);
                   }}
+                  onChange={(event) => setField("name", event.target.value)}
+                  placeholder="Xin nhập tên Khách Hàng"
                   type="text"
                   id="name"
                   name="name"
                   required
+                  isInvalid={!!errors.name}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {errors.name}
+                </Form.Control.Feedback>
               </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
@@ -95,14 +214,21 @@ const Order = (props) => {
               </Form.Label>
               <Col sm={9}>
                 <Form.Control
+                  className={!!errors.email && "red-border"}
                   onBlur={(event) => {
                     setEmail(event.target.value);
                   }}
-                  type="email"
+                  onChange={(event) => setField("email", event.target.value)}
+                  placeholder="Xin nhập Email Khách Hàng"
+                  type="text"
                   id="email"
                   name="email"
                   required
+                  isInvalid={!!errors.email}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {errors.email}
+                </Form.Control.Feedback>
               </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
@@ -111,14 +237,21 @@ const Order = (props) => {
               </Form.Label>
               <Col sm={9}>
                 <Form.Control
+                  className={!!errors.number && "red-border"}
                   onBlur={(event) => {
                     setNumber(event.target.value);
                   }}
-                  type="number"
+                  onChange={(event) => setField("number", event.target.value)}
+                  placeholder="Số điện thoại 10 chữ số(vd: 09078950191)"
+                  type="text"
                   id="number"
                   name="number"
                   required
+                  isInvalid={!!errors.number}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {errors.number}
+                </Form.Control.Feedback>
               </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
@@ -127,14 +260,21 @@ const Order = (props) => {
               </Form.Label>
               <Col sm={9}>
                 <Form.Control
+                  className={!!errors.postcode && "red-border"}
                   onBlur={(e) => {
                     handlePostCodechange(e);
                   }}
-                  type="number"
+                  onChange={(event) => setField("postcode", event.target.value)}
+                  placeholder="Mã bưu điện 7 chữ số(vd: 7330822)"
+                  type="text"
                   id="postcode"
                   name="postcode"
                   required
+                  isInvalid={!!errors.postcode}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {errors.postcode}
+                </Form.Control.Feedback>
               </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
@@ -143,14 +283,22 @@ const Order = (props) => {
               </Form.Label>
               <Col sm={9}>
                 <Form.Control
-                  onChange={(event) => {
+                  className={!!errors.address1 && "red-border"}
+                  onBlur={(event) => {
                     setAddressFromPostCode(event.target.value);
                   }}
+                  onChange={(event) => setField("address1", event.target.value)}
+                  placeholder="Xin nhập địa chỉ Tỉnh/Thành"
                   type="text"
                   id="address1"
                   name="address1"
                   defaultValue={addressFromPostCode}
+                  required
+                  isInvalid={!!errors.address1}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {errors.address1}
+                </Form.Control.Feedback>
               </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
@@ -159,14 +307,55 @@ const Order = (props) => {
               </Form.Label>
               <Col sm={9}>
                 <Form.Control
+                  className={!!errors.address2 && "red-border"}
                   onBlur={(event) => {
                     setInputAddress(event.target.value);
                   }}
+                  onChange={(event) => setField("address2", event.target.value)}
+                  placeholder="Xin nhập địa chỉ Đường/Số nhà"
                   type="text"
                   id="address2"
                   name="address2"
                   required
+                  isInvalid={!!errors.address2}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {errors.address2}
+                </Form.Control.Feedback>
+              </Col>
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm={3}>
+                Mã giảm giá
+              </Form.Label>
+              <Col sm={6}>
+                <Form.Control
+                  className={!!errors.coupon && "red-border"}
+                  onBlur={(event) => {
+                    setInputAddress(event.target.value);
+                  }}
+                  onChange={(event) => setField("coupon", event.target.value)}
+                  placeholder="Nhập mã giảm giá (nếu có)"
+                  type="text"
+                  id="coupon"
+                  name="coupon"
+                  required
+                  isInvalid={!!errors.coupon}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.coupon}
+                </Form.Control.Feedback>
+              </Col>
+              <Col sm={3}>
+                <Button
+                  type="button"
+                  onClick={() => {
+                    handleCheckCouponExist(form.coupon); // Chưa hoàn thiện ...
+                  }}
+                >
+                  Kiểm tra
+                </Button>
               </Col>
             </Form.Group>
 
@@ -183,9 +372,24 @@ const Order = (props) => {
                   onBlur={(event) => {
                     setInputNode(event.target.value);
                   }}
+                  onChange={(event) => setField("node", event.target.value)}
+                  id="node"
+                  name="node"
                   as="textarea"
                   rows={3}
                 />
+              </Col>
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm={3}>
+                Lưu ý:
+              </Form.Label>
+              <Col sm={9}>
+                <h5>-Hình thức thanh toán chuyển khoản</h5>
+                <h5>-Ngân hàng: Yuchou</h5>
+                <h5>-Chủ khoản: Dang Minh Tu</h5>
+                <h5>-STK: 1234567890</h5>
               </Col>
             </Form.Group>
 
@@ -231,19 +435,7 @@ const Order = (props) => {
               </tbody>
             </Table>
 
-            <Button
-              type="button"
-              onClick={() => {
-                handleOrder();
-              }}
-            >
-              Đặt hàng
-            </Button>
-            <Button
-              type="submit"
-            >
-              test submit
-            </Button>
+            <Button type="submit">Đặt hàng</Button>
           </Form>
         </Container>
       </React.Fragment>

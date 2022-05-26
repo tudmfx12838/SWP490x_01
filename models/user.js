@@ -42,11 +42,14 @@ const userSchema = new Schema({
   cart: {
     items: [
       { //Add relation with Product
-        productId: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
-        quantity: { type: Number, required: true },
+        productId: { type: Schema.Types.ObjectId, ref: 'Product'},
+        quantity: { type: Number },
       },
     ],
   },
+  order: {
+    orderId: { type: Schema.Types.ObjectId, ref: 'Order', required: true },
+  }
 });
 
 module.exports = mongoose.model("User", userSchema);

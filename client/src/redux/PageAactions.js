@@ -1,8 +1,9 @@
 import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
+import axios from "axios";
 
 export const fetchProducts = () => (dispatch) => {
-  return fetch("products")
+  return fetch("http://localhost:4000/products")
     .then(
       (respone) => {
         if (respone.ok) {
@@ -35,3 +36,32 @@ export const productsFailed = (errmess) => ({
   type: ActionTypes.PRODUCTS_FAILED,
   payload: errmess,
 });
+
+export const fetchOrderInfo = (dataOrder) => (dispatch) => {
+  // alert(JSON.stringify(dataOrder));
+  // alert("09");
+  return fetch("http://localhost:4000/client/order", {
+    method: "POST",
+    body: JSON.stringify(dataOrder),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
+      alert(JSON.stringify(data));
+    })
+    .catch((error) => console.log(error.message));
+
+  // axios.post('http://localhost:4000/client/order', dataOrder)
+  // .then(function (response) {
+  //   alert(JSON.stringify(response));
+  //   alert('1111111111');
+  //   // alert(JSON.stringify(data));
+  // })
+  // .catch(function (error) {
+  //   console.log(error);
+  // });
+};

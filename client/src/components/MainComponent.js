@@ -34,10 +34,10 @@ const mapStateToProps = (state) => {
   return {
     cart: state.cart,
     products: state.products,
-    manageProducts: state.manageProducts,
-    manageUsers: state.manageUsers,
-    manageEvents: state.manageEvents,
-    manageOrders: state.manageOrders,
+    // manageProducts: state.manageProducts,
+    // manageUsers: state.manageUsers,
+    // manageEvents: state.manageEvents,
+    // manageOrders: state.manageOrders,
   };
 };
 
@@ -45,18 +45,21 @@ const mapDispatchToProps = (dispatch) => ({
   fetchProducts: () => {
     dispatch(ActionCreators.fetchProducts());
   },
-  fetchManageProducts: () => {
-    dispatch(ActionCreators.fetchManageProducts());
+  fetchOrderInfo: (dataOrder) => {
+    dispatch(ActionCreators.fetchOrderInfo(dataOrder));
   },
-  fetchManageUsers: () => {
-    dispatch(ActionCreators.fetchManageUsers());
-  },
-  fetchManageEvents: () => {
-    dispatch(ActionCreators.fetchManageEvents());
-  },
-  fetchManageOrders: () => {
-    dispatch(ActionCreators.fetchManageOrders());
-  },
+  // fetchManageProducts: () => {
+  //   dispatch(ActionCreators.fetchManageProducts());
+  // },
+  // fetchManageUsers: () => {
+  //   dispatch(ActionCreators.fetchManageUsers());
+  // },
+  // fetchManageEvents: () => {
+  //   dispatch(ActionCreators.fetchManageEvents());
+  // },
+  // fetchManageOrders: () => {
+  //   dispatch(ActionCreators.fetchManageOrders());
+  // },
   AddCart: (product) => {
     dispatch(ActionCreators.AddCart(product));
   },
@@ -84,10 +87,10 @@ class Main extends Component {
 
   componentDidMount() {
     this.props.fetchProducts();
-    this.props.fetchManageProducts();
-    this.props.fetchManageUsers();
-    this.props.fetchManageEvents();
-    this.props.fetchManageOrders();
+    // this.props.fetchManageProducts();
+    // this.props.fetchManageUsers();
+    // this.props.fetchManageEvents();
+    // this.props.fetchManageOrders();
   }
 
   // alertTest(value){
@@ -205,11 +208,12 @@ class Main extends Component {
               <Order
                 cart={this.props.cart}
                 products={this.props.products.products}
+                fetchOrderInfo={this.props.fetchOrderInfo}
               />
             }
           />
 
-          <Route
+          {/* <Route
             exact
             path="/quanly"
             element={
@@ -220,7 +224,7 @@ class Main extends Component {
                 manageOrders={this.props.manageOrders.orders}
               />
             }
-          />
+          /> */}
 
           <Route path="*" element={<NotFound />} />
         </Routes>
