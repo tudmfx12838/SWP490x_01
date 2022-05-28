@@ -5,6 +5,8 @@ const Event = require("../models/event");
 const Order = require("../models/order");
 const path = require("path");
 
+const { validationResult } = require("express-validator");
+
 const fileHelper = require("../util/file");
 
 exports.getProducts = (req, res, next) => {
@@ -49,10 +51,11 @@ exports.getAdminProducts = (req, res, next) => {
       // res.json(products);
       res.render("admin/admin-products", {
         pageTitle: "Quản lý Sản Phẩm",
-        path: "/login",
+        path: "/products",
         products: products,
-        // errorMessage: message,
-        // oldInput: { loginId: "" },
+        oldAddProductValue: null,
+        addProductValidationErrors: [],
+        editProductValidationErrors: [],
         // validationErrors: [],
         // isAuthenticated: req.session.isLoggedIn,
         csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
@@ -69,36 +72,68 @@ exports.postAddProduct = (req, res, next) => {
   const description = req.body.description;
   const image = req.file;
 
-  // console.log('OK111111111111');
-  // console.log(JSON.stringify(image));
-  // console.log(title);
-  // console.log(JSON.stringify(req));
-  console.log(req.file);
+  const errors = validationResult(req);
+  // console.log(JSON.stringify(errors.array()) + 111111111111);
+  // const price_msg = errors.array().filter(e => e.param === "price");
+  // console.log(price_msg);
 
-  if (!image) {
-    return res.redirect("/admin/manage/products");
-  }
+  if (!errors.isEmpty()) {
+    const oldAddProductValue = {
+      title: title,
+      type: type,
+      price: price,
+      mount: mount,
+      description: description,
+    };
 
-  const imageUrl = image.path;
+    Product.find()
+      .then((products) => {
+        return res.status(422).render("admin/admin-products", {
+          path: "/manage/products",
+          pageTitle: "Quản lý Sản Phẩm",
+          products: products,
+          oldAddProductValue: oldAddProductValue,
+          addProductValidationErrors: errors.array(),
+          editProductValidationErrors: [],
+          csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
+        });
+      })
+      .catch((err) => console.log(err));
+  } else {
+    // console.log("not errors");
+    // // return res.redirect("/admin/manage/products");
+    // console.log(title);
+    // console.log(type);
+    // console.log(price);
+    // console.log(mount);
+    // console.log(description);
+    // console.log(req.file);
 
-  const product = new Product({
-    title: title,
-    type: type,
-    price: price,
-    mount: mount,
-    description: description,
-    imageUrl: imageUrl,
-  });
-
-  product
-    .save()
-    .then((result) => {
-      // alert("Them thanh cong");
+    if (!image) {
       return res.redirect("/admin/manage/products");
-    })
-    .catch((err) => {
-      console.log(err);
+    }
+
+    const imageUrl = image.path;
+
+    const product = new Product({
+      title: title,
+      type: type,
+      price: price,
+      mount: mount,
+      description: description,
+      imageUrl: imageUrl,
     });
+
+    product
+      .save()
+      .then((result) => {
+        // alert("Them thanh cong");
+        return res.redirect("/admin/manage/products");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 };
 
 exports.postEditProduct = (req, res, next) => {
@@ -175,7 +210,7 @@ exports.getAdminEvents = (req, res, next) => {
       // res.json(products);
       res.render("admin/admin-events", {
         pageTitle: "Quản Lý Sự Kiện",
-        path: "/login",
+        path: "/manage/events",
         events: events,
         // errorMessage: message,
         // oldInput: { loginId: "" },
@@ -204,8 +239,8 @@ exports.postAddEvent = (req, res, next) => {
   // console.log(coupon);
   // // console.log(description);
   // console.log(image);
-
   // console.log(req.file);
+
   if (!image) {
     return res.redirect("/admin/manage/events");
   }
@@ -275,16 +310,15 @@ exports.postEditEvent = (req, res, next) => {
   // console.log(eventId);
   // console.log(updatedTitle);
   // console.log(updatedStartDate);
-//  console.log(updatedEndDate);
-//   console.log(updatedHasCoupon);
-//   console.log(updatedCoupon);
-//   console.log(updatedDiscount); 
+  //  console.log(updatedEndDate);
+  //   console.log(updatedHasCoupon);
+  //   console.log(updatedCoupon);
+  //   console.log(updatedDiscount);
   // console.log(updatedDescription);
   console.log(updatedImageUrl);
 
   Event.findById(eventId)
     .then((event) => {
-      
       event.title = updatedTitle;
       event.startDate = updatedStartDate;
       event.endDate = updatedEndDate;
@@ -317,7 +351,7 @@ exports.getAdminUsers = (req, res, next) => {
       // res.json(products);
       res.render("admin/admin-users", {
         pageTitle: "Quản Lý Người Dùng",
-        path: "/login",
+        path: "/manage/users",
         users: users,
         // errorMessage: message,
         // oldInput: { loginId: "" },
@@ -329,7 +363,6 @@ exports.getAdminUsers = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-
 exports.postAddUser = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -337,7 +370,7 @@ exports.postAddUser = (req, res, next) => {
   const name = req.body.name;
   const doB = req.body.doB;
   const phoneNumber = req.body.phoneNumber;
-  const address = '〒' + req.body.postcode + ' - ' + req.body.address;
+  const address = "〒" + req.body.postcode + " - " + req.body.address;
   const point = req.body.point;
   const image = req.file;
 
@@ -355,7 +388,7 @@ exports.postAddUser = (req, res, next) => {
   console.log(req.file);
   if (!image) {
     imageUrl = "images/avatar.jpg";
-  }else{
+  } else {
     imageUrl = image.path;
   }
 
@@ -372,14 +405,14 @@ exports.postAddUser = (req, res, next) => {
   });
 
   user
-  .save()
-  .then((result) => {
-    return res.redirect("/admin/manage/users");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-}
+    .save()
+    .then((result) => {
+      return res.redirect("/admin/manage/users");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
 exports.postDeleteUser = (req, res, next) => {
   const deleteMode = req.query.delete;
@@ -402,7 +435,6 @@ exports.postDeleteUser = (req, res, next) => {
     });
 };
 
-
 exports.postEditUser = (req, res, next) => {
   //Checking edit mode
   //http://localhost:4000/admin/manage/edit-event/?edit=true
@@ -418,7 +450,7 @@ exports.postEditUser = (req, res, next) => {
   const updatedName = req.body.name;
   const updatedDoB = req.body.doB;
   const updatedPhoneNumber = req.body.phoneNumber;
-  const updatedAddress = '〒' + req.body.postcode + '-' + req.body.address;
+  const updatedAddress = "〒" + req.body.postcode + "-" + req.body.address;
   const updatedPoint = req.body.point;
   const updatedImageUrl = req.file;
 
@@ -433,11 +465,9 @@ exports.postEditUser = (req, res, next) => {
   // console.log(updatedPoint);
   // console.log(updatedImageUrl);
 
-
   User.findById(userId)
     .then((user) => {
-      
-      if(updatedPassword){
+      if (updatedPassword) {
         user.password = updatedPassword;
       }
 
@@ -454,7 +484,7 @@ exports.postEditUser = (req, res, next) => {
         user.imageUrl = updatedImageUrl.path;
       }
 
-      return event.save().then((result) => {
+      return user.save().then((result) => {
         console.log("Updated Event");
         res.redirect("/admin/manage/events");
       }); //Ham save nay cua mongoose
@@ -465,4 +495,22 @@ exports.postEditUser = (req, res, next) => {
       // error.httpStatusCode = 500;
       // return next(error);
     });
+};
+
+exports.getAdminOrders = (req, res, next) => {
+  Order.find()
+    .then((orders) => {
+      // res.json(products);
+      res.render("admin/admin-orders", {
+        pageTitle: "Quản Lý Đơn Hàng",
+        path: "/manage/orders",
+        orders: orders,
+        // errorMessage: message,
+        // oldInput: { loginId: "" },
+        // validationErrors: [],
+        // isAuthenticated: req.session.isLoggedIn,
+        csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
+      });
+    })
+    .catch((err) => console.log(err));
 };

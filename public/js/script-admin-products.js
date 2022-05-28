@@ -18,14 +18,26 @@ var newRowValue = {
 };
 
 $(function () {
+  var addProductValidationErrors = $("#admin-products-page").attr(
+    "addProductValidationErrors"
+  );
+  // alert(addProductValidationErrors + ' ' +  addProductValidationErrors.length);
+  $(window).bind("load", function () {
+    if (addProductValidationErrors.length > 2) {
+      $("#addProductModal").modal("show");
+    }else{
+      $("#addProductModal").modal("hide");
+    }
+  });
+
   var $table = $("#table");
   var $btn_delete = $("#btn-delete");
   $btn_delete.prop("disabled", true);
 
-
   // var json = "<%- JSON.stringify(products) %>";
   var json = $("#admin-products-page").attr("products-data");
   var myArr = eval(json); //Json.parse(json)
+  // alert(json);
 
   $table.bootstrapTable({ data: myArr });
 
@@ -71,7 +83,7 @@ $(function () {
   $("#confirmEditProductModal")
     .find("#btn-submitConfirmEditProduct")
     .click(function () {
-      $('#form-editProductModal').submit();
+      $("#form-editProductModal").submit();
     });
 
   //Disable button of delete atfer canceling or closing confirm delete from
@@ -202,14 +214,14 @@ $(function () {
         .find(".image")
         .text(oldRowValue.imageUrl)
         .css("color", "black");
-      
+
       // alert("newImage " + newImage + "\n" + "oldImage" + oldImage);
     } else {
       $("#confirmEditProductModal")
         .find(".image")
         .text(oldRowValue.imageUrl + "  -->  " + newImage)
         .css("color", "red");
-   
+
       // alert("'newImage ' + newImage + '\n' + 'oldImage' + oldImage");
       // alert("newImage " + newImage + "\n" + "oldImage" + oldImage);
     }

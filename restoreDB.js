@@ -14,6 +14,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 100,
     cart: { items: [] },
+    orderHistory: []
   },
   {
     email: "admin2@gmail.com",
@@ -26,6 +27,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 200,
     cart: { items: [] },
+    orderHistory: []
   },
   {
     email: "user1@gmail.com",
@@ -38,6 +40,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
+    orderHistory: []
   },
   {
     email: "user2@gmail.com",
@@ -50,6 +53,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
+    orderHistory: []
   },
   {
     email: "user3@gmail.com",
@@ -62,6 +66,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
+    orderHistory: []
   },
   {
     email: "user4@gmail.com",
@@ -74,6 +79,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
+    orderHistory: []
   },
   {
     email: "user5@gmail.com",
@@ -86,6 +92,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
+    orderHistory: []
   },
   {
     email: "user6@gmail.com",
@@ -98,6 +105,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
+    orderHistory: []
   },
   {
     email: "user7@gmail.com",
@@ -110,6 +118,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
+    orderHistory: []
   },
   {
     email: "user8@gmail.com",
@@ -122,6 +131,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
+    orderHistory: []
   },
   {
     email: "user9@gmail.com",
@@ -134,6 +144,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
+    orderHistory: []
   },
   {
     email: "user10@gmail.com",
@@ -146,6 +157,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
+    orderHistory: []
   },
   {
     email: "user11@gmail.com",
@@ -158,6 +170,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
+    orderHistory: []
   },
   {
     email: "user12@gmail.com",
@@ -170,6 +183,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
+    orderHistory: []
   },
   {
     email: "user13@gmail.com",
@@ -182,6 +196,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
+    orderHistory: []
   },
 ];
 

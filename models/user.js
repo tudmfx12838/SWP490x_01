@@ -21,35 +21,38 @@ const userSchema = new Schema({
   },
   doB: {
     type: Date,
-    required: true
+    required: true,
   },
   phoneNumber: {
     type: String,
-    required: true
+    required: true,
   },
   address: {
     type: String,
-    required: true
+    required: true,
   },
   imageUrl: {
     type: String,
-    required: true
+    required: true,
   },
   point: {
-	type: Number,
-    required: true
+    type: Number,
+    required: true,
   },
   cart: {
     items: [
-      { //Add relation with Product
-        productId: { type: Schema.Types.ObjectId, ref: 'Product'},
+      {
+        //Add relation with Product
+        productId: { type: Schema.Types.ObjectId, ref: "Product" },
         quantity: { type: Number },
       },
     ],
   },
-  order: {
-    orderId: { type: Schema.Types.ObjectId, ref: 'Order', required: true },
-  }
+  orderHistory: [
+    {
+      orderId: { type: Schema.Types.ObjectId, ref: "Order" },
+    },
+  ],
 });
 
 module.exports = mongoose.model("User", userSchema);

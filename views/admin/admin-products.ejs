@@ -1,5 +1,5 @@
 <%- include('../includes/page-head.ejs') %>
-
+    <link rel="stylesheet" href="/css/forms.css">
 </head>
 
 <body>
@@ -56,11 +56,20 @@
                             <form class="product-form"  action="/admin/manage/add-product/" method="POST" enctype="multipart/form-data">
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="title">Tên SP: </label>
-                                    <input class="form-control" type="text" name="title" id="title" value="" placeholder="Nhập tên sản phẩm" required>
+                                    <input class="form-control <%= addProductValidationErrors.filter(e => e.param === 'title')[0] === undefined ? '' : 'red-border'%>" 
+                                            type="text" 
+                                            name="title" 
+                                            id="title" 
+                                            value="<%= oldAddProductValue === null ? '' :  oldAddProductValue.title %>" 
+                                            placeholder="Nhập tên sản phẩm" 
+                                            required>
+                                    <% if (addProductValidationErrors.filter(e => e.param === "title")[0]) { %> 
+                                        <p class="alert-danger text-center"><%= addProductValidationErrors.filter(e => e.param === "title")[0].msg; %></p>
+                                    <% } %>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="type">Loại sản phẩm: </label>
-                                    <select class="form-select" name="type" id="type" value="thucphamtuoi" required>
+                                    <select class="form-select" name="type" id="type" value="<%= oldAddProductValue === null ? 'thucphamtuoi' :  oldAddProductValue.title %>" required>
                                         <option value="thucphamtuoi">Thực phẩm tươi</option>
                                         <option value="thucphamkho">Thực phẩm khô</option>
                                         <option value="thucuong">Thức uống</option>
@@ -68,15 +77,40 @@
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="price">Giá bán: </label>
-                                    <input class="form-control" type="number" name="price" id="price" value="" placeholder="Nhập giá bán" required>
+                                    <input class="form-control <%= addProductValidationErrors.filter(e => e.param === 'price')[0] === undefined ? '' : 'red-border'%>" 
+                                            type="number" 
+                                            name="price" 
+                                            id="price" 
+                                            value="<%= oldAddProductValue === null ? '' :  oldAddProductValue.price %>" 
+                                            placeholder="Nhập giá bán" 
+                                            required>
+                                    <% if (addProductValidationErrors.filter(e => e.param === "price")[0]) { %> 
+                                        <p class="alert-danger text-center"><%= addProductValidationErrors.filter(e => e.param === "price")[0].msg; %></p>
+                                    <% } %>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="mount">Số lượng: </label>
-                                    <input class="form-control" type="number" name="mount" id="mount" value="" placeholder="Nhập số lượng" required>
+                                    <input class="form-control <%= addProductValidationErrors.filter(e => e.param === 'mount')[0] === undefined ? '' : 'red-border'%>" 
+                                            type="number" 
+                                            name="mount" 
+                                            id="mount" 
+                                            value="<%= oldAddProductValue === null ? '' :  oldAddProductValue.mount %>" 
+                                            placeholder="Nhập số lượng" 
+                                            required>
+                                    <% if (addProductValidationErrors.filter(e => e.param === "mount")[0]) { %> 
+                                        <p class="alert-danger text-center"><%= addProductValidationErrors.filter(e => e.param === "mount")[0].msg; %></p>
+                                    <% } %>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="description">Mô tả: </label>
-                                    <textarea class="form-control" name="description" id="description" value="" required></textarea>
+                                    <textarea class="form-control <%= addProductValidationErrors.filter(e => e.param === 'description')[0] === undefined ? '' : 'red-border'%>" 
+                                                name="description" 
+                                                id="description" 
+                                                value="" 
+                                                required><%= oldAddProductValue === null ? '' :  oldAddProductValue.description %></textarea>
+                                    <% if (addProductValidationErrors.filter(e => e.param === "description")[0]) { %> 
+                                        <p class="alert-danger text-center"><%= addProductValidationErrors.filter(e => e.param === "description")[0].msg; %></p>
+                                    <% } %>    
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="image">Ảnh: </label>
@@ -270,6 +304,12 @@
         </div>
     </main>
 
-   <script id="admin-products-page" src="/js/script-admin-products.js" products-data='<%- JSON.stringify(products) %>'></script>
+   <script 
+        id="admin-products-page" 
+        src="/js/script-admin-products.js" 
+        products-data='<%- JSON.stringify(products) %>' 
+        addProductValidationErrors='<%- JSON.stringify(addProductValidationErrors) %>'
+   >
+    </script>
 
    <%- include('../includes/page-end.ejs') %>

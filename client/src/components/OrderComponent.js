@@ -87,9 +87,9 @@ const Order = (props) => {
     }
 
     if (!address1 || address1 === "")
-      newErrors.address1 = "Xin nhập địa chỉ tỉnh/thành";
+     {newErrors.address1 = "Xin nhập địa chỉ tỉnh/thành";}
     if (!address2 || address2 === "")
-      newErrors.address2 = "Xin nhập địa chỉ đường/số nhà";
+      {newErrors.address2 = "Xin nhập địa chỉ đường/số nhà";}
 
     return newErrors;
   }
@@ -100,6 +100,7 @@ const Order = (props) => {
     const products = ListCart.map((item) => {
       return {
         productId: item._id,
+        title: item.title,
         quantity: item.quantity,
         price: item.price,
       };
@@ -131,6 +132,7 @@ const Order = (props) => {
       let address =
         response.prefecture + " " + response.city + " " + response.area + " ";
       setAddressFromPostCode(address);
+      setField("address1", address);
     });
     setPostcode(e.target.value);
     // {"region":"中国","prefecture":"広島県","city":"広島市西区","area":"庚午中"}
@@ -262,6 +264,9 @@ const Order = (props) => {
                 <Form.Control
                   className={!!errors.postcode && "red-border"}
                   onBlur={(e) => {
+                    handlePostCodechange(e);
+                  }}
+                  onKeyDown={(e) => {
                     handlePostCodechange(e);
                   }}
                   onChange={(event) => setField("postcode", event.target.value)}
