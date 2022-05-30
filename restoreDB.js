@@ -14,7 +14,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 100,
     cart: { items: [] },
-    orderHistory: []
+    orderHistory: [],
   },
   {
     email: "admin2@gmail.com",
@@ -27,7 +27,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 200,
     cart: { items: [] },
-    orderHistory: []
+    orderHistory: [],
   },
   {
     email: "user1@gmail.com",
@@ -40,7 +40,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
-    orderHistory: []
+    orderHistory: [],
   },
   {
     email: "user2@gmail.com",
@@ -53,7 +53,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
-    orderHistory: []
+    orderHistory: [],
   },
   {
     email: "user3@gmail.com",
@@ -66,7 +66,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
-    orderHistory: []
+    orderHistory: [],
   },
   {
     email: "user4@gmail.com",
@@ -79,7 +79,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
-    orderHistory: []
+    orderHistory: [],
   },
   {
     email: "user5@gmail.com",
@@ -92,7 +92,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
-    orderHistory: []
+    orderHistory: [],
   },
   {
     email: "user6@gmail.com",
@@ -105,7 +105,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
-    orderHistory: []
+    orderHistory: [],
   },
   {
     email: "user7@gmail.com",
@@ -118,7 +118,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
-    orderHistory: []
+    orderHistory: [],
   },
   {
     email: "user8@gmail.com",
@@ -131,7 +131,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
-    orderHistory: []
+    orderHistory: [],
   },
   {
     email: "user9@gmail.com",
@@ -144,7 +144,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
-    orderHistory: []
+    orderHistory: [],
   },
   {
     email: "user10@gmail.com",
@@ -157,7 +157,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
-    orderHistory: []
+    orderHistory: [],
   },
   {
     email: "user11@gmail.com",
@@ -170,7 +170,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
-    orderHistory: []
+    orderHistory: [],
   },
   {
     email: "user12@gmail.com",
@@ -183,7 +183,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
-    orderHistory: []
+    orderHistory: [],
   },
   {
     email: "user13@gmail.com",
@@ -196,7 +196,7 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
-    orderHistory: []
+    orderHistory: [],
   },
 ];
 
@@ -627,6 +627,297 @@ var eventObj = [
   },
 ];
 
+const orderObj = [
+  {
+    _id: {
+      $oid: "62922bd4c9425920267df7ae",
+    },
+    products: [
+      {
+        productId: {
+          $oid: "629048d034434f7448b169ca",
+        },
+        title: "Tương ớt",
+        quantity: 3,
+        price: 200,
+        _id: {
+          $oid: "62922bd4c9425920267df7af",
+        },
+      },
+    ],
+    cashInfo: {
+      totalCash: 600,
+      isPaid: false,
+    },
+    date: {
+      $date: "2022-05-28T14:04:04.919Z",
+    },
+    approveStatus: false,
+    hasAccountInfo: {
+      userId: null,
+    },
+    deliveryInfo: {
+      name: "admin",
+      email: "admin2@gmail.com",
+      phoneNumber: "1234567890",
+      address: "〒7330822-広島県 広島市西区 庚午中  a123",
+      node: "",
+    },
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: "62922be7c9425920267df7b1",
+    },
+    products: [
+      {
+        productId: {
+          $oid: "629048d034434f7448b169ca",
+        },
+        title: "Tương ớt",
+        quantity: 3,
+        price: 200,
+        _id: {
+          $oid: "62922be7c9425920267df7b2",
+        },
+      },
+    ],
+    cashInfo: {
+      totalCash: 600,
+      isPaid: false,
+    },
+    date: {
+      $date: "2022-05-28T14:04:23.929Z",
+    },
+    approveStatus: false,
+    hasAccountInfo: {
+      userId: null,
+    },
+    deliveryInfo: {
+      name: "admin",
+      email: "admin2@gmail.com",
+      phoneNumber: "1234567890",
+      address: "〒7330822-広島県 広島市西区 庚午中  a123",
+      node: "",
+    },
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: "62922bebc9425920267df7b4",
+    },
+    products: [
+      {
+        productId: {
+          $oid: "629048d034434f7448b169ca",
+        },
+        title: "Tương ớt",
+        quantity: 3,
+        price: 200,
+        _id: {
+          $oid: "62922bebc9425920267df7b5",
+        },
+      },
+    ],
+    cashInfo: {
+      totalCash: 600,
+      isPaid: false,
+    },
+    date: {
+      $date: "2022-05-28T14:04:27.014Z",
+    },
+    approveStatus: false,
+    hasAccountInfo: {
+      userId: null,
+    },
+    deliveryInfo: {
+      name: "admin",
+      email: "admin2@gmail.com",
+      phoneNumber: "1234567890",
+      address: "〒7330822-広島県 広島市西区 庚午中  a123",
+      node: "",
+    },
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: "62922c09c9425920267df7b7",
+    },
+    products: [
+      {
+        productId: {
+          $oid: "629048d034434f7448b169ca",
+        },
+        title: "Tương ớt",
+        quantity: 3,
+        price: 200,
+        _id: {
+          $oid: "62922c09c9425920267df7b8",
+        },
+      },
+      {
+        productId: {
+          $oid: "629048d034434f7448b169e0",
+        },
+        title: "Nước Sting",
+        quantity: 2,
+        price: 130,
+        _id: {
+          $oid: "62922c09c9425920267df7b9",
+        },
+      },
+      {
+        productId: {
+          $oid: "629048d034434f7448b169e1",
+        },
+        title: "Nước Bò Húc",
+        quantity: 2,
+        price: 190,
+        _id: {
+          $oid: "62922c09c9425920267df7ba",
+        },
+      },
+      {
+        productId: {
+          $oid: "629048d034434f7448b169e2",
+        },
+        title: "Bia Tiger",
+        quantity: 5,
+        price: 290,
+        _id: {
+          $oid: "62922c09c9425920267df7bb",
+        },
+      },
+    ],
+    cashInfo: {
+      totalCash: 2690,
+      isPaid: false,
+    },
+    date: {
+      $date: "2022-05-28T14:04:57.493Z",
+    },
+    approveStatus: false,
+    hasAccountInfo: {
+      userId: null,
+    },
+    deliveryInfo: {
+      name: "tu",
+      email: "pocket.se7en@gmail.com",
+      phoneNumber: "0907764868",
+      address: "〒7330821-広島県 広島市西区 庚午北  a123",
+      node: "",
+    },
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: "62922c5ec9425920267df7bd",
+    },
+    products: [
+      {
+        productId: {
+          $oid: "629048d034434f7448b169e0",
+        },
+        title: "Nước Sting",
+        quantity: 2,
+        price: 130,
+        _id: {
+          $oid: "62922c5ec9425920267df7be",
+        },
+      },
+      {
+        productId: {
+          $oid: "629048d034434f7448b169e2",
+        },
+        title: "Bia Tiger",
+        quantity: 5,
+        price: 290,
+        _id: {
+          $oid: "62922c5ec9425920267df7bf",
+        },
+      },
+    ],
+    cashInfo: {
+      totalCash: 1710,
+      isPaid: false,
+    },
+    date: {
+      $date: "2022-05-28T14:06:22.269Z",
+    },
+    approveStatus: false,
+    hasAccountInfo: {
+      userId: null,
+    },
+    deliveryInfo: {
+      name: "tien",
+      email: "mrhi.dangminhtu@gmail.com",
+      phoneNumber: "0907764868",
+      address: "〒7330822-広島県 広島市西区 庚午中  a123",
+      node: "",
+    },
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: "62922cf2c9425920267df7c3",
+    },
+    products: [
+      {
+        productId: {
+          $oid: "629048d034434f7448b169db",
+        },
+        title: "Gà ta",
+        quantity: 1,
+        price: 650,
+        _id: {
+          $oid: "62922cf2c9425920267df7c4",
+        },
+      },
+      {
+        productId: {
+          $oid: "629048d034434f7448b169da",
+        },
+        title: "Thịt heo",
+        quantity: 1,
+        price: 1000,
+        _id: {
+          $oid: "62922cf2c9425920267df7c5",
+        },
+      },
+      {
+        productId: {
+          $oid: "629048d034434f7448b169d9",
+        },
+        title: "Thịt bò",
+        quantity: 1,
+        price: 1200,
+        _id: {
+          $oid: "62922cf2c9425920267df7c6",
+        },
+      },
+    ],
+    cashInfo: {
+      totalCash: 2850,
+      isPaid: false,
+    },
+    date: {
+      $date: "2022-05-28T14:08:50.324Z",
+    },
+    approveStatus: false,
+    hasAccountInfo: {
+      userId: null,
+    },
+    deliveryInfo: {
+      name: "phuong",
+      email: "hhp010799@gmail.com",
+      phoneNumber: "0907787897",
+      address: "〒7330311-広島県 広島市西区 庚午中  a123",
+      node: "",
+    },
+    __v: 0,
+  },
+];
+
 MongoClient.connect(url, function (err, db) {
   if (err) throw err;
   var dbo = db.db("myShopDB");
@@ -646,7 +937,7 @@ MongoClient.connect(url, function (err, db) {
     if (err) throw err;
     console.log("events's collection created!");
   });
-  dbo.createCollection("oders", function (err, res) {
+  dbo.createCollection("orders", function (err, res) {
     if (err) throw err;
     console.log("oders's Collection created!");
   });
@@ -660,6 +951,10 @@ MongoClient.connect(url, function (err, db) {
     console.log("Number of documents inserted: " + res.insertedCount);
   });
   dbo.collection("events").insertMany(eventObj, function (err, res) {
+    if (err) throw err;
+    console.log("Number of documents inserted: " + res.insertedCount);
+  });
+  dbo.collection("orders").insertMany(orderObj, function (err, res) {
     if (err) throw err;
     console.log("Number of documents inserted: " + res.insertedCount);
   });

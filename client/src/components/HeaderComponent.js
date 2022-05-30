@@ -114,8 +114,8 @@ class Header extends Component {
                   <Link to="/sanpham/thucuong">Thức uống</Link>
                 </NavDropdown.Item>
               </NavDropdown>
-              <Nav.Link as={NavLink} className="nav-link" to="/tracuu">
-                Tra cứu
+              <Nav.Link as={NavLink} className="nav-link" to="/lichsu">
+                Lịch Sử
               </Nav.Link>
               <Nav.Link href="/login" className="d-lg-none">
                 Đặng Nhập

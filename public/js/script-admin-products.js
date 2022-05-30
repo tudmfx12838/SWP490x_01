@@ -1,4 +1,6 @@
-//Table processing
+/**
+ * The object oldRowValue to store old value
+ */
 var oldRowValue = {
   title: "",
   type: "",
@@ -8,6 +10,9 @@ var oldRowValue = {
   imageUrl: "",
 };
 
+/**
+ * The object newRowValue to store new inputed value
+ */
 var newRowValue = {
   title: "",
   type: "",
@@ -25,7 +30,7 @@ $(function () {
   $(window).bind("load", function () {
     if (addProductValidationErrors.length > 2) {
       $("#addProductModal").modal("show");
-    }else{
+    } else {
       $("#addProductModal").modal("hide");
     }
   });
@@ -41,6 +46,9 @@ $(function () {
 
   $table.bootstrapTable({ data: myArr });
 
+  /**
+   * The event will be trigged when user check or uncheck on checkbox to enable or disable button as delete
+   */
   $table.on(
     "check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table",
     function () {
@@ -50,6 +58,10 @@ $(function () {
       );
     }
   );
+
+  /**
+   * The event will be trigged when user click show a confirm before delete
+   */
   $btn_delete.click(function () {
     var products = $.map(
       $table.bootstrapTable("getSelections"),
@@ -86,7 +98,9 @@ $(function () {
       $("#form-editProductModal").submit();
     });
 
-  //Disable button of delete atfer canceling or closing confirm delete from
+  /**
+   * Disable button of delete atfer canceling or closing confirm delete from
+   */
   $("#confirmDeleteProductModal")
     .find("#btn-cancel, .btn-close")
     .click(function () {
@@ -94,7 +108,9 @@ $(function () {
       // $table.bootstrapTable('uncheckAll');
     });
 
-  //Set backup to null
+  /**
+   * will be set both objest backup of old and new value  to null when user click button as close or cancel
+   */
   $("#editProductModal, #confirmEditProductModal, #detailProductModal")
     .find("#btn-cancel, .btn-close")
     .click(function () {

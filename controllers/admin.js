@@ -45,6 +45,9 @@ exports.getOrders = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
+/**
+ * The method getAdminProducts() implement geting product's data from database and rendering a admin's product management page
+ */
 exports.getAdminProducts = (req, res, next) => {
   Product.find()
     .then((products) => {
@@ -64,6 +67,9 @@ exports.getAdminProducts = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
+/**
+ * The method postAddProduct() implement geting inputed data from DOM and store them into product's database
+ * */
 exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
   const type = req.body.type;
@@ -136,6 +142,9 @@ exports.postAddProduct = (req, res, next) => {
   }
 };
 
+/**
+ * The method postEditProduct() implement geting eidted data from DOM and store them into product's database
+ * */
 exports.postEditProduct = (req, res, next) => {
   //Checking edit mode
   //http://localhost:4000/admin/manage/edit-product/?edit=true
@@ -186,6 +195,9 @@ exports.postEditProduct = (req, res, next) => {
     });
 };
 
+/**
+ * The method postEditProduct() implement geting data's ID from DOM and delete them from product's database
+ * */
 exports.postDeleteProduct = (req, res, next) => {
   const deleteMode = req.query.delete;
   if (!deleteMode) {
@@ -204,6 +216,9 @@ exports.postDeleteProduct = (req, res, next) => {
     });
 };
 
+/**
+ * The method getAdminEvents() implement geting event's data from database and rendering a admin's event management page
+ */
 exports.getAdminEvents = (req, res, next) => {
   Event.find()
     .then((events) => {
@@ -222,6 +237,9 @@ exports.getAdminEvents = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
+/**
+ * The method postAddEvent() implement geting inputed event's data ID from DOM and store them into event's database
+ * */
 exports.postAddEvent = (req, res, next) => {
   const title = req.body.title;
   const startDate = req.body.startDate;
@@ -268,6 +286,9 @@ exports.postAddEvent = (req, res, next) => {
     });
 };
 
+/**
+ * The method postAddEvent() implement geting event's ID from DOM and delete them from event's database
+ * */
 exports.postDeleteEvent = (req, res, next) => {
   const deleteMode = req.query.delete;
   if (!deleteMode) {
@@ -289,6 +310,9 @@ exports.postDeleteEvent = (req, res, next) => {
     });
 };
 
+/**
+ * The method postAddEvent() implement geting edited event's data from DOM and store them into event's database
+ * */
 exports.postEditEvent = (req, res, next) => {
   //Checking edit mode
   //http://localhost:4000/admin/manage/edit-event/?edit=true
@@ -345,6 +369,10 @@ exports.postEditEvent = (req, res, next) => {
     });
 };
 
+
+/**
+ * The method getAdminEvents() implement geting user's data from database and rendering a admin's user management page
+ */
 exports.getAdminUsers = (req, res, next) => {
   User.find()
     .then((users) => {
@@ -363,6 +391,9 @@ exports.getAdminUsers = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
+/**
+ * The method postAddUser() implement geting inputed user's data from DOM and store them into user's database
+ * */
 exports.postAddUser = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -414,6 +445,9 @@ exports.postAddUser = (req, res, next) => {
     });
 };
 
+/**
+ * The method postAddEvent() implement geting user's ID from DOM and delete them from user's database
+ * */
 exports.postDeleteUser = (req, res, next) => {
   const deleteMode = req.query.delete;
   if (!deleteMode) {
@@ -435,6 +469,9 @@ exports.postDeleteUser = (req, res, next) => {
     });
 };
 
+/**
+ * The method postAddEvent() implement geting edited user's data from DOM and store them into user's database
+ * */
 exports.postEditUser = (req, res, next) => {
   //Checking edit mode
   //http://localhost:4000/admin/manage/edit-event/?edit=true
@@ -497,6 +534,9 @@ exports.postEditUser = (req, res, next) => {
     });
 };
 
+/**
+ * The method getAdminEvents() implement geting order's data from database and rendering a admin's order management page
+ */
 exports.getAdminOrders = (req, res, next) => {
   Order.find()
     .then((orders) => {

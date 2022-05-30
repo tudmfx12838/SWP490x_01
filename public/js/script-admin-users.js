@@ -1,3 +1,6 @@
+/**
+ * The object oldRowValue to store old value
+ */
 var oldRowValue = {
   email: "",
   password: "",
@@ -11,6 +14,9 @@ var oldRowValue = {
   imageUrl: "",
 };
 
+/**
+ * The object newRowValue to store new inputed value
+ */
 var newRowValue = {
   email: "",
   password: "",
@@ -36,6 +42,9 @@ $(function () {
 
   $table.bootstrapTable({ data: myArr });
 
+  /**
+   * The event will be trigged when user check or uncheck on checkbox to enable or disable button as delete
+   */
   $table.on(
     "check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table",
     function () {
@@ -46,6 +55,9 @@ $(function () {
     }
   );
 
+  /**
+   * The event will be trigged when user click show a confirm before delete
+   */
   $btn_delete.click(function () {
     var users = $.map($table.bootstrapTable("getSelections"), function (row) {
       return {
@@ -72,6 +84,9 @@ $(function () {
     $btn_delete.prop("disabled", true);
   });
 
+  /**
+   * will be set both objest backup of old and new value  to null when user click button as close or cancel
+   */
   $("#editItemModal, #detailItemModal")
     .find("#btn-cancel, .btn-close")
     .click(function () {
@@ -98,6 +113,9 @@ $(function () {
       };
     });
 
+  /**
+   * Disable button of delete atfer canceling or closing confirm delete from
+   */
   $("#confirmDeleteItemModal")
     .find("#btn-cancel, .btn-close")
     .click(function () {

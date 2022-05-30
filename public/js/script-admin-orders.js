@@ -1,3 +1,6 @@
+/**
+ * The object oldRowValue to store old value
+ */
 var oldRowValue = {
   title: "",
   startDate: null,
@@ -9,6 +12,9 @@ var oldRowValue = {
   imageUrl: "",
 };
 
+/**
+ * The object newRowValue to store new inputed value
+ */
 var newRowValue = {
   title: "",
   startDate: null,
@@ -27,11 +33,14 @@ $(function () {
 
   // var json = "<%- JSON.stringify(products) %>";
   var json = $("#admin-orders-page").attr("orders-data");
-//   alert(json);
+  //   alert(json);
   var myArr = eval(json); //Json.parse(json)
 
   $table.bootstrapTable({ data: myArr });
 
+  /**
+   * The event will be trigged when user check or uncheck on checkbox to enable or disable button as delete
+   */
   $table.on(
     "check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table",
     function () {
@@ -41,6 +50,9 @@ $(function () {
       );
     }
   );
+  /**
+   * The event will be trigged when user click show a confirm before delete
+   */
   // $btn_delete.click(function () {
   //   var events = $.map($table.bootstrapTable("getSelections"), function (row) {
   //     return {
@@ -67,7 +79,9 @@ $(function () {
   //   $btn_delete.prop("disabled", true);
   // });
 
-  // //Set backup to null
+//   /**
+//    * will be set both objest backup of old and new value  to null when user click button as close or cancel
+//    */
   // $("#editItemModal, #detailItemModal")
   //   .find("#btn-cancel, .btn-close")
   //   .click(function () {
@@ -94,6 +108,9 @@ $(function () {
   //     };
   //   });
 
+//   /**
+//    * Disable button of delete atfer canceling or closing confirm delete from
+//    */
   // $("#confirmDeleteItemModal")
   //   .find("#btn-cancel, .btn-close")
   //   .click(function () {
@@ -473,9 +490,9 @@ function productsInfoFormatter(index, row) {
     }</p>`;
   });
   // productInfo.join("");
-  const cashInfo = `<p><i>(Tên SP: Giá x SL = Thành tiền)</i></p> ${productInfo.join(" ")} <p><b>Tổng:</b> ${
-    row.cashInfo.totalCash
-  }</p>  
+  const cashInfo = `<p><i>(Tên SP: Giá x SL = Thành tiền)</i></p> ${productInfo.join(
+    " "
+  )} <p><b>Tổng:</b> ${row.cashInfo.totalCash}</p>  
     <p><b>Ngày:</b> ${orderDay}</p>`;
 
   return cashInfo;
@@ -483,7 +500,9 @@ function productsInfoFormatter(index, row) {
 }
 function approveStatusFormatter(index, row) {
   const approveBotton = `<button class="btn-approve btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailItemModal" >Xác nhận</button>`;
-  const approveStatus = `<p><b>Trạng thái:</b> ${row.approveStatus === false ? 'Chưa xác nhận' : 'Đã xác nhận'}<p>`;
+  const approveStatus = `<p><b>Trạng thái:</b> ${
+    row.approveStatus === false ? "Chưa xác nhận" : "Đã xác nhận"
+  }<p>`;
 
   return `${approveBotton} ${approveStatus}`;
 }

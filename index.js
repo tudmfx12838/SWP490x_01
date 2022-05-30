@@ -14,6 +14,9 @@ const MONGODB_URL = "mongodb+srv://admin:8888@cluster0.pi4yq.mongodb.net/myFirst
 
 const Product = require("./models/product");
 
+/**
+ * The method fileStorage() setup a image's storage
+ * */
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'images');
@@ -26,6 +29,9 @@ const fileStorage = multer.diskStorage({
   }
 });
 
+/**
+ * The method fileFilter() checking valid image's file type
+ * */
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'image/png' || 
       file.mimetype === 'image/jpg' || 
@@ -36,6 +42,9 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+/**
+ * The method cors() is added to middleware to fix error
+ * */
 app.use(cors());
 // app.use((req, res, next) => {
 //   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -43,24 +52,41 @@ app.use(cors());
 //   res.setHeader('Acces-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
 // }
 
-//Templace Engine EJS
-//And point to views's folder
+/**
+ * Templace Engine EJS
+ * And point to views's folder
+ * */
 app.set("view engine", "ejs");
 app.set("views", "views");
 
+/**
+ * Config bodyParser to get data from req.body
+ * */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+/**
+ * Add image's storage and fileFilter to setup uploading image's file and store to storage
+ * */
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'));  //image a name of image file at view edit-produt.ejs, {dest: 'images'} them folder luu tru
 
+/**
+ * Config static pat
+ * */
 app.use(express.static(path.join(__dirname, "public")));
 app.use('/images', express.static(path.join(__dirname, "images")));
 
+/**
+ * Config router
+ * */
 app.use('/admin', adminRoutes);
 app.use(clientRoutes);
 app.use(routes);
 
 
-
+/**
+ * Config port and connect to database
+ * */
 mongoose
   .connect(
     MONGODB_URL, {dbName: 'myShopDB'}

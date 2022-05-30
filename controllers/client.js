@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const Product = require("../models/product");
 const Order = require("../models/order");
 
+/**
+ * The method getProducts() implement geting product's data from database and respone to client
+ * */
 exports.getProducts = (req, res, next) => {
   Product.find()
     .then((products) => {
@@ -11,6 +14,9 @@ exports.getProducts = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
+/**
+ * The method postClientOrder() implement geting order's data from client and store them into order database
+ * */
 exports.postClientOrder = (req, res, next) => {
   // const deleteMode = req.query.delete;
   // if (!deleteMode) {
@@ -66,35 +72,4 @@ exports.postClientOrder = (req, res, next) => {
   .catch((err) => {
     console.log(err);
   });
-  // products: [
-  //   {
-  //     product: { type: Object, required: true },
-  //     quantity: { type: Number, required: true },
-  //   },
-  // ],
-  // cashInfo: {
-  //   totalCash: { type: Number, required: true },
-  //   // coupon: { type: String, required: true },
-  //   // afterDiscount: { type: Number, required: true },
-  //   // cashType: {type: String, required: true },
-  //   isPaid: {type: Boolean, required: true}
-  // },
-  // date: {
-  //   type: Date,
-  //   required: true,
-  // },
-  // approveStatus: {
-  //   type: Boolean,
-  //   required: true,
-  // },
-  // hasAccountInfo: {
-  //   userId: { type: Schema.Types.ObjectId, ref: "User", required: true }
-  // },
-  // deliveryInfo: {
-  //   name: { type: String, required: true },
-  //   email: { type: String, required: true },
-  //   phoneNumber: { type: Number, required: true },
-  //   address: { type: String, required: true },
-  //   node: { type: String, required: true },
-  // }
 };

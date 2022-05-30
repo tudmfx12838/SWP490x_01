@@ -19,11 +19,12 @@ import axios from "axios";
 const Order = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [number, setNumber] = useState(null);
-  const [postcode, setPostcode] = useState(null);
+  const [number, setNumber] = useState("");
+  const [postcode, setPostcode] = useState("");
   const [addressFromPostCode, setAddressFromPostCode] = useState("");
   const [inputAddress, setInputAddress] = useState("");
   const [inputNode, setInputNode] = useState("");
+  const [coupon, setCoupon] = useState("");
 
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
@@ -86,10 +87,12 @@ const Order = (props) => {
       newErrors.postcode = "Xin nhập mã bưu điện là 7 chữ số";
     }
 
-    if (!address1 || address1 === "")
-     {newErrors.address1 = "Xin nhập địa chỉ tỉnh/thành";}
-    if (!address2 || address2 === "")
-      {newErrors.address2 = "Xin nhập địa chỉ đường/số nhà";}
+    if (!address1 || address1 === "") {
+      newErrors.address1 = "Xin nhập địa chỉ tỉnh/thành";
+    }
+    if (!address2 || address2 === "") {
+      newErrors.address2 = "Xin nhập địa chỉ đường/số nhà";
+    }
 
     return newErrors;
   }
@@ -128,43 +131,35 @@ const Order = (props) => {
   };
 
   function handlePostCodechange(e) {
-    getAddressByZip(e.target.value).then((response) => {
-      let address =
-        response.prefecture + " " + response.city + " " + response.area + " ";
-      setAddressFromPostCode(address);
-      setField("address1", address);
-    });
-    setPostcode(e.target.value);
-    // {"region":"中国","prefecture":"広島県","city":"広島市西区","area":"庚午中"}
-    // alert(addressFromPostCode);
+    const isSevenNumber = (val, len) => val && val.length === len;
+    if (isSevenNumber(e.target.value, 7)) {
+      getAddressByZip(e.target.value).then((response) => {
+        let address =
+          response.prefecture + " " + response.city + " " + response.area + " ";
+        setAddressFromPostCode(address);
+        setField("address1", address);
+      });
+      setPostcode(e.target.value);
+      // {"region":"中国","prefecture":"広島県","city":"広島市西区","area":"庚午中"}
+      // alert(addressFromPostCode);
+    }
   }
 
   // Chưa hoàn thiện ...
-  function handleCheckCouponExist(coupon){
+  function handleCheckCouponExist(coupon) {
     alert(coupon);
   }
 
-  // function handleOrder() {
-  //   const products = ListCart.map((item) => {
-  //     return {
-  //       productId: item._id,
-  //       quantity: item.quantity,
-  //       price: item.price,
-  //     };
-  //   });
-  //   const orderInfo = {
-  //     name: name,
-  //     email: email,
-  //     number: number,
-  //     postcode: postcode,
-  //     addressFromPostCode: addressFromPostCode,
-  //     inputAddress: inputAddress,
-  //     inputNode: inputNode,
-  //     products: products,
-  //   };
-  //   // alert(JSON.stringify(orderInfo));
-  //   props.fetchOrderInfo(orderInfo);
-  // }
+  function handleResetButton() {
+    setName("");
+    setEmail("");
+    setNumber("");
+    setPostcode("");
+    setAddressFromPostCode("");
+    setInputAddress("");
+    setInputNode("");
+    setCoupon("");
+  }
 
   let ListCart = [];
   let TotalCart = 0;
@@ -187,22 +182,27 @@ const Order = (props) => {
           </Row>
 
           <Form onSubmit={(event) => handleSubmit(event)}>
-            <Form.Group as={Row} className="mb-3">
+            <Form.Group as={Row} className="mb-3" controlId="name">
               <Form.Label column sm={3}>
                 Tên
               </Form.Label>
               <Col sm={9}>
                 <Form.Control
                   className={!!errors.name && "red-border"}
-                  onBlur={(event) => {
+                  // onBlur={(event) => {
+                  //   setName(event.target.value);
+                  // }}
+                  onChange={(event) => {
+                    setField("name", event.target.value);
                     setName(event.target.value);
                   }}
-                  onChange={(event) => setField("name", event.target.value)}
                   placeholder="Xin nhập tên Khách Hàng"
                   type="text"
-                  id="name"
+                  // id="name"
                   name="name"
                   required
+                  value={name}
+                  // defaultValue={name}
                   isInvalid={!!errors.name}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -210,21 +210,26 @@ const Order = (props) => {
                 </Form.Control.Feedback>
               </Col>
             </Form.Group>
-            <Form.Group as={Row} className="mb-3">
+            <Form.Group as={Row} className="mb-3" controlId="email">
               <Form.Label column sm={3}>
                 Email
               </Form.Label>
               <Col sm={9}>
                 <Form.Control
                   className={!!errors.email && "red-border"}
-                  onBlur={(event) => {
+                  // onBlur={(event) => {
+                  //   setEmail(event.target.value);
+                  // }}
+                  onChange={(event) => {
+                    setField("email", event.target.value);
                     setEmail(event.target.value);
                   }}
-                  onChange={(event) => setField("email", event.target.value)}
                   placeholder="Xin nhập Email Khách Hàng"
                   type="text"
-                  id="email"
+                  // id="email"
                   name="email"
+                  value={email}
+                  // defaultValue={email}
                   required
                   isInvalid={!!errors.email}
                 />
@@ -233,21 +238,25 @@ const Order = (props) => {
                 </Form.Control.Feedback>
               </Col>
             </Form.Group>
-            <Form.Group as={Row} className="mb-3">
+            <Form.Group as={Row} className="mb-3" controlId="number">
               <Form.Label column sm={3}>
                 Điện thoại
               </Form.Label>
               <Col sm={9}>
                 <Form.Control
                   className={!!errors.number && "red-border"}
-                  onBlur={(event) => {
+                  // onBlur={(event) => {
+                  //   setNumber(event.target.value);
+                  // }}
+                  onChange={(event) => {
+                    setField("number", event.target.value);
                     setNumber(event.target.value);
                   }}
-                  onChange={(event) => setField("number", event.target.value)}
                   placeholder="Số điện thoại 10 chữ số(vd: 09078950191)"
                   type="text"
-                  id="number"
+                  // id="number"
                   name="number"
+                  value={number}
                   required
                   isInvalid={!!errors.number}
                 />
@@ -256,7 +265,7 @@ const Order = (props) => {
                 </Form.Control.Feedback>
               </Col>
             </Form.Group>
-            <Form.Group as={Row} className="mb-3">
+            <Form.Group as={Row} className="mb-3" controlId="postcode">
               <Form.Label column sm={3}>
                 Mã bưu điện
               </Form.Label>
@@ -269,11 +278,15 @@ const Order = (props) => {
                   onKeyDown={(e) => {
                     handlePostCodechange(e);
                   }}
-                  onChange={(event) => setField("postcode", event.target.value)}
+                  onChange={(event) => {
+                    setField("postcode", event.target.value);
+                    setPostcode(event.target.value);
+                  }}
                   placeholder="Mã bưu điện 7 chữ số(vd: 7330822)"
                   type="text"
-                  id="postcode"
+                  // id="postcode"
                   name="postcode"
+                  value={postcode}
                   required
                   isInvalid={!!errors.postcode}
                 />
@@ -282,22 +295,25 @@ const Order = (props) => {
                 </Form.Control.Feedback>
               </Col>
             </Form.Group>
-            <Form.Group as={Row} className="mb-3">
+            <Form.Group as={Row} className="mb-3" controlId="address1">
               <Form.Label column sm={3}>
                 Tỉnh/Thành
               </Form.Label>
               <Col sm={9}>
                 <Form.Control
                   className={!!errors.address1 && "red-border"}
-                  onBlur={(event) => {
+                  // onBlur={(event) => {
+                  //   setAddressFromPostCode(event.target.value);
+                  // }}
+                  onChange={(event) => {
+                    setField("address1", event.target.value);
                     setAddressFromPostCode(event.target.value);
                   }}
-                  onChange={(event) => setField("address1", event.target.value)}
                   placeholder="Xin nhập địa chỉ Tỉnh/Thành"
                   type="text"
-                  id="address1"
+                  // id="address1"
                   name="address1"
-                  defaultValue={addressFromPostCode}
+                  value={addressFromPostCode}
                   required
                   isInvalid={!!errors.address1}
                 />
@@ -306,21 +322,25 @@ const Order = (props) => {
                 </Form.Control.Feedback>
               </Col>
             </Form.Group>
-            <Form.Group as={Row} className="mb-3">
+            <Form.Group as={Row} className="mb-3" controlId="address2">
               <Form.Label column sm={3}>
                 Đường/Số nhà
               </Form.Label>
               <Col sm={9}>
                 <Form.Control
                   className={!!errors.address2 && "red-border"}
-                  onBlur={(event) => {
+                  // onBlur={(event) => {
+                  //   setInputAddress(event.target.value);
+                  // }}
+                  onChange={(event) => {
+                    setField("address2", event.target.value);
                     setInputAddress(event.target.value);
                   }}
-                  onChange={(event) => setField("address2", event.target.value)}
                   placeholder="Xin nhập địa chỉ Đường/Số nhà"
                   type="text"
-                  id="address2"
+                  // id="address2"
                   name="address2"
+                  value={inputAddress}
                   required
                   isInvalid={!!errors.address2}
                 />
@@ -330,21 +350,25 @@ const Order = (props) => {
               </Col>
             </Form.Group>
 
-            <Form.Group as={Row} className="mb-3">
+            <Form.Group as={Row} className="mb-3" controlId="coupon">
               <Form.Label column sm={3}>
                 Mã giảm giá
               </Form.Label>
               <Col sm={6}>
                 <Form.Control
                   className={!!errors.coupon && "red-border"}
-                  onBlur={(event) => {
-                    setInputAddress(event.target.value);
+                  // onBlur={(event) => {
+                  //   setInputAddress(event.target.value);
+                  // }}
+                  onChange={(event) => {
+                    setField("coupon", event.target.value);
+                    setCoupon(event.target.value);
                   }}
-                  onChange={(event) => setField("coupon", event.target.value)}
                   placeholder="Nhập mã giảm giá (nếu có)"
                   type="text"
-                  id="coupon"
+                  // id="coupon"
                   name="coupon"
+                  value={coupon}
                   required
                   isInvalid={!!errors.coupon}
                 />
@@ -364,29 +388,29 @@ const Order = (props) => {
               </Col>
             </Form.Group>
 
-            <Form.Group
-              as={Row}
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-            >
+            <Form.Group as={Row} className="mb-3" controlId="node">
               <Form.Label column sm={3}>
                 Ghi chú
               </Form.Label>
               <Col sm={9}>
                 <Form.Control
-                  onBlur={(event) => {
+                  // onBlur={(event) => {
+                  //   setInputNode(event.target.value);
+                  // }}
+                  onChange={(event) => {
+                    setField("node", event.target.value);
                     setInputNode(event.target.value);
                   }}
-                  onChange={(event) => setField("node", event.target.value)}
-                  id="node"
+                  // id="node"
                   name="node"
+                  value={inputNode}
                   as="textarea"
                   rows={3}
                 />
               </Col>
             </Form.Group>
 
-            <Form.Group as={Row} className="mb-3">
+            <Form.Group as={Row} className="mb-3" controlId="notePoint">
               <Form.Label column sm={3}>
                 Lưu ý:
               </Form.Label>
@@ -441,6 +465,15 @@ const Order = (props) => {
             </Table>
 
             <Button type="submit">Đặt hàng</Button>
+            <Button
+              type="button"
+              className="btn btn-success"
+              onClick={() => {
+                handleResetButton();
+              }}
+            >
+              Reset
+            </Button>
           </Form>
         </Container>
       </React.Fragment>

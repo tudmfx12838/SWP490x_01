@@ -1,3 +1,6 @@
+/**
+ * The object oldRowValue to store old value
+ */
 var oldRowValue = {
   title: "",
   startDate: null,
@@ -9,6 +12,9 @@ var oldRowValue = {
   imageUrl: "",
 };
 
+/**
+ * The object newRowValue to store new inputed value
+ */
 var newRowValue = {
   title: "",
   startDate: null,
@@ -25,13 +31,18 @@ $(function () {
   var $btn_delete = $("#btn-delete");
   $btn_delete.prop("disabled", true);
 
-  // var json = "<%- JSON.stringify(products) %>";
+  /**
+   * The get data and init to table's data
+   */
   var json = $("#admin-events-page").attr("events-data");
   // alert(json);
   var myArr = eval(json); //Json.parse(json)
 
   $table.bootstrapTable({ data: myArr });
 
+  /**
+   * The event will be trigged when user check or uncheck on checkbox to enable or disable button as delete
+   */
   $table.on(
     "check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table",
     function () {
@@ -41,6 +52,10 @@ $(function () {
       );
     }
   );
+
+  /**
+   * The event will be trigged when user click show a confirm before delete
+   */
   $btn_delete.click(function () {
     var events = $.map($table.bootstrapTable("getSelections"), function (row) {
       return {
@@ -67,7 +82,9 @@ $(function () {
     $btn_delete.prop("disabled", true);
   });
 
-  //Set backup to null
+  /**
+   * will be set both objest backup of old and new value  to null when user click button as close or cancel
+   */
   $("#editItemModal, #detailItemModal")
     .find("#btn-cancel, .btn-close")
     .click(function () {
@@ -94,6 +111,9 @@ $(function () {
       };
     });
 
+  /**
+   * Disable button of delete atfer canceling or closing confirm delete from
+   */
   $("#confirmDeleteItemModal")
     .find("#btn-cancel, .btn-close")
     .click(function () {
@@ -106,11 +126,9 @@ $(function () {
     .change(function () {
       if (this.checked) {
         $("#addItemModal").find("#coupon").prop("disabled", false);
-        // $("addItemModal").find("#coupon").prop('required',true);
         $("#addItemModal").find("#hasCoupon").val(true);
       } else {
         $("#addItemModal").find("#coupon").prop("disabled", true);
-        // $("addItemModal").find("#coupon").prop('required', false);
         $("#addItemModal").find("#hasCoupon").val(false);
       }
     });

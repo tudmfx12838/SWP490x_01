@@ -8,6 +8,7 @@ import ProductDetail from "./ProductDetailComponent";
 import ProductDry from "./ProductDryFoodComponent";
 import ProductDrinks from "./ProductDrinksComponent";
 import ProductFresh from "./ProductFreshFoodComponent";
+import OrderHistory from "./OrderHistoryComponet";
 
 import Cart from "./CartComponent";
 import Order from "./OrderComponent";
@@ -197,6 +198,20 @@ class Main extends Component {
                 IncreaseQuantity={this.props.IncreaseQuantity}
                 DecreaseQuantity={this.props.DecreaseQuantity}
                 DeleteCart={this.props.DeleteCart}
+              />
+            }
+          />
+
+          <Route
+            exact
+            path="/lichsu"
+            element={
+              <OrderHistory
+                // cart={this.props.cart}
+                // products={this.props.products.products}
+                // IncreaseQuantity={this.props.IncreaseQuantity}
+                // DecreaseQuantity={this.props.DecreaseQuantity}
+                // DeleteCart={this.props.DeleteCart}
               />
             }
           />
