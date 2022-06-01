@@ -16,31 +16,63 @@ const Cart = (props) => {
   const [show, setShow] = useState(false);
   const [storeKey, setStoreKey] = useState(null);
 
+  /**
+   * The method handleClose() implement closing confirm delete a product in cart
+   */
   const handleClose = () => {
+    //hide confirm modal
     setShow(false);
+
+    //store product's info by null(nothing to delete)
     setStoreKey(null);
   };
+
+  /**
+   * The method handleShow() implement showing confirm before delete a product in cart
+   */
   const handleShow = (key) => {
+    //show confirm modal
     setShow(true);
+
+    //store product's info that want to delete
     setStoreKey(key);
-    
   };
+
+  /**
+   * The method handleDelete() implement delete a product in cart
+   */
   const handleDelete = () => {
+    //hide confirm modal
     setShow(false);
+
+    /**
+     * The method DeleteCart() implement delete a product by stored product's info in cart
+     */
     props.DeleteCart(storeKey);
+
+    //store product's info by null(nothing to delete) atfer delete a product
     setStoreKey(null);
   };
 
   let ListCart = [];
   let TotalCart = 0;
+
+  //Create a List cart for showing
   Object.keys(props.cart.Carts).forEach(function (item) {
     TotalCart += props.cart.Carts[item].quantity * props.cart.Carts[item].price;
     ListCart.push(props.cart.Carts[item]);
   });
+
+  /**
+   * The method TotalPrice() caculate total of price 
+   * @param price is product's price
+   * @param quantity is number of product in cart
+   */
   function TotalPrice(price, quantity) {
     return Number(price * quantity).toLocaleString("en-US");
   }
 
+  //Show cart if it's not null and show inform as empty if nothing in cart
   if (ListCart.length > 0) {
     return (
       <Container>
@@ -104,15 +136,11 @@ const Cart = (props) => {
           </Table>
         </Row>
         <Row>
-                <Link
-                  as={NavLink}
-                  className="btn btn-primary"
-                  to="/dathang"
-                >
-                  Xác nhận đơn hàng
-                </Link>
+          <Link as={NavLink} className="btn btn-primary" to="/dathang">
+            Xác nhận đơn hàng
+          </Link>
         </Row>
-        
+
         <Modal
           show={show}
           onHide={handleClose}
@@ -124,7 +152,9 @@ const Cart = (props) => {
           </Modal.Header>
           <Modal.Body>Bạn có muốn xóa sản phẩm này khỏi giỏ hàng?</Modal.Body>
           <Modal.Footer>
-            <Button variant="primary" onClick={handleDelete}>Có</Button>
+            <Button variant="primary" onClick={handleDelete}>
+              Có
+            </Button>
             <Button variant="secondary" onClick={handleClose}>
               Không
             </Button>

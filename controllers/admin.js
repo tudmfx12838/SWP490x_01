@@ -61,7 +61,7 @@ exports.getAdminProducts = (req, res, next) => {
         editProductValidationErrors: [],
         // validationErrors: [],
         // isAuthenticated: req.session.isLoggedIn,
-        csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
+        // csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
       });
     })
     .catch((err) => console.log(err));
@@ -101,7 +101,7 @@ exports.postAddProduct = (req, res, next) => {
           oldAddProductValue: oldAddProductValue,
           addProductValidationErrors: errors.array(),
           editProductValidationErrors: [],
-          csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
+          // csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
         });
       })
       .catch((err) => console.log(err));
@@ -231,7 +231,7 @@ exports.getAdminEvents = (req, res, next) => {
         // oldInput: { loginId: "" },
         // validationErrors: [],
         // isAuthenticated: req.session.isLoggedIn,
-        csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
+        // csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
       });
     })
     .catch((err) => console.log(err));
@@ -385,7 +385,7 @@ exports.getAdminUsers = (req, res, next) => {
         // oldInput: { loginId: "" },
         // validationErrors: [],
         // isAuthenticated: req.session.isLoggedIn,
-        csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
+        // csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
       });
     })
     .catch((err) => console.log(err));
@@ -549,7 +549,7 @@ exports.getAdminOrders = (req, res, next) => {
         // oldInput: { loginId: "" },
         // validationErrors: [],
         // isAuthenticated: req.session.isLoggedIn,
-        csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
+        // csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
       });
     })
     .catch((err) => console.log(err));

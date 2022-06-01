@@ -121,7 +121,7 @@
                                         required
                                     >
                                 </div>
-                                <input type="hidden" name="_csrf">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <button class="btn btn-primary" type="submit">Thêm</button>
                             </form>
                         </div>
@@ -172,7 +172,8 @@
                                     >
                                 </div>
                                 <input type="hidden" name="_id" id="_id" val="">
-    
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
                                 <button type="button" id="btn-confirmEditProduct" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmEditProductModal">Xác nhận</button>
                                 <button type="button" id="btn-cancel" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>     
                             </form>
@@ -217,7 +218,6 @@
                                 </div>
                                 <input type="hidden" name="_id" id="_id" val="">
     
-                                <input type="hidden" name="_csrf">
                                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editProductModal" role="button">Trở về</button>
                                 <button type="button" id="btn-submitConfirmEditProduct" class="btn btn-primary">Cập nhật</button>
                                 <button type="button" id="btn-cancel" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>
@@ -243,8 +243,8 @@
                                 </div>
                                 
                                 <input type="hidden" name="_id" id="_id" val="">
-    
-                                <input type="hidden" name="_csrf">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
                                 <button class="btn btn-primary" type="submit">Xóa</button>
                                 <button type="button" id="btn-cancel" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>
                             </form>
@@ -294,7 +294,7 @@
                                 </div> -->
                                 <input type="hidden" name="_id" id="_id" val="">
     
-                                <input type="hidden" name="_csrf">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <button id="btn-editProduct" type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal" >Sửa</button>
                                 <button type="button" id="btn-cancel" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
                         </div>

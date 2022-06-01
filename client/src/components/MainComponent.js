@@ -21,6 +21,9 @@ import { connect } from "react-redux";
 
 import { ActionCreators } from "../redux/ActionCreators";
 
+/**
+ * The method withRouter() config method withRouter following latest version of react router
+ */
 function withRouter(Component) {
   function ComponentWithRouterProp(props) {
     let location = useLocation();
@@ -31,6 +34,9 @@ function withRouter(Component) {
   return ComponentWithRouterProp;
 }
 
+/**
+ * The method mapStateToProps() map states from redux store to props
+ */
 const mapStateToProps = (state) => {
   return {
     cart: state.cart,
@@ -42,6 +48,9 @@ const mapStateToProps = (state) => {
   };
 };
 
+/**
+ * The method mapDispatchToProps() map method from ActionCreators store to props's method
+ */
 const mapDispatchToProps = (dispatch) => ({
   fetchProducts: () => {
     dispatch(ActionCreators.fetchProducts());
@@ -207,11 +216,11 @@ class Main extends Component {
             path="/lichsu"
             element={
               <OrderHistory
-                // cart={this.props.cart}
-                // products={this.props.products.products}
-                // IncreaseQuantity={this.props.IncreaseQuantity}
-                // DecreaseQuantity={this.props.DecreaseQuantity}
-                // DeleteCart={this.props.DeleteCart}
+              // cart={this.props.cart}
+              // products={this.props.products.products}
+              // IncreaseQuantity={this.props.IncreaseQuantity}
+              // DecreaseQuantity={this.props.DecreaseQuantity}
+              // DeleteCart={this.props.DeleteCart}
               />
             }
           />
