@@ -159,6 +159,8 @@ const Order = (props) => {
     setInputAddress("");
     setInputNode("");
     setCoupon("");
+    setErrors({});
+    setForm({});
   }
 
   let ListCart = [];

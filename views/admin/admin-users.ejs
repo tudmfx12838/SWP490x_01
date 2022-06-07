@@ -60,46 +60,135 @@
                             <form class="product-form"  action="/admin/manage/add-user/" method="POST" enctype="multipart/form-data">
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="email">Email: </label>
-                                    <input class="form-control" type="email" name="email" id="email" value="" required>
+                                    <input 
+                                        class="form-control <%= addUserValidationErrors.filter(e => e.param === 'email')[0] === undefined ? '' : 'red-border'%>" 
+                                        type="email" 
+                                        name="email" 
+                                        id="email" 
+                                        value="<%= oldAddUserValue === null ? '' :  oldAddUserValue.email %>" 
+                                        required>
+                                        <% if (addUserValidationErrors.filter(e => e.param === "email")[0]) { %> 
+                                            <p class="alert-danger text-center"><%= addUserValidationErrors.filter(e => e.param === "email")[0].msg; %></p>
+                                        <% } %>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="password">Mật khẩu: </label>
-                                    <input class="form-control" type="password" name="password" id="password" value="" required>
+                                    <input 
+                                        class="form-control <%= addUserValidationErrors.filter(e => e.param === 'password')[0] === undefined ? '' : 'red-border'%>" 
+                                        type="password" 
+                                        name="password" 
+                                        id="password" 
+                                        value="<%= oldAddUserValue === null ? '' :  oldAddUserValue.password %>" 
+                                        required>
+                                        <% if (addUserValidationErrors.filter(e => e.param === "password")[0]) { %> 
+                                            <p class="alert-danger text-center"><%= addUserValidationErrors.filter(e => e.param === "password")[0].msg; %></p>
+                                        <% } %>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="passwordConfirm">Xác nhận mật khẩu: </label>
-                                    <input class="form-control" type="password" name="passwordConfirm" id="passwordConfirm" value="" required>
+                                    <input 
+                                        class="form-control <%= addUserValidationErrors.filter(e => e.param === 'passwordConfirm')[0] === undefined ? '' : 'red-border'%>" 
+                                        type="password" 
+                                        name="passwordConfirm" 
+                                        id="passwordConfirm"
+                                        value="<%= oldAddUserValue === null ? '' :  oldAddUserValue.passwordConfirm %>"" 
+                                        required>
+                                        <% if (addUserValidationErrors.filter(e => e.param === "passwordConfirm")[0]) { %> 
+                                            <p class="alert-danger text-center"><%= addUserValidationErrors.filter(e => e.param === "passwordConfirm")[0].msg; %></p>
+                                        <% } %>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="permission">Quyền: </label>
-                                    <select class="form-select" name="permission" id="permission" value="user" required>
+                                    <select 
+                                        class="form-select <%= addUserValidationErrors.filter(e => e.param === 'permission')[0] === undefined ? '' : 'red-border'%>" 
+                                        name="permission" 
+                                        id="permission" 
+                                        value="user" 
+                                        required>
                                         <option value="user">user</option>
                                         <option value="admin">admin</option>
+                                        <% if (addUserValidationErrors.filter(e => e.param === "permission")[0]) { %> 
+                                            <p class="alert-danger text-center"><%= addUserValidationErrors.filter(e => e.param === "permission")[0].msg; %></p>
+                                        <% } %>
                                     </select>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="name">Tên: </label>
-                                    <input class="form-control" type="text" name="name" id="name" value="" required>
+                                    <input 
+                                        class="form-control <%= addUserValidationErrors.filter(e => e.param === 'name')[0] === undefined ? '' : 'red-border'%>" 
+                                        type="text" 
+                                        name="name" 
+                                        id="name" 
+                                        value="<%= oldAddUserValue === null ? '' :  oldAddUserValue.name %>"
+                                        required>
+                                        <% if (addUserValidationErrors.filter(e => e.param === "name")[0]) { %> 
+                                            <p class="alert-danger text-center"><%= addUserValidationErrors.filter(e => e.param === "name")[0].msg; %></p>
+                                        <% } %>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="doB">Ngày sinh: </label>
-                                    <input class="form-control" type="date" name="doB" id="doB" value="" required>
+                                    <input 
+                                        class="form-control <%= addUserValidationErrors.filter(e => e.param === 'doB')[0] === undefined ? '' : 'red-border'%>" 
+                                        type="date" 
+                                        name="doB" 
+                                        id="doB" 
+                                        value="<%= oldAddUserValue === null ? '' :  oldAddUserValue.doB %>" 
+                                        required>
+                                        <% if (addUserValidationErrors.filter(e => e.param === "doB")[0]) { %> 
+                                            <p class="alert-danger text-center"><%= addUserValidationErrors.filter(e => e.param === "doB")[0].msg; %></p>
+                                        <% } %>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="phoneNumber">Điện thoại: </label>
-                                    <input class="form-control" type="tel" name="phoneNumber" id="phoneNumber" value="" required>
+                                    <input 
+                                        class="form-control <%= addUserValidationErrors.filter(e => e.param === 'phoneNumber')[0] === undefined ? '' : 'red-border'%>" 
+                                        type="tel" 
+                                        name="phoneNumber" 
+                                        id="phoneNumber" 
+                                        value="<%= oldAddUserValue === null ? '' :  oldAddUserValue.phoneNumber %>" 
+                                        required>
+                                        <% if (addUserValidationErrors.filter(e => e.param === "phoneNumber")[0]) { %> 
+                                            <p class="alert-danger text-center"><%= addUserValidationErrors.filter(e => e.param === "phoneNumber")[0].msg; %></p>
+                                        <% } %>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="postcode">Mã bưu điện: </label>
-                                    <input class="form-control" type="number" name="postcode" id="postcode" value="" required>
+                                    <input 
+                                        class="form-control <%= addUserValidationErrors.filter(e => e.param === 'postcode')[0] === undefined ? '' : 'red-border'%>" 
+                                        type="number" 
+                                        name="postcode" 
+                                        id="postcode" 
+                                        value="<%= oldAddUserValue === null ? '' :  oldAddUserValue.postcode %>" 
+                                        required>
+                                        <% if (addUserValidationErrors.filter(e => e.param === "postcode")[0]) { %> 
+                                            <p class="alert-danger text-center"><%= addUserValidationErrors.filter(e => e.param === "postcode")[0].msg; %></p>
+                                        <% } %>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="address">Địa chỉ: </label>
-                                    <input class="form-control" type="text" name="address" id="address" value="" required>
+                                    <input 
+                                        class="form-control <%= addUserValidationErrors.filter(e => e.param === 'address')[0] === undefined ? '' : 'red-border'%>" 
+                                        type="text" 
+                                        name="address" 
+                                        id="address" 
+                                        value="<%= oldAddUserValue === null ? '' :  oldAddUserValue.address %>" 
+                                        required>
+                                        <% if (addUserValidationErrors.filter(e => e.param === "permission")[0]) { %> 
+                                            <p class="alert-danger text-center"><%= addUserValidationErrors.filter(e => e.param === "address")[0].msg; %></p>
+                                        <% } %>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="point">Điểm: </label>
-                                    <input class="form-control" type="number" name="point" id="point" value="" required>
+                                    <input 
+                                        class="form-control <%= addUserValidationErrors.filter(e => e.param === 'point')[0] === undefined ? '' : 'red-border'%>" 
+                                        type="number" 
+                                        name="point" 
+                                        id="point" 
+                                        value="<%= oldAddUserValue === null ? '' :  oldAddUserValue.point %>" 
+                                        required>
+                                        <% if (addUserValidationErrors.filter(e => e.param === "permission")[0]) { %> 
+                                            <p class="alert-danger text-center"><%= addUserValidationErrors.filter(e => e.param === "point")[0].msg; %></p>
+                                        <% } %>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="image">Ảnh: </label>
@@ -109,7 +198,8 @@
                                         id="image" 
                                     >
                                 </div>
-                                <input type="hidden" name="_csrf">
+                                
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <button class="btn btn-primary" type="submit">Thêm</button>
                             </form>
                         </div>
@@ -133,7 +223,7 @@
                                 
                                 <input type="hidden" name="_id" id="_id" val="">
     
-                                <input type="hidden" name="_csrf">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <button class="btn btn-primary" type="submit">Xóa</button>
                                 <button type="button" id="btn-cancel" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>
                             </form>
@@ -153,46 +243,104 @@
                             <form id="form-editItemModal" class="product-form"  action="/admin/manage/edit-user/?edit=true" method="POST" enctype="multipart/form-data">
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="email">Email: </label>
-                                    <input class="form-control" type="email" name="email" id="email" value="" required>
+                                    <input 
+                                        class="form-control" 
+                                        type="email" 
+                                        name="email" 
+                                        id="email" 
+                                        value="" 
+                                        required>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="password">Mật khẩu: </label>
-                                    <input class="form-control" type="password" name="password" id="password" value="">
+                                    <input 
+                                        class="form-control" 
+                                        type="password" 
+                                        name="password" 
+                                        id="password" 
+                                        value="">
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="passwordConfirm">Xác nhận mật khẩu: </label>
-                                    <input class="form-control" type="password" name="passwordConfirm" id="passwordConfirm" value="">
+                                    <input 
+                                        class="form-control" 
+                                        type="password" 
+                                        name="passwordConfirm" 
+                                        id="passwordConfirm" 
+                                        value="">
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="permission">Quyền: </label>
-                                    <select class="form-select" name="permission" id="permission" value="" required>
+                                    <select 
+                                        class="form-select" 
+                                        name="permission" 
+                                        id="permission" 
+                                        value="" 
+                                        required>
                                         <option value="user">user</option>
                                         <option value="admin">admin</option>
                                     </select>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="name">Tên: </label>
-                                    <input class="form-control" type="text" name="name" id="name" value="" required>
+                                    <input 
+                                        class="form-control" 
+                                        type="text" 
+                                        name="name" 
+                                        id="name" 
+                                        value=""
+                                        required>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="doB">Ngày sinh: </label>
-                                    <input class="form-control" type="date" name="doB" id="doB" value="" required>
+                                    <input 
+                                        class="form-control" 
+                                        type="date" 
+                                        name="doB" 
+                                        id="doB" 
+                                        value="" 
+                                        required>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="phoneNumber">Điện thoại: </label>
-                                    <input class="form-control" type="tel" name="phoneNumber" id="phoneNumber" value="" required>
+                                    <input 
+                                        class="form-control" 
+                                        type="tel" 
+                                        name="phoneNumber" 
+                                        id="phoneNumber" 
+                                        value="" 
+                                        required>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="postcode">Mã bưu điện: </label>
-                                    <input class="form-control" type="number" name="postcode" id="postcode" maxlength="3" value="" required>
+                                    <input 
+                                        class="form-control" 
+                                        type="number" 
+                                        name="postcode" 
+                                        id="postcode" 
+                                        maxlength="3" 
+                                        value="" 
+                                        required>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="address">Địa chỉ: </label>
-                                    <input class="form-control" type="text" name="address" id="address" value="" required>
+                                    <input 
+                                        class="form-control" 
+                                        type="text" 
+                                        name="address" 
+                                        id="address" 
+                                        value="" 
+                                        required>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="point">Điểm: </label>
-                                    <input class="form-control" type="number" name="point" id="point" value="" required>
+                                    <input 
+                                        class="form-control" 
+                                        type="number" 
+                                        name="point" 
+                                        id="point" 
+                                        value="" 
+                                        required>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="form-label" for="image">Ảnh: </label>
@@ -204,7 +352,8 @@
                                 </div>
     
                                 <input type="hidden" name="_id" id="_id" val="">
-                                
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
                                 <button type="button" id="btn-confirmEditItem" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmEditItemModal">Xác nhận</button>
                                 <!-- <button class="btn btn-primary" type="submit">Cập nhật</button> -->
                                 <button type="button" id="btn-cancel" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>    
@@ -266,7 +415,6 @@
                             </div>
                             <input type="hidden" name="_id" id="_id" val="">
 
-                            <input type="hidden" name="_csrf">
                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editItemModal" role="button">Trở về</button>
                             <button type="button" id="btn-submitConfirmEditItem" class="btn btn-primary">Cập nhật</button>
                             <button type="button" id="btn-cancel" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>
@@ -322,7 +470,7 @@
 
                                 <input type="hidden" name="_id" id="_id" val="">
     
-                                <input type="hidden" name="_csrf">
+                            
                                 <button type="button" id="btn-editItem" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editItemModal" >Sửa</button>
                                 <button type="button" id="btn-cancel" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
                         </div>
@@ -334,6 +482,11 @@
         
     </main>
 
-   <script id="admin-users-page" src="/js/script-admin-users.js" users-data='<%- JSON.stringify(users) %>'></script>
+   <script id="admin-users-page" 
+            src="/js/script-admin-users.js" 
+            users-data='<%- JSON.stringify(users) %>'
+            addUserValidationErrors='<%- JSON.stringify(addUserValidationErrors) %>'
+    >
+    </script>
 
    <%- include('../includes/page-end.ejs') %>

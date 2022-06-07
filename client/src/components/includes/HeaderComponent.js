@@ -66,15 +66,16 @@ class Header extends Component {
             </Col>
             <Col className="col-12 col-md-3">
               <Nav>
-                <Nav.Link href="/login" className="text-danger">
-                  Đặng Nhập
-                </Nav.Link>
                 <Nav.Link
                   as={NavLink}
                   className="nav-link text-danger"
                   to="/giohang"
                 >
-                  Giỏ hàng<Badge bg="success">{this.props.numberCart}</Badge>
+                  Giỏ hàng<Badge className="white" bg="light">{this.props.numberCart}</Badge>
+                </Nav.Link>
+                
+                <Nav.Link as={NavLink}  to="/dangnhap" className="text-danger">
+                  Đặng Nhập
                 </Nav.Link>
               </Nav>
             </Col>
@@ -117,15 +118,15 @@ class Header extends Component {
               <Nav.Link as={NavLink} className="nav-link" to="/lichsu">
                 Lịch Sử
               </Nav.Link>
-              <Nav.Link href="/login" className="d-lg-none">
-                Đặng Nhập
-              </Nav.Link>
               <Nav.Link
                 as={NavLink}
                 className="nav-link d-lg-none"
                 to="/giohang"
               >
-                Giỏ hàng<Badge bg="success">{this.props.numberCart}</Badge>
+                Giỏ hàng<Badge bg="light">{this.props.numberCart}</Badge>
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/dangnhap" className="d-lg-none">
+                Đặng Nhập
               </Nav.Link>
             </Nav>
             <div className="d-lg-none">

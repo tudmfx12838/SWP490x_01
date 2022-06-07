@@ -11,7 +11,10 @@ const MongoDbStote = require("connect-mongodb-session")(session);
 
 const clientRoutes = require("./routes/client");
 const adminRoutes = require("./routes/admin");
-const routes = require("./routes/router_test");
+const authRoutes = require("./routes/auth");
+const errorController = require("./controllers/error");
+
+const User = require("./models/user");
 
 const MONGODB_URL =
   "mongodb+srv://admin:8888@cluster0.pi4yq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
@@ -19,10 +22,11 @@ const MONGODB_URL =
 const store = new MongoDbStote({
   uri: MONGODB_URL,
   collection: "sessions",
+  databaseName: "myShopDB",
   // expires  them vao de tu xoa sau het phien
 });
 
-const csrfProtection = csrf();
+const csrfProtection = csrf({cookie: true});
 
 /**
  * The method fileStorage() setup a image's storage
@@ -93,30 +97,72 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 /**
  * Config session
  * */
- app.use(session({
-  secret: 'my secret', //secret dc su dung de dang ky ma bam bi mat ID trong cookie
-  resave: false, //session se khong duoc luu doi voi moi req dc thuc hien
-  saveUninitialized: false, //dam bao khong co session nao duoc luu cho 1 req khi khong can thiet
-  store: store //Thiet lap store de luu truu session tren mongodb
-})); 
+app.use(
+  session({
+    secret: "my secret", //secret dc su dung de dang ky ma bam bi mat ID trong cookie
+    resave: false, //session se khong duoc luu doi voi moi req dc thuc hien
+    saveUninitialized: false, //dam bao khong co session nao duoc luu cho 1 req khi khong can thiet
+    store: store, //Thiet lap store de luu truu session tren mongodb
+  })
+);
 
 /**
  * Config csrf
  * */
 app.use(csrfProtection);
+// app.use(csrf({
+//   cookie: {
+//        httpOnly: true,
+//        secure: process.env.NODE_ENV === 'production',
+//        maxAge: 3600 // 1-hour
+//    }
+// }));
 
 app.use((req, res, next) => {
-  // res.locals.isAuthenticated = req.session.isLoggedIn; //tinh nang dac biet res.locals. cua expessjs dung de thiet lap cac bien cuc bo truyen vao cac view
+  res.locals.isAuthenticated = req.session.isLoggedIn; //tinh nang dac biet res.locals. cua expessjs dung de thiet lap cac bien cuc bo truyen vao cac view
+  // res.locals.csrfToken = ""; //req.csrfToken();
   res.locals.csrfToken = req.csrfToken();
+
+  if (req.session.user) {
+    res.locals.permission = req.session.user.permission;
+    // console.log(req.user.permission);
+  }
+
   next();
+});
+
+app.use((req, res, next) => {
+  if (!req.session.user) {
+    return next();
+  }
+
+  User.findById(req.session.user._id)
+    .then((user) => {
+      req.user = user;
+      next();
+    })
+    .catch((err) => console.log(err));
 });
 
 /**
  * Config router
  * */
-app.use("/admin", adminRoutes);
+app.use(adminRoutes);
 app.use(clientRoutes);
-app.use(routes);
+app.use(authRoutes);
+
+// app.get('/500', errorController.get500);
+app.use(errorController.getPageError);
+
+// app.use((error, req, res, next) => {
+//   // console.log('Hello');
+//   // res.redirect('/500');
+//   res.status(500).render('errors/500', {
+//     pageTitle: "Error!",
+//     path: '/500',
+//     isAuthenticated: req.session.isLoggedIn
+//   });
+// });
 
 /**
  * Config port and connect to database

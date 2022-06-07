@@ -7,6 +7,8 @@ const path = require("path");
 
 const { validationResult } = require("express-validator");
 
+const crypto = require("crypto");
+const bcrypt = require("bcryptjs");
 const fileHelper = require("../util/file");
 
 exports.getProducts = (req, res, next) => {
@@ -54,7 +56,7 @@ exports.getAdminProducts = (req, res, next) => {
       // res.json(products);
       res.render("admin/admin-products", {
         pageTitle: "Quản lý Sản Phẩm",
-        path: "/products",
+        path: "/manage/products",
         products: products,
         oldAddProductValue: null,
         addProductValidationErrors: [],
@@ -369,7 +371,6 @@ exports.postEditEvent = (req, res, next) => {
     });
 };
 
-
 /**
  * The method getAdminEvents() implement geting user's data from database and rendering a admin's user management page
  */
@@ -381,9 +382,8 @@ exports.getAdminUsers = (req, res, next) => {
         pageTitle: "Quản Lý Người Dùng",
         path: "/manage/users",
         users: users,
-        // errorMessage: message,
-        // oldInput: { loginId: "" },
-        // validationErrors: [],
+        oldAddUserValue: {},
+        addUserValidationErrors: [],
         // isAuthenticated: req.session.isLoggedIn,
         // csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
       });
@@ -397,6 +397,7 @@ exports.getAdminUsers = (req, res, next) => {
 exports.postAddUser = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
+  const passwordConfirm = req.body.passwordConfirm;
   const permission = req.body.permission;
   const name = req.body.name;
   const doB = req.body.doB;
@@ -405,46 +406,81 @@ exports.postAddUser = (req, res, next) => {
   const point = req.body.point;
   const image = req.file;
 
-  // console.log(email);
-  // console.log(password);
-  // console.log(permission);
-  // console.log(name);
-  // console.log(doB);
-  // console.log(phoneNumber);
-  // console.log(address);
-  // console.log(point);
-  // console.log(image);
+  const errors = validationResult(req);
 
-  var imageUrl = "";
-  console.log(req.file);
-  if (!image) {
-    imageUrl = "images/avatar.jpg";
+  if (!errors.isEmpty()) {
+    const oldAddUserValue = {
+      email: email,
+      password: password,
+      passwordConfirm: passwordConfirm,
+      permission: permission,
+      name: name,
+      doB: doB,
+      phoneNumber: phoneNumber,
+      postcode: req.body.postcode,
+      address: req.body.address,
+      point: point,
+    };
+
+    User.find()
+      .then((users) => {
+        // res.json(products);
+        res.status(422).render("admin/admin-users", {
+          pageTitle: "Quản Lý Người Dùng",
+          path: "/manage/users",
+          users: users,
+          oldAddUserValue: oldAddUserValue,
+          addUserValidationErrors: errors.array(),
+          // isAuthenticated: req.session.isLoggedIn,
+        });
+      })
+      .catch((err) => console.log(err));
   } else {
-    imageUrl = image.path;
+    var imageUrl = "";
+    // console.log(req.file);
+    if (!image) {
+      imageUrl = "images/avatar.jpg";
+    } else {
+      imageUrl = image.path;
+    }
+
+    bcrypt
+      .hash(password, 12) //Ma hoa pw thanh ma hash, agr2 la so vong bam, gia tri cang cao cang ton tgian nhung  cang an toan, 12 la du
+      .then((hashedPassword) => {
+        const user = new User({
+          email: email,
+          password: hashedPassword,
+          permission: permission,
+          name: name,
+          doB: doB,
+          phoneNumber: phoneNumber,
+          address: address,
+          point: point,
+          imageUrl: imageUrl,
+          cart: { items: [] },
+          orderHistory: [],
+          available: true,
+        });
+        return user.save();
+      })
+      .then((result) => {
+        return res.redirect("/admin/manage/users");
+        // console.log(email);
+        // return transporter.sendMail({
+        //   to: email,
+        //   from: "tudmfx12838@funix.edu.vn",
+        //   subject: "Signup succeeded!",
+        //   html: '<h1>You successfully signed up!<a href="http://localhost:3000/">Click here to return!</a></h1>',
+        // });
+      })
+      .catch((err) => {
+        console.log(err);
+        // const error = new Error(err);
+        // error.httpStatusCode = 500;
+        // return next(error);
+      });
   }
-
-  const user = new User({
-    email: email,
-    password: password,
-    permission: permission,
-    name: name,
-    doB: doB,
-    phoneNumber: phoneNumber,
-    address: address,
-    point: point,
-    imageUrl: imageUrl,
-  });
-
-  user
-    .save()
-    .then((result) => {
-      return res.redirect("/admin/manage/users");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
 };
-
 /**
  * The method postAddEvent() implement geting user's ID from DOM and delete them from user's database
  * */

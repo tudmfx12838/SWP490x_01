@@ -31,6 +31,19 @@ var newRowValue = {
 };
 
 $(function () {
+
+  var addUserValidationErrors = $("#admin-users-page").attr(
+    "addUserValidationErrors"
+  );
+// alert(JSON.stringify(addUserValidationErrors) + ' ' +  addUserValidationErrors);
+  $(window).bind("load", function () {
+    if (addUserValidationErrors.length > 2) {
+      $("#addItemModal").modal("show");
+    } else {
+      $("#addItemModal").modal("hide");
+    }
+  });
+
   var $table = $("#table");
   var $btn_delete = $("#btn-delete");
   $btn_delete.prop("disabled", true);
@@ -371,7 +384,7 @@ window.actionEditUserEvents = {
     //   }
   },
   "click .btn-detailItem"(e, value, row, index) {
-    alert(JSON.stringify(row));
+    // alert(JSON.stringify(row));
     var doB_obj = new Date(row.doB);
     var doB_day =
       doB_obj.getDate() < 10 ? "0" + doB_obj.getDate() : doB_obj.getDate();

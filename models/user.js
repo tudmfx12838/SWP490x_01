@@ -53,6 +53,10 @@ const userSchema = new Schema({
       orderId: { type: Schema.Types.ObjectId, ref: "Order" },
     },
   ],
+  available: {
+    type: Boolean,
+    required: true
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);

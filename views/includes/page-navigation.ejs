@@ -8,34 +8,34 @@
       </button>
       <div class="collapse navbar-collapse" id="mynavbar">
         <ul class="navbar-nav me-auto">
-        
+            <% if (isAuthenticated) { %> 
             <li class="nav-item">
-                <a class="nav-link <%= path === '/' ? 'active' : '' %>" href="/admin/manage/products">Sản phẩm</a>
+                <a class="nav-link <%= path === '/manage/products' ? 'active' : '' %>" href="/admin/manage/products">Sản phẩm</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <%= path === '/staff-info' ? 'active' : '' %>" href="/admin/manage/events">Sự kiện</a>
+                <a class="nav-link <%= path === '/manage/events' ? 'active' : '' %>" href="/admin/manage/events">Sự kiện</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <%= path === '/consultation' ? 'active' : '' %>" href="/admin/manage/orders">Đơn hàng</a>
+                <a class="nav-link <%= path === '/manage/orders' ? 'active' : '' %>" href="/admin/manage/orders">Đơn hàng</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <%= path === '/health-info' ? 'active' : '' %>" href="/admin/manage/users">Người dùng</a>
+                <a class="nav-link <%= path === '/manage/users' ? 'active' : '' %>" href="/admin/manage/users">Người dùng</a>
             </li>
-
+            <% } %>
         </ul>
         <ul class="navbar-nav"> 
-        
+            <% if (!isAuthenticated) { %> 
             <li>
                 <a class="nav-link <%= path === '/login' ? 'active' : '' %>" href="/login">Đăng Nhập</a>
             </li>
-       
+            <% } else { %>
             <li>
               <form class="nav-link" action="/logout" method="POST">
                   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                   <button class="btn-dark" type="submit">Đăng Xuất</button>
               </form>
             </li>
-     
+            <% } %>
         </ul>
       </div>
     </div>

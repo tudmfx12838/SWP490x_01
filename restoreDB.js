@@ -5,7 +5,7 @@ var url =
 var userObj = [
   {
     email: "admin1@gmail.com",
-    password: "123456",
+    password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "admin",
     name: "Nguyen Van A",
     doB: new Date("1995-03-03T00:00:00.000+00:00"),
@@ -15,10 +15,11 @@ var userObj = [
     point: 100,
     cart: { items: [] },
     orderHistory: [],
+    available: true,
   },
   {
     email: "admin2@gmail.com",
-    password: "123456",
+    password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "admin",
     name: "Nguyen Van B",
     doB: new Date("1997-02-03T00:00:00.000+00:00"),
@@ -28,10 +29,11 @@ var userObj = [
     point: 200,
     cart: { items: [] },
     orderHistory: [],
+    available: true,
   },
   {
     email: "user1@gmail.com",
-    password: "123456",
+    password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
     name: "Tran Thi C",
     doB: new Date("1990-04-03T00:00:00.000+00:00"),
@@ -41,10 +43,11 @@ var userObj = [
     point: 50,
     cart: { items: [] },
     orderHistory: [],
+    available: true,
   },
   {
     email: "user2@gmail.com",
-    password: "123456",
+    password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
     name: "Tran Van D",
     doB: new Date("1990-04-03T00:00:00.000+00:00"),
@@ -54,10 +57,11 @@ var userObj = [
     point: 50,
     cart: { items: [] },
     orderHistory: [],
+    available: true,
   },
   {
     email: "user3@gmail.com",
-    password: "123456",
+    password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
     name: "Tran Van P",
     doB: new Date("1992-04-03T00:00:00.000+00:00"),
@@ -67,10 +71,11 @@ var userObj = [
     point: 50,
     cart: { items: [] },
     orderHistory: [],
+    available: true,
   },
   {
     email: "user4@gmail.com",
-    password: "123456",
+    password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
     name: "Cao Van E",
     doB: new Date("1997-04-03T00:00:00.000+00:00"),
@@ -80,10 +85,11 @@ var userObj = [
     point: 50,
     cart: { items: [] },
     orderHistory: [],
+    available: true,
   },
   {
     email: "user5@gmail.com",
-    password: "123456",
+    password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
     name: "Duong Van F",
     doB: new Date("1990-04-03T00:00:00.000+00:00"),
@@ -93,10 +99,11 @@ var userObj = [
     point: 50,
     cart: { items: [] },
     orderHistory: [],
+    available: true,
   },
   {
     email: "user6@gmail.com",
-    password: "123456",
+    password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
     name: "Tran Van G",
     doB: new Date("1999-04-03T00:00:00.000+00:00"),
@@ -106,10 +113,11 @@ var userObj = [
     point: 50,
     cart: { items: [] },
     orderHistory: [],
+    available: true,
   },
   {
     email: "user7@gmail.com",
-    password: "123456",
+    password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
     name: "Tran Van H",
     doB: new Date("1990-04-03T00:00:00.000+00:00"),
@@ -119,10 +127,11 @@ var userObj = [
     point: 50,
     cart: { items: [] },
     orderHistory: [],
+    available: true,
   },
   {
     email: "user8@gmail.com",
-    password: "123456",
+    password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
     name: "Tran Van R",
     doB: new Date("1993-04-03T00:00:00.000+00:00"),
@@ -132,10 +141,11 @@ var userObj = [
     point: 50,
     cart: { items: [] },
     orderHistory: [],
+    available: true,
   },
   {
     email: "user9@gmail.com",
-    password: "123456",
+    password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
     name: "Nguyen Thi H",
     doB: new Date("1990-04-03T00:00:00.000+00:00"),
@@ -145,10 +155,11 @@ var userObj = [
     point: 50,
     cart: { items: [] },
     orderHistory: [],
+    available: true,
   },
   {
     email: "user10@gmail.com",
-    password: "123456",
+    password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
     name: "Nguyen Van L",
     doB: new Date("1991-04-03T00:00:00.000+00:00"),
@@ -158,10 +169,11 @@ var userObj = [
     point: 50,
     cart: { items: [] },
     orderHistory: [],
+    available: true,
   },
   {
     email: "user11@gmail.com",
-    password: "123456",
+    password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
     name: "Duong Van H",
     doB: new Date("1990-06-03T00:00:00.000+00:00"),
@@ -171,10 +183,11 @@ var userObj = [
     point: 50,
     cart: { items: [] },
     orderHistory: [],
+    available: true,
   },
   {
     email: "user12@gmail.com",
-    password: "123456",
+    password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
     name: "Cao Van K",
     doB: new Date("1990-05-03T00:00:00.000+00:00"),
@@ -184,10 +197,11 @@ var userObj = [
     point: 50,
     cart: { items: [] },
     orderHistory: [],
+    available: true,
   },
   {
     email: "user13@gmail.com",
-    password: "123456",
+    password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
     name: "Tran Thi H",
     doB: new Date("1990-04-03T00:00:00.000+00:00"),
@@ -197,6 +211,7 @@ var userObj = [
     point: 50,
     cart: { items: [] },
     orderHistory: [],
+    available: true,
   },
 ];
 
@@ -208,6 +223,7 @@ var productObj = [
     description: "Nước mắm Namm Ngư nhập khẩu Việt Nam",
     imageUrl: "images/nuocmam.jpg",
     mount: 10,
+    available: true,
   },
   {
     title: "Nước Tương",
@@ -216,6 +232,7 @@ var productObj = [
     description: "Nước Tương Chinsu nhập khẩu Việt Nam",
     imageUrl: "images/nuoctuongchinsu.jpg",
     mount: 5,
+    available: true,
   },
   {
     title: "Tương ớt",
@@ -224,6 +241,7 @@ var productObj = [
     description: "Tương ớt Chinsu nhập khẩu Việt Nam",
     imageUrl: "images/tuongotchinsu.jpg",
     mount: 5,
+    available: true,
   },
   {
     title: "Mắm tôm",
@@ -232,6 +250,7 @@ var productObj = [
     description: "Mắm tôm nhập khẩu Việt Nam",
     imageUrl: "images/mamtom.jpg",
     mount: 5,
+    available: true,
   },
   {
     title: "Mắm ruốc",
@@ -240,6 +259,7 @@ var productObj = [
     description: "Mắm ruốc nhập khẩu Việt Nam",
     imageUrl: "images/mamruoc.jpg",
     mount: 5,
+    available: true,
   },
   {
     title: "Tiêu đen",
@@ -248,6 +268,7 @@ var productObj = [
     description: "Tiêu đen nhập khẩu Việt Nam",
     imageUrl: "images/tieuden.jpg",
     mount: 2,
+    available: true,
   },
   {
     title: "Bánh tráng",
@@ -256,6 +277,7 @@ var productObj = [
     description: "Bánh tráng nhập khẩu Việt Nam",
     imageUrl: "images/banhtrang.jpg",
     mount: 3,
+    available: true,
   },
   {
     title: "Hạt nêm",
@@ -264,6 +286,7 @@ var productObj = [
     description: "Hạt nêm Knorr nhập khẩu Việt Nam",
     imageUrl: "images/hatnemknorr.jpg",
     mount: 7,
+    available: true,
   },
   {
     title: "Muối Hảo Hảo",
@@ -272,6 +295,7 @@ var productObj = [
     description: "Muối Hảo Hảo nhập khẩu Việt Nam",
     imageUrl: "images/muoihaohao.jpg",
     mount: 8,
+    available: true,
   },
   {
     title: "Mì Hảo Hảo",
@@ -280,6 +304,7 @@ var productObj = [
     description: "Mì Hảo Hảo nhập khẩu Việt Nam",
     imageUrl: "images/mihaohao.jpg",
     mount: 20,
+    available: true,
   },
   {
     title: "Mì Omachi",
@@ -288,6 +313,7 @@ var productObj = [
     description: "Mì Omachi nhập khẩu Việt Nam",
     imageUrl: "images/miomachi.jpg",
     mount: 20,
+    available: true,
   },
   {
     title: "Phở Vifon",
@@ -296,6 +322,7 @@ var productObj = [
     description: "Phở Vifon nhập khẩu Việt Nam",
     imageUrl: "images/phovifon.jpg",
     mount: 30,
+    available: true,
   },
   {
     title: "Sa tế tôm",
@@ -304,6 +331,7 @@ var productObj = [
     description: "Sa tế tôm nhập khẩu Việt Nam",
     imageUrl: "images/satetom.jpg",
     mount: 10,
+    available: true,
   },
   {
     title: "Bánh phồng tôm",
@@ -312,6 +340,7 @@ var productObj = [
     description: "Bánh phồng tôm nhập khẩu Việt Nam",
     imageUrl: "images/banhphongtom.jpg",
     mount: 20,
+    available: true,
   },
   {
     title: "Bún khô",
@@ -320,6 +349,7 @@ var productObj = [
     description: "Bún khô tôm nhập khẩu Việt Nam",
     imageUrl: "images/bunkho.jpg",
     mount: 5,
+    available: true,
   },
   {
     title: "Gà ta",
@@ -328,6 +358,7 @@ var productObj = [
     description: "Gà ta đông lạnh",
     imageUrl: "images/gata.jpg",
     mount: 20,
+    available: true,
   },
   {
     title: "Lòng heo non",
@@ -336,6 +367,7 @@ var productObj = [
     description: "Lòng heo non đông lạnh",
     imageUrl: "images/longnon.jpg",
     mount: 20,
+    available: true,
   },
   {
     title: "Thịt bò",
@@ -344,6 +376,7 @@ var productObj = [
     description: "Thịt bò non đông lạnh",
     imageUrl: "images/thitbo.jpg",
     mount: 10,
+    available: true,
   },
   {
     title: "Thịt heo",
@@ -352,6 +385,7 @@ var productObj = [
     description: "Thịt heo non đông lạnh",
     imageUrl: "images/thitheo.jpg",
     mount: 15,
+    available: true,
   },
   {
     title: "Gà ta",
@@ -360,6 +394,7 @@ var productObj = [
     description: "Gà ta đông lạnh",
     imageUrl: "images/gata.jpg",
     mount: 20,
+    available: true,
   },
   {
     title: "Lòng heo",
@@ -368,6 +403,7 @@ var productObj = [
     description: "Lòng heo non đông lạnh",
     imageUrl: "images/longnon.jpg",
     mount: 20,
+    available: true,
   },
   {
     title: "Thịt bò",
@@ -376,6 +412,7 @@ var productObj = [
     description: "Thịt bò non đông lạnh",
     imageUrl: "images/thitbo.jpg",
     mount: 10,
+    available: true,
   },
   {
     title: "Thịt heo",
@@ -384,6 +421,7 @@ var productObj = [
     description: "Thịt heo non đông lạnh",
     imageUrl: "images/thitheo.jpg",
     mount: 15,
+    available: true,
   },
   {
     title: "Bia 333",
@@ -392,6 +430,7 @@ var productObj = [
     description: "Bia 333 nhập khẩu Việt Nam",
     imageUrl: "images/bia333.jpg",
     mount: 150,
+    available: true,
   },
   {
     title: "Nước Sting",
@@ -400,6 +439,7 @@ var productObj = [
     description: "Nước ngọt Sting nhập khẩu Việt Nam",
     imageUrl: "images/sting.jpg",
     mount: 150,
+    available: true,
   },
   {
     title: "Nước Bò Húc",
@@ -408,6 +448,7 @@ var productObj = [
     description: "Nước ngọt Bò Húc nhập khẩu Việt Nam",
     imageUrl: "images/bohuc.jpg",
     mount: 100,
+    available: true,
   },
   {
     title: "Bia Tiger",
@@ -416,6 +457,7 @@ var productObj = [
     description: "Bia Tiger nhập khẩu Việt Nam",
     imageUrl: "images/biatiger.jpg",
     mount: 100,
+    available: true,
   },
   {
     title: "Xả cây",
@@ -424,6 +466,7 @@ var productObj = [
     description: "Xả cây tươi",
     imageUrl: "images/xacay.jpg",
     mount: 15,
+    available: true,
   },
   {
     title: "Rau răm",
@@ -432,6 +475,7 @@ var productObj = [
     description: "Rau răm tươi",
     imageUrl: "images/rauram.jpg",
     mount: 15,
+    available: true,
   },
   {
     title: "Nước Sting",
@@ -440,6 +484,7 @@ var productObj = [
     description: "Nước ngọt Sting nhập khẩu Việt Nam",
     imageUrl: "images/sting.jpg",
     mount: 150,
+    available: true,
   },
   {
     title: "Nước Bò Húc",
@@ -448,6 +493,7 @@ var productObj = [
     description: "Nước ngọt Bò Húc nhập khẩu Việt Nam",
     imageUrl: "images/bohuc.jpg",
     mount: 100,
+    available: true,
   },
   {
     title: "Bia Tiger",
@@ -456,6 +502,7 @@ var productObj = [
     description: "Bia Tiger nhập khẩu Việt Nam",
     imageUrl: "images/biatiger.jpg",
     mount: 100,
+    available: true,
   },
 ];
 
@@ -629,9 +676,6 @@ var eventObj = [
 
 const orderObj = [
   {
-    _id: {
-      $oid: "62922bd4c9425920267df7ae",
-    },
     products: [
       {
         productId: {
@@ -647,7 +691,7 @@ const orderObj = [
     ],
     cashInfo: {
       totalCash: 600,
-      isPaid: false,
+      isPaid: false
     },
     date: {
       $date: "2022-05-28T14:04:04.919Z",
@@ -662,13 +706,9 @@ const orderObj = [
       phoneNumber: "1234567890",
       address: "〒7330822-広島県 広島市西区 庚午中  a123",
       node: "",
-    },
-    __v: 0,
+    }
   },
   {
-    _id: {
-      $oid: "62922be7c9425920267df7b1",
-    },
     products: [
       {
         productId: {
@@ -700,12 +740,8 @@ const orderObj = [
       address: "〒7330822-広島県 広島市西区 庚午中  a123",
       node: "",
     },
-    __v: 0,
   },
   {
-    _id: {
-      $oid: "62922bebc9425920267df7b4",
-    },
     products: [
       {
         productId: {
@@ -737,12 +773,8 @@ const orderObj = [
       address: "〒7330822-広島県 広島市西区 庚午中  a123",
       node: "",
     },
-    __v: 0,
   },
   {
-    _id: {
-      $oid: "62922c09c9425920267df7b7",
-    },
     products: [
       {
         productId: {
@@ -807,12 +839,8 @@ const orderObj = [
       address: "〒7330821-広島県 広島市西区 庚午北  a123",
       node: "",
     },
-    __v: 0,
   },
   {
-    _id: {
-      $oid: "62922c5ec9425920267df7bd",
-    },
     products: [
       {
         productId: {
@@ -855,12 +883,8 @@ const orderObj = [
       address: "〒7330822-広島県 広島市西区 庚午中  a123",
       node: "",
     },
-    __v: 0,
   },
   {
-    _id: {
-      $oid: "62922cf2c9425920267df7c3",
-    },
     products: [
       {
         productId: {
@@ -914,7 +938,6 @@ const orderObj = [
       address: "〒7330311-広島県 広島市西区 庚午中  a123",
       node: "",
     },
-    __v: 0,
   },
 ];
 

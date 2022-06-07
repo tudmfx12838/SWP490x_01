@@ -27,6 +27,10 @@ const productSchema = new Schema({
     type: Number,
     required: true
   },
+  available: {
+    type: Boolean,
+    required: true
+  },
 });
 
 module.exports = mongoose.model("Product", productSchema);

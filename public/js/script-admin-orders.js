@@ -79,9 +79,9 @@ $(function () {
   //   $btn_delete.prop("disabled", true);
   // });
 
-//   /**
-//    * will be set both objest backup of old and new value  to null when user click button as close or cancel
-//    */
+  //   /**
+  //    * will be set both objest backup of old and new value  to null when user click button as close or cancel
+  //    */
   // $("#editItemModal, #detailItemModal")
   //   .find("#btn-cancel, .btn-close")
   //   .click(function () {
@@ -108,9 +108,9 @@ $(function () {
   //     };
   //   });
 
-//   /**
-//    * Disable button of delete atfer canceling or closing confirm delete from
-//    */
+  //   /**
+  //    * Disable button of delete atfer canceling or closing confirm delete from
+  //    */
   // $("#confirmDeleteItemModal")
   //   .find("#btn-cancel, .btn-close")
   //   .click(function () {
@@ -496,8 +496,8 @@ function productsInfoFormatter(index, row) {
     <p><b>Ngày:</b> ${orderDay}</p>`;
 
   return cashInfo;
-  // return `${productInfo} ${cashInfo}`;
 }
+
 function approveStatusFormatter(index, row) {
   const approveBotton = `<button class="btn-approve btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailItemModal" >Xác nhận</button>`;
   const approveStatus = `<p><b>Trạng thái:</b> ${

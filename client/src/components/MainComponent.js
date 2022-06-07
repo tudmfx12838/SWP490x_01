@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Header from "./HeaderComponent";
-import Footer from "./FooterComponent";
+import Header from "./includes/HeaderComponent";
+import Footer from "./includes/FooterComponent";
 import NotFound from "./NotFoundComponent";
 import Management from "./ManagementComponent";
 import Home from "./HomeComponent";
@@ -9,6 +9,8 @@ import ProductDry from "./ProductDryFoodComponent";
 import ProductDrinks from "./ProductDrinksComponent";
 import ProductFresh from "./ProductFreshFoodComponent";
 import OrderHistory from "./OrderHistoryComponet";
+import Login from "./Users/LoginComponent";
+import Signup from "./Users/SignupComponent";
 
 import Cart from "./CartComponent";
 import Order from "./OrderComponent";
@@ -57,6 +59,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   fetchOrderInfo: (dataOrder) => {
     dispatch(ActionCreators.fetchOrderInfo(dataOrder));
+  },
+  fetchUserLogin: (dataLogin) => {
+    dispatch(ActionCreators.fetchUserLogin(dataLogin));
+  },
+  fetchSignupAccountInfo: (dataSignup) => {
+    dispatch(ActionCreators.fetchSignupAccountInfo(dataSignup));
   },
   // fetchManageProducts: () => {
   //   dispatch(ActionCreators.fetchManageProducts());
@@ -221,6 +229,22 @@ class Main extends Component {
               // IncreaseQuantity={this.props.IncreaseQuantity}
               // DecreaseQuantity={this.props.DecreaseQuantity}
               // DeleteCart={this.props.DeleteCart}
+              />
+            }
+          />
+
+          <Route
+            exact
+            path="/dangnhap"
+            element={<Login fetchUserLogin={this.props.fetchUserLogin} />}
+          />
+
+          <Route
+            exact
+            path="/dangky"
+            element={
+              <Signup
+                fetchSignupAccountInfo={this.props.fetchSignupAccountInfo}
               />
             }
           />
