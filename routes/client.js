@@ -16,4 +16,10 @@ router.post("/client/checkEmailExist", clientController.postCheckEmailExist);
 
 router.post("/client/login", clientController.postClientLogin);
 
+router.post("/client/logout", clientController.postClientLogout);
+
+router.post("/client/checkingAuth", clientController.postCheckingAuth);
+
+
+
 module.exports = router;

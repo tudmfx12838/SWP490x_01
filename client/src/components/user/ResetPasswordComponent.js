@@ -16,11 +16,10 @@ import Event from "../EventComponent";
 
 const baseUrl = "/assets/";
 
-const Login = (props) => {
+const ResetPassword = (props) => {
   let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [isExistEmail, setisExistEmaill] = useState("");
-  const [password, setPassword] = useState("");
 
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
@@ -38,19 +37,6 @@ const Login = (props) => {
     }
   };
 
-  const getCSRFToken = async () => {
-    const response = await axios.get('http://localhost:4000/client/getCSRFToken');
-    axios.defaults.headers.post['X-CSRF-Token'] = response.data.CSRFToken;
- };
-   // fetch("http://localhost:4000/client/getCSRFToken")
-  //   .then((res) => {
-  //     alert(res.data.CSRFToken);
-  //   })
-  //   .catch((error) => console.log(error.message));
-
-  useEffect(() => {
-    getCSRFToken();
-  });
 
   const fetchCheckEmailExist = (email) => {
     setisExistEmaill("false");
@@ -79,7 +65,7 @@ const Login = (props) => {
     const validEmail = (val) =>
       /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
-    const { email, password } = form;
+    const { email } = form;
     const newErrors = {};
 
     // alert("isExistEmail  " + isExistEmail);
@@ -91,21 +77,14 @@ const Login = (props) => {
       newErrors.email = "Email không tồn tại";
     }
 
-    if (!password || password === "") {
-      newErrors.password = "Xin nhập mật khẩu!";
-    } else if (!minLength(password, 3)) {
-      newErrors.password = "Xin nhập mật khẩu lớn hơn 3 ký tự";
-    }
-
     return newErrors;
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
     fetchCheckEmailExist(email);
-    const loginInfo = {
+    const emailnInfo = {
       email: email,
-      password: password,
     };
 
     const formErrors = validateForm();
@@ -114,11 +93,11 @@ const Login = (props) => {
       //
       setErrors(formErrors);
       //
-      navigate("/dangnhap");
+      navigate("/khoiphucmatkhau");
     } else {
       // alert("Gửi đăng ký tài khoản");
       //
-      props.fetchUserLogin(loginInfo);
+      props.fetchConfirmBeforeResetPassword(emailnInfo);
       //
       handleResetButton();
       //
@@ -128,7 +107,6 @@ const Login = (props) => {
 
   function handleResetButton() {
     setEmail("");
-    setPassword("");
     setErrors({});
     setForm({});
     setisExistEmaill(null);
@@ -161,7 +139,7 @@ const Login = (props) => {
                   type="text"
                   name="email"
                   value={email}
-                  placeholder="Xin nhập Email đăng nhập"
+                  placeholder="Xin nhập Email"
                   isInvalid={!!errors.email}
                   // required
                 />
@@ -170,50 +148,16 @@ const Login = (props) => {
                 </Form.Control.Feedback>
               </Col>
             </Form.Group>
-
-            <Form.Group
-              as={Row}
-              className="mb-3"
-              controlId="password"
-            >
-              <Form.Label column sm={3}>
-                Mật khẩu
-              </Form.Label>
-              <Col sm={9}>
-                <Form.Control
-                  className={!!errors.password && "red-border"}
-                  onChange={(event) => {
-                    setField("password", event.target.value);
-                    setPassword(event.target.value);
-                  }}
-                  type="password"
-                  name="password"
-                  value={password}
-                  placeholder="Xin nhập mật khẩu đăng ký"
-                  isInvalid={!!errors.password}
-                  // required
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.password}
-                </Form.Control.Feedback>
-              </Col>
-            </Form.Group>
             <Form.Group as={Row} className="mb-3">
               <Col sm={{ span: 10, offset: 3 }}>
-                <Link to={"/dangky"}>Đăng Ký</Link>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3">
-              <Col sm={{ span: 10, offset: 3 }}>
-                <Button type="submit">Đăng Nhập</Button>
+                <Button type="submit">Xác nhận</Button>
               </Col>
             </Form.Group>
           </Form>
         </Col>
-        {/* <Col xs={1} md={2} lg={3}></Col> */}
       </Row>
     </Container>
   );
 };
 
-export default Login;
+export default ResetPassword;

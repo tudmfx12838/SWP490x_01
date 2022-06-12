@@ -48,3 +48,26 @@ export const GET_NUMBER_CART = 'GET_NUMBER_CART';
 export const ADD_CART = 'ADD_CART' ;
 export const UPDATE_CART = 'UPDATE_CART';
 export const DELETE_CART = 'DELETE_CART';
+
+
+export const LOGGING = 'LOGGING';
+export const LOGIN_FAILED = 'LOGIN_FAILED';
+export const LOGIN_STATUS = 'LOGIN_STATUS';
+
+
+export const LOADING_AUTH = 'LOADING_AUTH';
+export const AUTH_FAILED = 'AUTH_FAILED';
+export const ADD_AUTH = 'ADD_AUTH';
+export const UPDATE_AUTH = 'UPDATE_AUTH';
+
+
+export const ADD_USERCART_FAILED = 'ADD_USERCART_FAILED';
+export const ADD_USERCART = 'ADD_USERCART';
+export const UPDATE_USERCART = 'UPDATE_USERCART';
+
+
+// export const DECREASE_QUANTITY = 'DECREASE_QUANTITY';
+// export const GET_NUMBER_CART = 'GET_NUMBER_CART';
+// export const ADD_CART = 'ADD_CART' ;
+// export const UPDATE_CART = 'UPDATE_CART';
+// export const DELETE_CART = 'DELETE_CART';

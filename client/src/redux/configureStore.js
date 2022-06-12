@@ -14,6 +14,10 @@ import { Products } from "./products";
 
 import { Cart } from "./cart";
 
+import { User } from "./user";
+
+import { Auth } from "./auth";
+
 // import { Departments } from './departments';
 // import { StaffsSalary } from './staffsSalary';
 
@@ -22,6 +26,8 @@ export const ConfigureStore = () => {
     combineReducers({
       products: Products,
       cart: Cart,
+      user: User,
+      auth: Auth,
       // manageProducts: manageProducts,
       // manageUsers: manageUsers,
       // manageEvents: manageEvents,

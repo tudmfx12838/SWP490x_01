@@ -1,19 +1,20 @@
 import React, { Component } from "react";
 import Header from "./includes/HeaderComponent";
 import Footer from "./includes/FooterComponent";
-import NotFound from "./NotFoundComponent";
+import NotFound from "./pages/NotFoundComponent";
 import Management from "./ManagementComponent";
-import Home from "./HomeComponent";
-import ProductDetail from "./ProductDetailComponent";
-import ProductDry from "./ProductDryFoodComponent";
-import ProductDrinks from "./ProductDrinksComponent";
-import ProductFresh from "./ProductFreshFoodComponent";
+import Home from "./pages/HomeComponent";
+import ProductDetail from "./pages/ProductDetailComponent";
+import ProductDry from "./pages/ProductDryFoodComponent";
+import ProductDrinks from "./pages/ProductDrinksComponent";
+import ProductFresh from "./pages/ProductFreshFoodComponent";
 import OrderHistory from "./OrderHistoryComponet";
-import Login from "./Users/LoginComponent";
-import Signup from "./Users/SignupComponent";
+import Login from "./user/LoginComponent";
+import Signup from "./user/SignupComponent";
+import ResetPassword from "./user/ResetPasswordComponent";
 
-import Cart from "./CartComponent";
-import Order from "./OrderComponent";
+import Cart from "./pages/CartComponent";
+import Order from "./pages/OrderComponent";
 
 //withRouter cau hinh ket noi React voi Redux
 // import { Switch, Route, Redirect, withRouter } from "react-router-dom";
@@ -43,6 +44,8 @@ const mapStateToProps = (state) => {
   return {
     cart: state.cart,
     products: state.products,
+    user: state.user,
+    auth: state.auth,
     // manageProducts: state.manageProducts,
     // manageUsers: state.manageUsers,
     // manageEvents: state.manageEvents,
@@ -63,9 +66,22 @@ const mapDispatchToProps = (dispatch) => ({
   fetchUserLogin: (dataLogin) => {
     dispatch(ActionCreators.fetchUserLogin(dataLogin));
   },
+  fetchUserLogout: (sessionId) => {
+    dispatch(ActionCreators.fetchUserLogout(sessionId));
+  },
   fetchSignupAccountInfo: (dataSignup) => {
     dispatch(ActionCreators.fetchSignupAccountInfo(dataSignup));
   },
+  fetchConfirmBeforeResetPassword: (email) => {
+    dispatch(ActionCreators.fetchConfirmBeforeResetPassword(email));
+  },
+  changeLoginStatus: (status) => {
+    dispatch(ActionCreators.changeLoginStatus(status));
+  },
+  fetchAuthentication: (sessionId) => {
+    dispatch(ActionCreators.fetchAuthentication(sessionId));
+  },
+
   // fetchManageProducts: () => {
   //   dispatch(ActionCreators.fetchManageProducts());
   // },
@@ -105,10 +121,26 @@ class Main extends Component {
 
   componentDidMount() {
     this.props.fetchProducts();
+    this.props.changeLoginStatus({ status: "idle", user: null });
+
+    // this.props.fetchAuthentication({ isLogged: false });
     // this.props.fetchManageProducts();
     // this.props.fetchManageUsers();
     // this.props.fetchManageEvents();
     // this.props.fetchManageOrders();
+    // alert("componentDidMount");
+  }
+
+  componentDidUpdate() {
+    alert(
+      "componentDidUpdate, user: " +
+        JSON.stringify(this.props.user.user) +
+        "    auth: " +
+        JSON.stringify(this.props.auth.auth) + "     Cart: " + JSON.stringify(this.props.cart.Carts)
+    );
+    if (this.props.user.user.status === "logged" && this.props.user.user.user !== null) {
+      this.props.fetchAuthentication(this.props.auth.auth.sessionId);
+    }
   }
 
   // alertTest(value){
@@ -135,7 +167,13 @@ class Main extends Component {
 
     return (
       <React.Fragment>
-        <Header numberCart={this.props.cart.numberCart} />
+        <Header
+          numberCart={this.props.cart.numberCart}
+          auth={this.props.auth}
+          user={this.props.user}
+          fetchUserLogout={this.props.fetchUserLogout}
+          fetchAuthentication={this.props.fetchAuthentication}
+        />
         {/* <NavbarHeader/> */}
 
         <Routes>
@@ -169,7 +207,6 @@ class Main extends Component {
               />
             }
           />
-
           <Route
             exact
             path="/sanpham/thucphamkho"
@@ -204,7 +241,6 @@ class Main extends Component {
             path="/sanpham/:typeFood/:productId"
             element={<ProductWithIdAndType />}
           />
-
           <Route
             exact
             path="/giohang"
@@ -218,7 +254,6 @@ class Main extends Component {
               />
             }
           />
-
           <Route
             exact
             path="/lichsu"
@@ -236,7 +271,15 @@ class Main extends Component {
           <Route
             exact
             path="/dangnhap"
-            element={<Login fetchUserLogin={this.props.fetchUserLogin} />}
+            element={
+              <Login
+                fetchUserLogin={this.props.fetchUserLogin}
+                user={this.props.user}
+                changeLoginStatus={this.props.changeLoginStatus}
+                fetchAuthentication={this.props.fetchAuthentication}
+                auth={this.props.auth}
+              />
+            }
           />
 
           <Route
@@ -245,6 +288,17 @@ class Main extends Component {
             element={
               <Signup
                 fetchSignupAccountInfo={this.props.fetchSignupAccountInfo}
+              />
+            }
+          />
+          <Route
+            exact
+            path="/khoiphucmatkhau"
+            element={
+              <ResetPassword
+                fetchConfirmBeforeResetPassword={
+                  this.props.fetchConfirmBeforeResetPassword
+                }
               />
             }
           />
@@ -260,7 +314,6 @@ class Main extends Component {
               />
             }
           />
-
           {/* <Route
             exact
             path="/quanly"
@@ -273,7 +326,6 @@ class Main extends Component {
               />
             }
           /> */}
-
           <Route path="*" element={<NotFound />} />
         </Routes>
 

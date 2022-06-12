@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import { Link, NavLink } from "react-router-dom";
-import Event from "./EventComponent";
+import Event from "../EventComponent";
 
 const baseUrl = "/assets/";
 

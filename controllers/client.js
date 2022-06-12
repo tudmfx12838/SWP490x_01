@@ -5,6 +5,20 @@ const User = require("../models/user");
 
 const bcrypt = require("bcryptjs");
 
+const session = require("express-session");
+const MongoDbStote = require("connect-mongodb-session")(session);
+
+const MONGODB_URL =
+  "mongodb+srv://admin:8888@cluster0.pi4yq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
+const store = new MongoDbStote({
+  uri: MONGODB_URL,
+  collection: "sessions",
+  databaseName: "myShopDB",
+  expires: 1000 * 60,
+  // expires  them vao de tu xoa sau het phien
+});
+
 /**
  * The method getProducts() implement geting product's data from database and respone to client
  * */
@@ -95,10 +109,152 @@ exports.postCheckEmailExist = (req, res, next) => {
     });
 };
 
+exports.postCheckingAuth = (req, res, next) => {
+  // console.log(JSON.stringify(req.body));
+  const sessionId = req.body.sessionId;
+  console.log("postCheckingAuth");
+  console.log(sessionId);
 
-exports.postClientLogin= (req, res, next) => {
+  // store.get(sessionId, (error, session) => {
+  //   console.log(session);
+  // })
+  //Get all session from DB
+  store.all((err, obj) => {
+    //fill user in each session that has the same email with that's to be got from client
+    if (obj.length > 0) {
+      const sessionOfThisUser = obj.filter((s_obj) => {
+        return s_obj._id === sessionId;
+      });
+
+      //destroy session that need to logout
+      if (sessionOfThisUser.length > 0) {
+        res.send({ isLoggedIn: sessionOfThisUser[0].session.isLoggedIn });
+      } else {
+        res.send({ isLoggedIn: false });
+      }
+    } else {
+      res.send({ isLoggedIn: false });
+    }
+
+    if (err) {
+      console.log(err);
+    }
+  });
+};
+
+exports.postClientLogin = (req, res, next) => {
   console.log(JSON.stringify(req.body));
-}
+  const email = req.body.email;
+  const password = req.body.password;
+  var sessionId = "";
+  var isLoggedIn = false;
+
+  User.findOne({ email: email })
+    .then((user) => {
+      if (!user) {
+        res.send(false);
+      } else {
+        const sendUserToClient = {
+          email: user.email,
+          name: user.name,
+          phoneNumber: user.phoneNumber,
+          address: user.address,
+          point: user.point,
+          cart: user.cart.items,
+          sessionId: sessionId,
+          isLoggedIn: isLoggedIn,
+        };
+
+        bcrypt
+          .compare(password, user.password)
+          .then((doMatch) => {
+            if (doMatch) {
+              req.session.isLoggedIn = true;
+              req.session.user = user;
+              return req.session.save((err) => {
+                store.all((err, obj) => {
+                  //fill user in each session that has the same email with that's to be got from client
+                  if (obj.length > 0) {
+                    const sessionOfThisUser = obj.filter((s_obj) => {
+                      return (
+                        s_obj.session.user.email === sendUserToClient.email
+                      );
+                    });
+
+                    //Get latest session
+                    if (sessionOfThisUser.length > 0) {
+                      sessionId =
+                        sessionOfThisUser[sessionOfThisUser.length - 1]._id;
+                      isLoggedIn =
+                        sessionOfThisUser[sessionOfThisUser.length - 1].session
+                          .isLoggedIn;
+                    } else {
+                      sessionId = "";
+                      isLoggedIn = false;
+                    }
+
+                    sendUserToClient.sessionId = sessionId;
+                    sendUserToClient.isLoggedIn = isLoggedIn;
+                    res.send({ status: "success", user: sendUserToClient });
+                  } else {
+                    throw "obj is null";
+                  }
+                  if (err) {
+                    console.log(err);
+                  }
+                });
+              });
+            } else {
+              res.send({ status: "failed", user: null });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      // const error = new Error(err);
+      // error.httpStatusCode = 500;
+      // return next(error);
+    });
+};
+
+exports.postClientLogout = (req, res, next) => {
+  const sessionId = req.body.sessionId;
+  // console.log(sessionId);
+
+  //Get all session from DB
+  store.all((err, obj) => {
+    //fill user in each session that has the same email with that's to be got from client
+    if (obj.length > 0) {
+      const sessionOfThisUser = obj.filter((s_obj) => {
+        return s_obj._id === sessionId;
+      });
+
+      //destroy session that need to logout
+      if (sessionOfThisUser) {
+        console.log(sessionOfThisUser);
+        store.destroy(sessionOfThisUser[0]._id, (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.send({ isLogout: true });
+          }
+        });
+      } else {
+        res.send({ isLogout: false });
+      }
+    } else {
+      res.send({ isLogout: true });
+    }
+
+    if (err) {
+      console.log(err);
+    }
+  });
+};
 
 exports.postClientSignup = (req, res, next) => {
   console.log(JSON.stringify(req.body));
@@ -120,41 +276,78 @@ exports.postClientSignup = (req, res, next) => {
   //   }
   var imageUrl = "images/avatar.jpg";
 
-    bcrypt
-      .hash(password, 12) //Ma hoa pw thanh ma hash, agr2 la so vong bam, gia tri cang cao cang ton tgian nhung  cang an toan, 12 la du
-      .then((hashedPassword) => {
-        const user = new User({
-          email: email,
-          password: hashedPassword,
-          permission: permission,
-          name: name,
-          doB: doB,
-          phoneNumber: phoneNumber,
-          address: address,
-          point: 0,
-          imageUrl: imageUrl,
-          cart: { items: [] },
-          orderHistory: [],
-          available: true,
-        });
-        return user.save();
-      })
-      .then((result) => {
-        return res.send({msg: "Đăng ký tài khoản thàng công"});
-        // console.log(email);
-        // return transporter.sendMail({
-        //   to: email,
-        //   from: "tudmfx12838@funix.edu.vn",
-        //   subject: "Signup succeeded!",
-        //   html: '<h1>You successfully signed up!<a href="http://localhost:3000/">Click here to return!</a></h1>',
-        // });
-      })
-      .catch((err) => {
-        console.log(err);
-        // const error = new Error(err);
-        // error.httpStatusCode = 500;
-        // return next(error);
+  bcrypt
+    .hash(password, 12) //Ma hoa pw thanh ma hash, agr2 la so vong bam, gia tri cang cao cang ton tgian nhung  cang an toan, 12 la du
+    .then((hashedPassword) => {
+      const user = new User({
+        email: email,
+        password: hashedPassword,
+        permission: permission,
+        name: name,
+        doB: doB,
+        phoneNumber: phoneNumber,
+        address: address,
+        point: 0,
+        imageUrl: imageUrl,
+        cart: { items: [] },
+        orderHistory: [],
+        available: true,
       });
+      return user.save();
+    })
+    .then((result) => {
+      return res.send({ msg: "Đăng ký tài khoản thàng công" });
+      // console.log(email);
+      // return transporter.sendMail({
+      //   to: email,
+      //   from: "tudmfx12838@funix.edu.vn",
+      //   subject: "Signup succeeded!",
+      //   html: '<h1>You successfully signed up!<a href="http://localhost:3000/">Click here to return!</a></h1>',
+      // });
+    })
+    .catch((err) => {
+      console.log(err);
+      // const error = new Error(err);
+      // error.httpStatusCode = 500;
+      // return next(error);
+    });
+};
+
+exports.postReset = (req, res, next) => {
+  // crypto.randomBytes(32, (err, buffer) => {
+  //   if (err) {
+  //     console.log(err);
+  //     return res.redirect("/reset");
+  //   }
+  //   const token = buffer.toString("hex");
+  //   User.findOne({ email: req.body.email })
+  //     .then((user) => {
+  //       if (!user) {
+  //         req.flash("error", "No account with that email fonud !");
+  //         return res.redirect("/reset");
+  //       }
+  //       user.resetToken = token;
+  //       user.resetTokenExpiration = Date.now() + 360000; //360000 milisecond = 1hour
+  //       return user.save();
+  //     })
+  //     .then((result) => {
+  //       res.redirect("/login");
+  //       // console.log(req.body.email);
+  //       // return transporter.sendMail({
+  //       //   to: req.body.email,
+  //       //   from: "tudmfx12838@funix.edu.vn",
+  //       //   subject: "Reset password succeeded!",
+  //       //   html: `<h1>Reset password successfully!</h1>
+  //       //        <p><a href="http://localhost:3000/reset/${token}">Click here to return!</a></p>
+  //       //       `,
+  //       // });
+  //     })
+  //     .catch((err) => {
+  //       const error = new Error(err);
+  //       error.httpStatusCode = 500;
+  //       return next(error);
+  //     });
+  // });
 };
 
 exports.getCSRFToken = (req, res, next) => {

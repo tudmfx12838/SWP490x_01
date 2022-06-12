@@ -8,6 +8,7 @@ const cors = require("cors");
 const csrf = require("csurf");
 const session = require("express-session");
 const MongoDbStote = require("connect-mongodb-session")(session);
+const cookieParser = require("cookie-parser");
 
 const clientRoutes = require("./routes/client");
 const adminRoutes = require("./routes/admin");
@@ -23,10 +24,18 @@ const store = new MongoDbStote({
   uri: MONGODB_URL,
   collection: "sessions",
   databaseName: "myShopDB",
+  expires: 1000 * 60, // 60 seconds in milliseconds
   // expires  them vao de tu xoa sau het phien
 });
 
-const csrfProtection = csrf({cookie: true});
+const csrfProtection = csrf();
+  // {
+  // cookie: {
+  //      httpOnly: true,
+  //      secure: process.env.NODE_ENV === 'production',
+  //      maxAge: 3600 // 1-hour
+  //  }
+  // }
 
 /**
  * The method fileStorage() setup a image's storage
@@ -106,10 +115,12 @@ app.use(
   })
 );
 
+// app.use(cookieParser());
+
 /**
  * Config csrf
  * */
-app.use(csrfProtection);
+// app.use(csrfProtection);
 // app.use(csrf({
 //   cookie: {
 //        httpOnly: true,
@@ -120,8 +131,8 @@ app.use(csrfProtection);
 
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn; //tinh nang dac biet res.locals. cua expessjs dung de thiet lap cac bien cuc bo truyen vao cac view
-  // res.locals.csrfToken = ""; //req.csrfToken();
-  res.locals.csrfToken = req.csrfToken();
+  res.locals.csrfToken = ""; //req.csrfToken();
+  // res.locals.csrfToken = req.csrfToken();
 
   if (req.session.user) {
     res.locals.permission = req.session.user.permission;

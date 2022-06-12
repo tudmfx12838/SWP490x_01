@@ -10,7 +10,7 @@ import {
   Breadcrumb,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Event from "./EventComponent";
+import Event from "../EventComponent";
 
 function RenderProductItem({ products, type, callback }) {
   return (

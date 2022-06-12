@@ -2,7 +2,11 @@ import {
   fetchProducts,
   fetchOrderInfo,
   fetchUserLogin,
+  fetchUserLogout,
   fetchSignupAccountInfo,
+  fetchConfirmBeforeResetPassword,
+  changeLoginStatus,
+  fetchAuthentication,
 } from "./PageAactions";
 import {
   fetchManageProducts,
@@ -24,7 +28,11 @@ export const ActionCreators = {
   fetchProducts: fetchProducts,
   fetchOrderInfo: fetchOrderInfo,
   fetchUserLogin: fetchUserLogin,
+  fetchUserLogout: fetchUserLogout,
   fetchSignupAccountInfo: fetchSignupAccountInfo,
+  fetchConfirmBeforeResetPassword: fetchConfirmBeforeResetPassword,
+  changeLoginStatus: changeLoginStatus,
+  fetchAuthentication: fetchAuthentication,
   // fetchManageProducts: fetchManageProducts,
   // fetchManageUsers: fetchManageUsers,
   // fetchManageEvents: fetchManageEvents,
