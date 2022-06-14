@@ -63,6 +63,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchOrderInfo: (dataOrder) => {
     dispatch(ActionCreators.fetchOrderInfo(dataOrder));
   },
+
+  //Login
   fetchUserLogin: (dataLogin) => {
     dispatch(ActionCreators.fetchUserLogin(dataLogin));
   },
@@ -82,6 +84,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(ActionCreators.fetchAuthentication(sessionId));
   },
 
+  //Cart
+  fetchUpdateCart: (updateCartInfo) => {
+    dispatch(ActionCreators.fetchUpdateCart(updateCartInfo));
+  },
   // fetchManageProducts: () => {
   //   dispatch(ActionCreators.fetchManageProducts());
   // },
@@ -112,6 +118,10 @@ const mapDispatchToProps = (dispatch) => ({
   DecreaseQuantity: (product) => {
     dispatch(ActionCreators.DecreaseQuantity(product));
   },
+  UpdateUserCartToPageCart: (product) => {
+    dispatch(ActionCreators.UpdateUserCartToPageCart(product));
+  },
+  
 });
 
 class Main extends Component {
@@ -132,15 +142,48 @@ class Main extends Component {
   }
 
   componentDidUpdate() {
-    alert(
-      "componentDidUpdate, user: " +
-        JSON.stringify(this.props.user.user) +
-        "    auth: " +
-        JSON.stringify(this.props.auth.auth) + "     Cart: " + JSON.stringify(this.props.cart.Carts)
-    );
-    if (this.props.user.user.status === "logged" && this.props.user.user.user !== null) {
+    // alert(
+    //   "componentDidUpdate, user: " +
+    //     JSON.stringify(this.props.user.user) +
+    //     "    auth: " +
+    //     JSON.stringify(this.props.auth.auth) +
+    //     "     Cart: " +
+    //     JSON.stringify(this.props.cart.Carts)
+    // );
+
+    //Tracking user loggedin or not
+    if (
+      this.props.user.user.status === "logged" &&
+      this.props.user.user.user !== null
+    ) {
       this.props.fetchAuthentication(this.props.auth.auth.sessionId);
     }
+
+    //Update user's cart each changing cart
+    if (
+      this.props.cart.Carts.length > 0 &&
+      this.props.user.user.user !== null
+    ) {
+      alert("update cart");
+      if (
+        !JSON.stringify(this.props.user.user.user.cart).localeCompare(
+          JSON.stringify(this.props.cart.Carts)
+        )
+      ) {
+        alert("same same");
+        //Do nothing
+      } else {
+        //Chi fetch khi page's Cart thay doi
+        alert("not same");
+        const updateCartInfo = {
+          Carts: this.props.cart.Carts,
+          sessionId: this.props.auth.auth.sessionId,
+        };
+        this.props.fetchUpdateCart(updateCartInfo);
+      }
+    }
+
+    // this.props.UpdateUserCartToPageCart([]);
   }
 
   // alertTest(value){
@@ -277,6 +320,7 @@ class Main extends Component {
                 user={this.props.user}
                 changeLoginStatus={this.props.changeLoginStatus}
                 fetchAuthentication={this.props.fetchAuthentication}
+                UpdateUserCartToPageCart={this.props.UpdateUserCartToPageCart}
                 auth={this.props.auth}
               />
             }

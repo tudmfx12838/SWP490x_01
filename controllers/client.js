@@ -15,7 +15,7 @@ const store = new MongoDbStote({
   uri: MONGODB_URL,
   collection: "sessions",
   databaseName: "myShopDB",
-  expires: 1000 * 60,
+  expires: 1000 * 60 * 60,
   // expires  them vao de tu xoa sau het phien
 });
 
@@ -91,17 +91,17 @@ exports.postClientOrder = (req, res, next) => {
 };
 
 exports.postCheckEmailExist = (req, res, next) => {
-  console.log(JSON.stringify(req.body));
+  // console.log(JSON.stringify(req.body));
   const email = req.body.email;
   // User.findOne()
   User.findOne({ email: email })
     .then((userDoc) => {
       if (!userDoc) {
         res.send(false);
-        console.log("not exist");
+        // console.log("not exist");
       } else {
         res.send(true);
-        console.log(" exist");
+        // console.log(" exist");
       }
     })
     .catch((err) => {
@@ -112,8 +112,8 @@ exports.postCheckEmailExist = (req, res, next) => {
 exports.postCheckingAuth = (req, res, next) => {
   // console.log(JSON.stringify(req.body));
   const sessionId = req.body.sessionId;
-  console.log("postCheckingAuth");
-  console.log(sessionId);
+  // console.log("postCheckingAuth");
+  // console.log(sessionId);
 
   // store.get(sessionId, (error, session) => {
   //   console.log(session);
@@ -143,12 +143,13 @@ exports.postCheckingAuth = (req, res, next) => {
 };
 
 exports.postClientLogin = (req, res, next) => {
-  console.log(JSON.stringify(req.body));
+  // console.log(JSON.stringify(req.body));
   const email = req.body.email;
   const password = req.body.password;
   var sessionId = "";
   var isLoggedIn = false;
-
+  var product_arr = [];
+    
   User.findOne({ email: email })
     .then((user) => {
       if (!user) {
@@ -257,7 +258,7 @@ exports.postClientLogout = (req, res, next) => {
 };
 
 exports.postClientSignup = (req, res, next) => {
-  console.log(JSON.stringify(req.body));
+  // console.log(JSON.stringify(req.body));
 
   const email = req.body.email;
   const password = req.body.password;
@@ -352,6 +353,47 @@ exports.postReset = (req, res, next) => {
 
 exports.getCSRFToken = (req, res, next) => {
   res.json({ CSRFToken: req.csrfToken() });
+  // res.cookie('XSRF-TOKEN', req.csrfToken());
+  // app.all('*', function (req, res) {
+  //   res.cookie('XSRF-TOKEN', req.csrfToken())
+  //   res.render('index')
+  // })
+};
+
+exports.postUpdateCartFromClientToServer = (req, res, next) => {
+  // console.log("postUpdateCartFromClientToServer \n" + JSON.stringify(req.body));
+
+  const Carts = req.body.Carts;
+  const sessionId = req.body.sessionId;
+
+  // console.log(Carts);
+  // console.log(shortCarts);
+
+  store.get(sessionId, (error, session) => {
+    console.log(session);
+    if (session !== null) {
+      User.findOne({ _id: session.user._id })
+        .then((user) => {
+          if (user !== null) {
+            user.cart.items = Carts;
+            user
+              .save()
+              .then((result) => {
+                console.log("updated cart completely " + sessionId);
+              })
+              .catch((err) => console.log(err));
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+    if (error) {
+      console.log(error);
+    }
+  });
+  //Kiem tra session con ton tai khong, neu khong yeu cau dang nhap lai
+  //kiem tra email trong user co ton tai khong neu co thi add cart neu khong thi tra ve yeu cau dang nhap lai
+  //ok thi tien hanh tach lai productId va quantity de add vao user's cart, tra ve ok
+
   // res.cookie('XSRF-TOKEN', req.csrfToken());
   // app.all('*', function (req, res) {
   //   res.cookie('XSRF-TOKEN', req.csrfToken())

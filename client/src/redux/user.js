@@ -9,8 +9,6 @@ export const User = (
   action
 ) => {
   switch (action.type) {
-    // case ActionTypes.PRODUCTS_LOADING:
-    //     return {...state, isLoading: action.payload, errmess: null, products: []};
     case ActionTypes.LOGGING:
       return {
         ...state,
@@ -36,13 +34,17 @@ export const User = (
         user: action.payload,
       };
 
-    // case ActionTypes.LOGIN_UPDATE_STATUS:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     errmess: null,
-    //     user: { ...state.user, status: action.payload },
-    //   };
+    case ActionTypes.UPDATE_USERCART:
+      // alert(
+      //   "called UPDATE_USERCART cart.js  " +
+      //     JSON.stringify(state.user) +
+      //     " cart: " +
+      //     state.user.user.cart +
+      //     "     action.payload:  " +
+      //     JSON.stringify(action.payload)
+      // );
+      state.user.user.cart = JSON.parse(JSON.stringify(action.payload));
+      return state;
 
     default:
       return state;

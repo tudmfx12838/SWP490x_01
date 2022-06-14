@@ -37,7 +37,7 @@ export const Auth = (
       };
 
     case ActionTypes.UPDATE_AUTH:
-      alert(JSON.stringify(state));
+      // alert(JSON.stringify(state));
       
       //User is using status as true
       if (action.payload === true) {

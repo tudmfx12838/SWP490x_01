@@ -39,3 +39,7 @@ export function DecreaseQuantity(payload) {
     payload,
   };
 }
+
+export function UpdateUserCartToPageCart(payload) {
+  return { type: ActionTypes.UPDATE_USERCART_TO_PAGECART, payload };
+}

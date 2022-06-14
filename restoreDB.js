@@ -213,6 +213,20 @@ var userObj = [
     orderHistory: [],
     available: true,
   },
+  {
+    email: "pocket.se7en@gmail.com",
+    password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
+    permission: "user",
+    name: "Dang Minh Tu",
+    doB: new Date("1990-04-03T00:00:00.000+00:00"),
+    phoneNumber: "0901234567",
+    address: "〒7330822-HiroshimaShi",
+    imageUrl: "images/avatar.jpg",
+    point: 50,
+    cart: { items: [] },
+    orderHistory: [],
+    available: true,
+  },
 ];
 
 var productObj = [

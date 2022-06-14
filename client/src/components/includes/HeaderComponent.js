@@ -47,7 +47,9 @@ class Header extends Component {
     // alert(JSON.stringify(this.props.user.user.user.email));
     // alert(JSON.stringify(this.props.auth.auth.sessionId));
     const sessionId = this.props.auth.auth.sessionId;
+    //
     this.props.fetchUserLogout(sessionId);
+    //
   }
   render() {
     //

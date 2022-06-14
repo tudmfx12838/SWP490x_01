@@ -1,4 +1,5 @@
 import * as ActionTypes from "./ActionTypes";
+import { UpdateUserCartToPageCart } from "./CartActions";
 import { baseUrl } from "../shared/baseUrl";
 import axios from "axios";
 
@@ -157,7 +158,9 @@ export const fetchUserLogout = (sessionId) => (dispatch) => {
         alert("Đăng xuất thành công");
         dispatch(userLoginStatus({ status: "idle", user: null }));
         dispatch(addAuth({ isLoggedIn: false, sessionId: null }));
-      }else{
+        dispatch(UpdateUserCartToPageCart([]));
+        
+      } else {
         alert("Đăng xuất thất bại");
       }
     })
@@ -194,14 +197,18 @@ export const fetchAuthentication = (sessionId) => (dispatch) => {
 
     .then((respone) => respone.json())
     .then((auth) => {
-      if(auth.isLoggedIn === true){
+      if (auth.isLoggedIn === true) {
         alert("JSON.stringify(auth)   " + JSON.stringify(auth));
         dispatch(updateAuth(auth.isLoggedIn));
-      }else{
+      } else {
         alert("Phiên hết hạn vui lòng đăng nhập lại");
+        // const auth = {
+        //   isLoggedIn: false,
+        //   sessionId: "",
+        // };
         dispatch(updateAuth(auth.isLoggedIn));
-        dispatch(userLoginStatus({status: "idle", user: null}));
-      } 
+        dispatch(userLoginStatus({ status: "idle", user: null }));
+      }
       // dispatch(addAuth(auth));
     })
     .catch((error) => dispatch(authFailed(error.message)));
@@ -342,12 +349,27 @@ export const fetchSignupAccountInfo = (dataSignup) => (dispatch) => {
 
 export const fetchConfirmBeforeResetPassword = (email) => (dispatch) => {};
 
-export const fetchAddCart = (Carts) => (dispatch) => {
-
-};
-
-export const fetchUpdateCart = (Carts) => (dispatch) => {
-  
+export const fetchUpdateCart = (updateCartInfo) => (dispatch) => {
+  // alert("fetchUpdateCart " + JSON.stringify(updateCartInfo));
+  dispatch(updateUserCart(updateCartInfo.Carts));
+  // /client/updateCartFromClientToServer
+  return fetch("http://localhost:4000/client/updateCartFromClientToServer", {
+    method: "POST",
+    body: JSON.stringify(updateCartInfo),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "same-origin",
+  })
+    .then((respone) => respone.json())
+    .then((respone) => {
+      alert(JSON.stringify(respone));
+      // alert(result.logout);// true
+      // alert("Đăng xuất thành công");
+      // dispatch(userLoginStatus({ status: "idle", user: null }));
+      // dispatch(addAuth({ isLoggedIn: false, sessionId: null }));
+    })
+    .catch((error) => console.log(error));
 };
 
 export const addUserCartFailed = (errMsg) => ({
@@ -360,7 +382,7 @@ export const addUserCart = (auth) => ({
   payload: auth,
 });
 
-export const updateUserCart = (auth) => ({
+export const updateUserCart = (Carts) => ({
   type: ActionTypes.UPDATE_USERCART,
-  payload: auth,
+  payload: Carts,
 });

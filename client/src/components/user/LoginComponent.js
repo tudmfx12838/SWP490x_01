@@ -62,6 +62,7 @@ const Login = (props) => {
   // }, []);
 
   useEffect(() => {
+    
     // alert(JSON.stringify(props.user.user));
     // alert(JSON.stringify(props.auth.auth));
     if (props.user.user.status === "success") {
@@ -69,16 +70,17 @@ const Login = (props) => {
       alert("Đăng nhập thành công");
       //
       props.changeLoginStatus({ status: "logged", user: props.user.user.user });
-      //
-      // navigate("/");
+      props.UpdateUserCartToPageCart(props.user.user.user.cart);
+      navigate("/");
+
     } else if (props.user.user.status === "failed") {
       //
       alert("Đăng nhập thất bại. Email hoặc mật khẩu không đúng!");
       //
       props.changeLoginStatus({ status: "idle", user: null });
-      // navigate("/dangnhap");
+      navigate("/dangnhap");
     }
-  }, [props, props.user.user]);
+  }, [navigate, props, props.user.user]);
 
   const fetchCheckEmailExist = (email) => {
     setisExistEmaill("false");

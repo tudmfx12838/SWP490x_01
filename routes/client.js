@@ -20,6 +20,8 @@ router.post("/client/logout", clientController.postClientLogout);
 
 router.post("/client/checkingAuth", clientController.postCheckingAuth);
 
+router.post("/client/updateCartFromClientToServer", clientController.postUpdateCartFromClientToServer);
+
 
 
 module.exports = router;

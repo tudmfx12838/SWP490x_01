@@ -9,8 +9,6 @@ export const Products = (
   action
 ) => {
   switch (action.type) {
-    // case ActionTypes.PRODUCTS_LOADING:
-    //     return {...state, isLoading: action.payload, errmess: null, products: []};
     case ActionTypes.PRODUCTS_FAILED:
       return {
         ...state,
@@ -25,8 +23,6 @@ export const Products = (
         errmess: null,
         products: action.payload,
       };
-    // case ActionTypes.DELETE_PRODUCT:
-    //     return {...state, isLoading: false, errmess: null, products: action.payload};
     default:
       return state;
   }

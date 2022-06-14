@@ -24,7 +24,7 @@ const store = new MongoDbStote({
   uri: MONGODB_URL,
   collection: "sessions",
   databaseName: "myShopDB",
-  expires: 1000 * 60, // 60 seconds in milliseconds
+  expires: 1000 * 60 * 60, // 60 seconds in milliseconds
   // expires  them vao de tu xoa sau het phien
 });
 

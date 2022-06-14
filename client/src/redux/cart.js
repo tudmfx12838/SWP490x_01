@@ -70,6 +70,21 @@ export const Cart = (state = initCart, action) => {
           return item._id !== state.Carts[action.payload]._id;
         }),
       };
+
+    case ActionTypes.UPDATE_USERCART_TO_PAGECART:
+      const cart = JSON.parse(JSON.stringify(action.payload));
+      var sumNumberCart = 0;
+      if(cart.length > 0){
+        cart.forEach((item) => {
+          sumNumberCart += item.quantity;
+        });
+      }
+
+      return {
+        ...state,
+        numberCart: sumNumberCart,
+        Carts: cart,
+      };
     default:
       return state;
   }

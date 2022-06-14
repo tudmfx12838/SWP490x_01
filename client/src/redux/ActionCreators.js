@@ -7,6 +7,7 @@ import {
   fetchConfirmBeforeResetPassword,
   changeLoginStatus,
   fetchAuthentication,
+  fetchUpdateCart,
 } from "./PageAactions";
 import {
   fetchManageProducts,
@@ -22,6 +23,7 @@ import {
   DeleteCart,
   IncreaseQuantity,
   DecreaseQuantity,
+  UpdateUserCartToPageCart,
 } from "./CartActions";
 
 export const ActionCreators = {
@@ -33,6 +35,7 @@ export const ActionCreators = {
   fetchConfirmBeforeResetPassword: fetchConfirmBeforeResetPassword,
   changeLoginStatus: changeLoginStatus,
   fetchAuthentication: fetchAuthentication,
+  fetchUpdateCart: fetchUpdateCart,
   // fetchManageProducts: fetchManageProducts,
   // fetchManageUsers: fetchManageUsers,
   // fetchManageEvents: fetchManageEvents,
@@ -43,4 +46,5 @@ export const ActionCreators = {
   DeleteCart: DeleteCart,
   IncreaseQuantity: IncreaseQuantity,
   DecreaseQuantity: DecreaseQuantity,
+  UpdateUserCartToPageCart: UpdateUserCartToPageCart,
 };

@@ -42,9 +42,11 @@ const userSchema = new Schema({
   cart: {
     items: [
       {
-        //Add relation with Product
-        productId: { type: Schema.Types.ObjectId, ref: "Product" },
+        _id: { type: Schema.Types.ObjectId },
         quantity: { type: Number },
+        title: { type: String },
+        price: { type: Number },
+        imageUrl: { type: String },
       },
     ],
   },
@@ -55,7 +57,7 @@ const userSchema = new Schema({
   ],
   available: {
     type: Boolean,
-    required: true
+    required: true,
   },
 });
 
