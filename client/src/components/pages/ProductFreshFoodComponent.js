@@ -9,7 +9,7 @@ import {
   Navbar,
   Breadcrumb,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Event from "../EventComponent";
 
 function RenderProductItem({ products, type, callback }) {
@@ -51,8 +51,9 @@ const ProductFresh = ({ products, AddCart }) => {
 
       <Row>
         <Breadcrumb>
-          <Breadcrumb.Item> <Link to='/'>Trang chủ</Link></Breadcrumb.Item>
-          <Breadcrumb.Item active>Thực phẩm tươi</Breadcrumb.Item>
+          {/* <Breadcrumb.Item> <Link to='/'>Trang chủ</Link></Breadcrumb.Item> */}
+          <NavLink to="/">Trang chủ </NavLink>
+          <Breadcrumb.Item active>/ Thực phẩm tươi</Breadcrumb.Item>
         </Breadcrumb>
       </Row>
       <RenderProductItem products={productTypes} type={"thucphamtuoi"} callback={AddCart}/>

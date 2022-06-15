@@ -58,7 +58,7 @@ class Header extends Component {
     // alert("user: " + JSON.stringify(this.props.user.user.user) + " , auth " + this.props.auth.auth.isLogged);
     const LoginLogout_1 = () => {
       if (
-        !this.props.auth.auth.isLoggedin &&
+        !this.props.auth.auth.isLoggedIn &&
         this.props.user.user.user === null
       ) {
         return (
@@ -88,9 +88,12 @@ class Header extends Component {
     };
 
     const LoginLogout_2 = () => {
-      if (!this.props.auth.auth.isLoggedin && this.props.user.user.user === null) {
+      if (
+        !this.props.auth.auth.isLoggedin &&
+        this.props.user.user.user === null
+      ) {
         return (
-          <Nav.Link as={NavLink} to="/dangnhap" className="d-lg-none">
+          <Nav.Link as={NavLink} to="/dangnhap" className="d-lg-none" eventKey="5">
             Đăng Nhập
           </Nav.Link>
         );
@@ -104,10 +107,16 @@ class Header extends Component {
               onClick={(event) => {
                 this.handleLogout(event);
               }}
+              eventKey="6"
             >
               Đăng Xuất
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/thongtincanhan" className="d-lg-none">
+            <Nav.Link
+              as={NavLink}
+              to="/thongtincanhan"
+              className="d-lg-none"
+              onSelect={() => {}}
+            >
               Người Dùng
             </Nav.Link>
           </React.Fragment>
@@ -156,7 +165,7 @@ class Header extends Component {
           </Container>
 
           <Navbar
-            // sticky="top"
+            // sticky="top
             collapseOnSelect
             expand="lg"
             variant="dark"
@@ -182,27 +191,44 @@ class Header extends Component {
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="mr-auto">
-                <Nav.Link as={NavLink} className="nav-link" to="/trangchu">
+                <Nav.Link
+                  as={NavLink}
+                  className="nav-link"
+                  to="/trangchu"
+                  eventKey="1"
+                >
                   Trang Chủ
                 </Nav.Link>
                 <NavDropdown title="Sản phẩm" id="nav-dropdown">
-                  <NavDropdown.Item>
-                    <Link to="/sanpham/thucphamkho">Thực phẩm khô</Link>
+                  <NavDropdown.Item as={NavLink} to="/sanpham/thucphamkho" eventKey ="2.1"> Thực phẩm khô
+                    {/* <Nav.Link
+                      as={NavLink}
+                      className="nav-link"
+                      to="/sanpham/thucphamkho"
+                      eventKey="2.1"
+                    >
+                      Thực phẩm khô
+                    </Nav.Link> */}
+                    {/* <Link to="/sanpham/thucphamkho">Thực phẩm khô</Link> */}
                   </NavDropdown.Item>
-                  <NavDropdown.Item>
-                    <Link to="/sanpham/thucphamtuoi">Thực phẩm tươi</Link>
+                  <NavDropdown.Item as={NavLink} to="/sanpham/thucphamtuoi" eventKey="2.2"> Thực phẩm tươi
                   </NavDropdown.Item>
-                  <NavDropdown.Item>
-                    <Link to="/sanpham/thucuong">Thức uống</Link>
+                  <NavDropdown.Item as={NavLink} to="/sanpham/thucuong" eventKey="2.3">Thức uống
                   </NavDropdown.Item>
                 </NavDropdown>
-                <Nav.Link as={NavLink} className="nav-link" to="/lichsu">
+                <Nav.Link
+                  as={NavLink}
+                  className="nav-link"
+                  to="/lichsu"
+                  eventKey="3"
+                >
                   Lịch Sử
                 </Nav.Link>
                 <Nav.Link
                   as={NavLink}
                   className="nav-link d-lg-none"
                   to="/giohang"
+                  eventKey="4"
                 >
                   Giỏ hàng<Badge bg="danger">{this.props.numberCart}</Badge>
                 </Nav.Link>

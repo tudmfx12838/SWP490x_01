@@ -16,6 +16,8 @@ import ResetPassword from "./user/ResetPasswordComponent";
 import Cart from "./pages/CartComponent";
 import Order from "./pages/OrderComponent";
 
+import axios from "axios";
+
 //withRouter cau hinh ket noi React voi Redux
 // import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
@@ -121,7 +123,6 @@ const mapDispatchToProps = (dispatch) => ({
   UpdateUserCartToPageCart: (product) => {
     dispatch(ActionCreators.UpdateUserCartToPageCart(product));
   },
-  
 });
 
 class Main extends Component {
@@ -141,7 +142,16 @@ class Main extends Component {
     // alert("componentDidMount");
   }
 
+  
+  // getCSRFToken = async () => {
+  //   const response = await axios.get(
+  //     "http://localhost:4000/client/getCSRFToken"
+  //   );
+  //   axios.defaults.headers.post["X-CSRF-Token"] = response.data.CSRFToken;
+  // };
+
   componentDidUpdate() {
+    // this.getCSRFToken();
     // alert(
     //   "componentDidUpdate, user: " +
     //     JSON.stringify(this.props.user.user) +
@@ -355,6 +365,8 @@ class Main extends Component {
                 cart={this.props.cart}
                 products={this.props.products.products}
                 fetchOrderInfo={this.props.fetchOrderInfo}
+                user={this.props.user}
+                auth={this.props.auth}
               />
             }
           />

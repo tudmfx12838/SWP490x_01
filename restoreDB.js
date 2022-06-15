@@ -686,6 +686,17 @@ var eventObj = [
       "Giảm giá cuối năm 20% trên tổng hóa đơn khi mua hàng online(01/12/2022 ~ 19/12/2022)",
     imageUrl: "images/giamgiacuoinam2022.jpg",
   },
+  {
+    title: "Khách hàng mới",
+    startDate: new Date("2021-01-01T00:00:00.000+00:00"),
+    endDate: new Date("2022-12-30T00:00:00.000+00:00"),
+    hasCoupon: true,
+    coupon: "NEWMEMBER",
+    discount: 0.2,
+    description:
+      "Giảm giá 20% trên tổng hóa đơn khi đăng ký mua hàng lần đầu(01/01/2021 ~ 30/12/2022)",
+    imageUrl: "images/khachhangmoi20212022.jpg",
+  },
 ];
 
 const orderObj = [

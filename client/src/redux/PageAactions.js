@@ -66,6 +66,7 @@ export const fetchOrderInfo = (dataOrder) => (dispatch) => {
 };
 
 export const fetchUserLogin = (dataLogin) => (dispatch) => {
+  dispatch(UpdateUserCartToPageCart([]));
   return fetch("http://localhost:4000/client/login", {
     method: "POST",
     body: JSON.stringify(dataLogin),

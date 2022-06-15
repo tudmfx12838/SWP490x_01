@@ -28,14 +28,14 @@ const store = new MongoDbStote({
   // expires  them vao de tu xoa sau het phien
 });
 
-const csrfProtection = csrf();
-  // {
-  // cookie: {
-  //      httpOnly: true,
-  //      secure: process.env.NODE_ENV === 'production',
-  //      maxAge: 3600 // 1-hour
-  //  }
-  // }
+const csrfProtection = csrf({cookie: true});
+// {
+// cookie: {
+//      httpOnly: true,
+//      secure: process.env.NODE_ENV === 'production',
+//      maxAge: 3600 // 1-hour
+//  }
+// }
 
 /**
  * The method fileStorage() setup a image's storage
@@ -77,12 +77,28 @@ app.use(cors());
 //   res.setHeader('Acces-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
 // }
 
+// app.use(function (req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header(
+//     "Access-Control-Allow-Methods",
+//     "GET,HEAD,OPTIONS,POST,PUT,PATCH, DELETE"
+//   );
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+//   );
+//   next();
+// });
+
 /**
  * Templace Engine EJS
  * And point to views's folder
  * */
 app.set("view engine", "ejs");
 app.set("views", "views");
+
+
+
 
 /**
  * Config bodyParser to get data from req.body

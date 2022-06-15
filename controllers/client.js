@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Product = require("../models/product");
 const Order = require("../models/order");
 const User = require("../models/user");
+const Event = require("../models/event");
 
 const bcrypt = require("bcryptjs");
 
@@ -109,6 +110,38 @@ exports.postCheckEmailExist = (req, res, next) => {
     });
 };
 
+exports.postCheckCouponExist = (req, res, next) => {
+  // console.log(JSON.stringify(req.body));
+  const coupon = req.body.coupon;
+  // User.findOne()
+  Event.findOne({ coupon: coupon })
+    .then((eventDoc) => {
+      if (!eventDoc) {
+        res.send({ result: "false", inform: "Mã giảm giá không tồn tại", discount: 0 });
+        // console.log("not exist");
+      } else {
+        const startDate = Date.parse(eventDoc.startDate);
+        const endDate = Date.parse(eventDoc.endDate);
+        const nowOfTime = Date.now();
+        if (startDate < nowOfTime && nowOfTime < endDate) {
+          res.send({
+            result: "true",
+            inform:
+              "Bạn có thể sử dụng mã giảm giá này \nNội dung: " +
+              eventDoc.description,
+              discount: eventDoc.discount,
+          });
+        } else {
+          res.send({ result: "expired", inform: "Mã giảm giá đã hết hạn", discount: 0 });
+        }
+        // console.log("startDate " + startDate + " , endDate " + endDate + " ,  nowOfTime" + nowOfTime);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 exports.postCheckingAuth = (req, res, next) => {
   // console.log(JSON.stringify(req.body));
   const sessionId = req.body.sessionId;
@@ -149,7 +182,7 @@ exports.postClientLogin = (req, res, next) => {
   var sessionId = "";
   var isLoggedIn = false;
   var product_arr = [];
-    
+
   User.findOne({ email: email })
     .then((user) => {
       if (!user) {

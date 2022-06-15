@@ -9,7 +9,7 @@ import {
   Navbar,
   Breadcrumb,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Event from "../EventComponent";
 
 function RenderProductItem({ products, type, callback }) {
@@ -32,7 +32,9 @@ function RenderProductItem({ products, type, callback }) {
                 </Card.Body>
               </Link>
               <Card.Footer>
-                <Button variant="primary" onClick={() => callback(p)}>Thêm</Button>
+                <Button variant="primary" onClick={() => callback(p)}>
+                  Thêm
+                </Button>
               </Card.Footer>
             </Card>
           </Col>
@@ -43,16 +45,25 @@ function RenderProductItem({ products, type, callback }) {
 }
 
 const ProductDrinks = ({ products, AddCart }) => {
-  const productTypes = products.filter((product) => product.type === "thucuong");
+  const productTypes = products.filter(
+    (product) => product.type === "thucuong"
+  );
   return (
     <Container>
       <Row>
         <Breadcrumb>
-          <Breadcrumb.Item> <Link to='/'>Trang chủ</Link></Breadcrumb.Item>
-          <Breadcrumb.Item active>Thức uống</Breadcrumb.Item>
+          <NavLink to="/">Trang chủ </NavLink>
+          {/* <Breadcrumb.Item as={NavLink} to="/">
+            Trang chủ
+          </Breadcrumb.Item> */}
+          <Breadcrumb.Item active>/ Thức uống</Breadcrumb.Item>
         </Breadcrumb>
       </Row>
-      <RenderProductItem products={productTypes} type={"thucuong"} callback={AddCart}/>
+      <RenderProductItem
+        products={productTypes}
+        type={"thucuong"}
+        callback={AddCart}
+      />
     </Container>
   );
 };

@@ -25,6 +25,7 @@ const Order = (props) => {
   const [inputAddress, setInputAddress] = useState("");
   const [inputNode, setInputNode] = useState("");
   const [coupon, setCoupon] = useState("");
+  const [existCoupon, setIsExistCoupon] = useState({result: null, inform: null, discount: 0});
 
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
@@ -41,6 +42,29 @@ const Order = (props) => {
       });
     }
   };
+
+  useEffect(() => {
+    if (props.auth.auth.isLoggedIn && props.user.user.user !== null) {
+      setName(props.user.user.user.name);
+      setEmail(props.user.user.user.email);
+      setNumber(props.user.user.user.phoneNumber);
+      const postcode = props.user.user.user.address.substring(1, 7);
+      const address = props.user.user.user.address.substring(
+        9,
+        props.user.user.user.address.length
+      );
+      setPostcode(postcode);
+      setAddressFromPostCode(address);
+      setInputAddress(address);
+      setInputNode("");
+      setCoupon("");
+      setErrors({});
+      setForm({});
+    } else {
+      handleResetButton();
+    }
+    alert();
+  }, [props.auth.auth, props.user.user]);
 
   function validateForm() {
     // const required = (val) => val && val.length;
@@ -94,6 +118,10 @@ const Order = (props) => {
       newErrors.address2 = "Xin nhập địa chỉ đường/số nhà";
     }
 
+    if (!existCoupon.result) {
+      newErrors.coupon = "Mã giảm giá không hợp lệ";
+    }
+
     return newErrors;
   }
 
@@ -117,6 +145,7 @@ const Order = (props) => {
       inputAddress: inputAddress,
       inputNode: inputNode,
       products: products,
+      coupon: coupon,
     };
 
     // alert(JSON.stringify(form));
@@ -146,8 +175,30 @@ const Order = (props) => {
   }
 
   // Chưa hoàn thiện ...
-  function handleCheckCouponExist(coupon) {
-    alert(coupon);
+  function handleCheckCouponExist(coupon, inform) {
+    // alert(coupon);
+    fetch("http://localhost:4000/client/checkCouponExist", {
+      method: "POST",
+      body: JSON.stringify({ coupon: coupon }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((response) => {
+        // alert("result " + JSON.stringify(data));
+        if (inform) {
+          alert(response.inform);
+        }
+        if (response.result === "false" || response.result === "expired") {
+          setIsExistCoupon({ result: false, discount: response.discount });
+        } else if (response.result === "true") {
+          setIsExistCoupon({ result: true, discount: response.discount });
+        }
+      })
+      .catch((error) => console.log(error.message));
   }
 
   function handleResetButton() {
@@ -161,6 +212,23 @@ const Order = (props) => {
     setCoupon("");
     setErrors({});
     setForm({});
+  }
+
+  function CaculateTotal(props) {
+    if (existCoupon.result) {
+      return (
+        <React.Feedback>
+          <tr>
+            <td colSpan="5">Giảm giá</td>
+            <td>{existCoupon.discount} %</td>
+          </tr>
+          <tr>
+            <td colSpan="5">Thành Tiền</td>
+            <td>{props.total - existCoupon.discount * props.total} %</td>
+          </tr>
+        </React.Feedback>
+      );
+    }
   }
 
   let ListCart = [];
@@ -359,19 +427,19 @@ const Order = (props) => {
               <Col sm={6}>
                 <Form.Control
                   className={!!errors.coupon && "red-border"}
-                  // onBlur={(event) => {
-                  //   setInputAddress(event.target.value);
-                  // }}
                   onChange={(event) => {
                     setField("coupon", event.target.value);
                     setCoupon(event.target.value);
+                  }}
+                  onBlur={(event) => {
+                    handleCheckCouponExist(coupon, false);
                   }}
                   placeholder="Nhập mã giảm giá (nếu có)"
                   type="text"
                   // id="coupon"
                   name="coupon"
                   value={coupon}
-                  required
+                  // required
                   isInvalid={!!errors.coupon}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -382,7 +450,7 @@ const Order = (props) => {
                 <Button
                   type="button"
                   onClick={() => {
-                    handleCheckCouponExist(form.coupon); // Chưa hoàn thiện ...
+                    handleCheckCouponExist(coupon, true);
                   }}
                 >
                   Kiểm tra
@@ -460,8 +528,16 @@ const Order = (props) => {
                   );
                 })}
                 <tr>
-                  <td colSpan="5">Tổng</td>
+                  <td colSpan="4">Tổng</td>
                   <td>{Number(TotalCart).toLocaleString("en-US")} ￥</td>
+                </tr>
+                <tr>
+                  <td colSpan="4">Giảm giá</td>
+                  <td>{existCoupon.discount*100} %</td>
+                </tr>
+                <tr>
+                  <td colSpan="4">Thành Tiền</td>
+                  <td>{TotalCart - existCoupon.discount * TotalCart} ￥</td>
                 </tr>
               </tbody>
             </Table>
