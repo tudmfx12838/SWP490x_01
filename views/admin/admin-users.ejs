@@ -28,19 +28,22 @@
             data-show-columns-toggle-all="true"
             data-search="true"
             data-toolbar=".toolbar"
+            data-show-search-clear-button="true"
+            data-filter-control="true"
+            data-sortable="true"
             >
             <thead>
                 <tr>
                 <th data-field="state" data-checkbox="true"></th>
                 <th data-field="_id" data-visible="false">Mã User</th>
                 <th data-field="email" data-visible="false">Mail</th>
-                <th data-field="permission">Quyền</th>
-                <th data-field="name">Tên</th>
+                <th data-field="permission" data-filter-control="select">Quyền</th>
+                <th data-field="name" data-filter-control="input">Tên</th>
                 <th data-field="doB" data-visible="false">Ngày sinh</th>
-                <th data-field="phoneNumber" data-visible="false">Số ĐT</th>
+                <th data-field="phoneNumber" data-filter-control="input" data-visible="false">Số ĐT</th>
                 <th data-field="address" data-visible="false">Địa chỉ</th>
                 <th data-field="imageUrl" data-visible="false">Ảnh</th>
-                <th data-field="point" data-visible="false">Điểm</th>
+                <th data-field="point"  data-sortable="true" data-visible="false">Điểm</th>
                 <th data-field="cart" data-visible="false">Giỏ</th>
                 <th data-field="action" data-width="150" data-formatter="actionEditEvent" data-events="actionEditUserEvents">Action</th>
                 </tr>

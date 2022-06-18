@@ -142,6 +142,25 @@ exports.postCheckCouponExist = (req, res, next) => {
     });
 };
 
+exports.postCheckOrderExist = (req, res, next) => {
+  console.log(JSON.stringify(req.body));
+  const orderCode = mongoose.Types.ObjectId(req.body.orderCode);
+  
+  // User.findOne()
+  Order.findById(orderCode)
+    .then((orderDoc) => {
+      if (!orderDoc) {
+        res.send({ result: "false", inform: "Mã đơn hàng không tồn tại", order: null });
+        // console.log("not exist");
+      } else {
+          res.send({ result: "true", inform: "Mã đơn hàng hợp lệ", order: orderDoc });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 exports.postCheckingAuth = (req, res, next) => {
   // console.log(JSON.stringify(req.body));
   const sessionId = req.body.sessionId;
@@ -152,28 +171,30 @@ exports.postCheckingAuth = (req, res, next) => {
   //   console.log(session);
   // })
   //Get all session from DB
-  store.all((err, obj) => {
-    //fill user in each session that has the same email with that's to be got from client
-    if (obj.length > 0) {
-      const sessionOfThisUser = obj.filter((s_obj) => {
-        return s_obj._id === sessionId;
-      });
-
-      //destroy session that need to logout
-      if (sessionOfThisUser.length > 0) {
-        res.send({ isLoggedIn: sessionOfThisUser[0].session.isLoggedIn });
+  if(sessionId !== ""){
+    store.all((err, obj) => {
+      //fill user in each session that has the same email with that's to be got from client
+      if (obj.length > 0) {
+        const sessionOfThisUser = obj.filter((s_obj) => {
+          return s_obj._id === sessionId;
+        });
+  
+        //destroy session that need to logout
+        if (sessionOfThisUser.length > 0) {
+          res.send({ isLoggedIn: sessionOfThisUser[0].session.isLoggedIn });
+        } else {
+          res.send({ isLoggedIn: false });
+        }
       } else {
         res.send({ isLoggedIn: false });
       }
-    } else {
-      res.send({ isLoggedIn: false });
-    }
-
-    if (err) {
-      console.log(err);
-    }
-  });
-};
+  
+      if (err) {
+        console.log(err);
+      }
+    });
+  };
+  }
 
 exports.postClientLogin = (req, res, next) => {
   // console.log(JSON.stringify(req.body));

@@ -25,7 +25,10 @@ const Order = (props) => {
   const [inputAddress, setInputAddress] = useState("");
   const [inputNode, setInputNode] = useState("");
   const [coupon, setCoupon] = useState("");
-  const [existCoupon, setIsExistCoupon] = useState({result: null, inform: null, discount: 0});
+  const [existCoupon, setIsExistCoupon] = useState({
+    result: true,
+    discount: 0,
+  });
 
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
@@ -177,28 +180,33 @@ const Order = (props) => {
   // Chưa hoàn thiện ...
   function handleCheckCouponExist(coupon, inform) {
     // alert(coupon);
-    fetch("http://localhost:4000/client/checkCouponExist", {
-      method: "POST",
-      body: JSON.stringify({ coupon: coupon }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        return res.json();
+    if (coupon === "" &&inform) {
+      alert("Xin nhập mã giảm giá để kiểm tra!");
+      setIsExistCoupon({ result: true, discount: 0 });
+    } else {
+      fetch("http://localhost:4000/client/checkCouponExist", {
+        method: "POST",
+        body: JSON.stringify({ coupon: coupon }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
-      .then((response) => {
-        // alert("result " + JSON.stringify(data));
-        if (inform) {
-          alert(response.inform);
-        }
-        if (response.result === "false" || response.result === "expired") {
-          setIsExistCoupon({ result: false, discount: response.discount });
-        } else if (response.result === "true") {
-          setIsExistCoupon({ result: true, discount: response.discount });
-        }
-      })
-      .catch((error) => console.log(error.message));
+        .then((res) => {
+          return res.json();
+        })
+        .then((response) => {
+          // alert("result " + JSON.stringify(data));
+          if (inform) {
+            alert(response.inform);
+          }
+          if (response.result === "false" || response.result === "expired") {
+            setIsExistCoupon({ result: false, discount: response.discount });
+          } else if (response.result === "true") {
+            setIsExistCoupon({ result: true, discount: response.discount });
+          }
+        })
+        .catch((error) => console.log(error.message));
+    }
   }
 
   function handleResetButton() {
@@ -212,23 +220,10 @@ const Order = (props) => {
     setCoupon("");
     setErrors({});
     setForm({});
-  }
-
-  function CaculateTotal(props) {
-    if (existCoupon.result) {
-      return (
-        <React.Feedback>
-          <tr>
-            <td colSpan="5">Giảm giá</td>
-            <td>{existCoupon.discount} %</td>
-          </tr>
-          <tr>
-            <td colSpan="5">Thành Tiền</td>
-            <td>{props.total - existCoupon.discount * props.total} %</td>
-          </tr>
-        </React.Feedback>
-      );
-    }
+    setIsExistCoupon({
+      result: true,
+      discount: 0,
+    });
   }
 
   let ListCart = [];
@@ -533,7 +528,7 @@ const Order = (props) => {
                 </tr>
                 <tr>
                   <td colSpan="4">Giảm giá</td>
-                  <td>{existCoupon.discount*100} %</td>
+                  <td>{existCoupon.discount * 100} %</td>
                 </tr>
                 <tr>
                   <td colSpan="4">Thành Tiền</td>

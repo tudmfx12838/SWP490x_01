@@ -8,7 +8,7 @@ import ProductDetail from "./pages/ProductDetailComponent";
 import ProductDry from "./pages/ProductDryFoodComponent";
 import ProductDrinks from "./pages/ProductDrinksComponent";
 import ProductFresh from "./pages/ProductFreshFoodComponent";
-import OrderHistory from "./OrderHistoryComponet";
+import OrderHistory from "./pages/OrderHistoryComponet";
 import Login from "./user/LoginComponent";
 import Signup from "./user/SignupComponent";
 import ResetPassword from "./user/ResetPasswordComponent";
