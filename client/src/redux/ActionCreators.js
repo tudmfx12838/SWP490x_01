@@ -8,6 +8,7 @@ import {
   changeLoginStatus,
   fetchAuthentication,
   fetchUpdateCart,
+  fetchEditUserInfo,
 } from "./PageAactions";
 import {
   fetchManageProducts,
@@ -31,11 +32,13 @@ export const ActionCreators = {
   fetchOrderInfo: fetchOrderInfo,
   fetchUserLogin: fetchUserLogin,
   fetchUserLogout: fetchUserLogout,
+  fetchEditUserInfo: fetchEditUserInfo,
   fetchSignupAccountInfo: fetchSignupAccountInfo,
   fetchConfirmBeforeResetPassword: fetchConfirmBeforeResetPassword,
   changeLoginStatus: changeLoginStatus,
   fetchAuthentication: fetchAuthentication,
   fetchUpdateCart: fetchUpdateCart,
+  
   // fetchManageProducts: fetchManageProducts,
   // fetchManageUsers: fetchManageUsers,
   // fetchManageEvents: fetchManageEvents,

@@ -16,7 +16,7 @@ const store = new MongoDbStote({
   uri: MONGODB_URL,
   collection: "sessions",
   databaseName: "myShopDB",
-  expires: 1000 * 60 * 60,
+  // expires: 1000 * 60 * 60,
   // expires  them vao de tu xoa sau het phien
 });
 
@@ -92,7 +92,7 @@ exports.postClientOrder = (req, res, next) => {
 };
 
 exports.postCheckEmailExist = (req, res, next) => {
-  // console.log(JSON.stringify(req.body));
+  console.log(JSON.stringify(req.body));
   const email = req.body.email;
   // User.findOne()
   User.findOne({ email: email })
@@ -117,7 +117,11 @@ exports.postCheckCouponExist = (req, res, next) => {
   Event.findOne({ coupon: coupon })
     .then((eventDoc) => {
       if (!eventDoc) {
-        res.send({ result: "false", inform: "Mã giảm giá không tồn tại", discount: 0 });
+        res.send({
+          result: "false",
+          inform: "Mã giảm giá không tồn tại",
+          discount: 0,
+        });
         // console.log("not exist");
       } else {
         const startDate = Date.parse(eventDoc.startDate);
@@ -129,10 +133,14 @@ exports.postCheckCouponExist = (req, res, next) => {
             inform:
               "Bạn có thể sử dụng mã giảm giá này \nNội dung: " +
               eventDoc.description,
-              discount: eventDoc.discount,
+            discount: eventDoc.discount,
           });
         } else {
-          res.send({ result: "expired", inform: "Mã giảm giá đã hết hạn", discount: 0 });
+          res.send({
+            result: "expired",
+            inform: "Mã giảm giá đã hết hạn",
+            discount: 0,
+          });
         }
         // console.log("startDate " + startDate + " , endDate " + endDate + " ,  nowOfTime" + nowOfTime);
       }
@@ -145,15 +153,23 @@ exports.postCheckCouponExist = (req, res, next) => {
 exports.postCheckOrderExist = (req, res, next) => {
   console.log(JSON.stringify(req.body));
   const orderCode = mongoose.Types.ObjectId(req.body.orderCode);
-  
+
   // User.findOne()
   Order.findById(orderCode)
     .then((orderDoc) => {
       if (!orderDoc) {
-        res.send({ result: "false", inform: "Mã đơn hàng không tồn tại", order: null });
+        res.send({
+          result: "false",
+          inform: "Mã đơn hàng không tồn tại",
+          order: null,
+        });
         // console.log("not exist");
       } else {
-          res.send({ result: "true", inform: "Mã đơn hàng hợp lệ", order: orderDoc });
+        res.send({
+          result: "true",
+          inform: "Mã đơn hàng hợp lệ",
+          order: orderDoc,
+        });
       }
     })
     .catch((err) => {
@@ -171,14 +187,14 @@ exports.postCheckingAuth = (req, res, next) => {
   //   console.log(session);
   // })
   //Get all session from DB
-  if(sessionId !== ""){
+  if (sessionId !== "") {
     store.all((err, obj) => {
       //fill user in each session that has the same email with that's to be got from client
       if (obj.length > 0) {
         const sessionOfThisUser = obj.filter((s_obj) => {
           return s_obj._id === sessionId;
         });
-  
+
         //destroy session that need to logout
         if (sessionOfThisUser.length > 0) {
           res.send({ isLoggedIn: sessionOfThisUser[0].session.isLoggedIn });
@@ -188,13 +204,13 @@ exports.postCheckingAuth = (req, res, next) => {
       } else {
         res.send({ isLoggedIn: false });
       }
-  
+
       if (err) {
         console.log(err);
       }
     });
-  };
   }
+};
 
 exports.postClientLogin = (req, res, next) => {
   // console.log(JSON.stringify(req.body));
@@ -212,9 +228,11 @@ exports.postClientLogin = (req, res, next) => {
         const sendUserToClient = {
           email: user.email,
           name: user.name,
+          doB: user.doB,
           phoneNumber: user.phoneNumber,
           address: user.address,
           point: user.point,
+          imageUrl: user.imageUrl,
           cart: user.cart.items,
           sessionId: sessionId,
           isLoggedIn: isLoggedIn,
@@ -250,7 +268,7 @@ exports.postClientLogin = (req, res, next) => {
 
                     sendUserToClient.sessionId = sessionId;
                     sendUserToClient.isLoggedIn = isLoggedIn;
-                    res.send({ status: "success", user: sendUserToClient });
+                    res.send({ status: "success", isLoggedIn: true, user: sendUserToClient });
                   } else {
                     throw "obj is null";
                   }
@@ -260,7 +278,7 @@ exports.postClientLogin = (req, res, next) => {
                 });
               });
             } else {
-              res.send({ status: "failed", user: null });
+              res.send({ status: "failed", isLoggedIn: false, user: null });
             }
           })
           .catch((err) => {
@@ -366,6 +384,118 @@ exports.postClientSignup = (req, res, next) => {
       // error.httpStatusCode = 500;
       // return next(error);
     });
+};
+
+exports.postClientEditUserInfo = (req, res, next) => {
+  console.log(JSON.stringify(req.body));
+  const sessionId = req.body.sessionId;
+  // const email = req.body.email;
+  const name = req.body.name;
+  const doB = req.body.doB;
+  const phoneNumber = req.body.phoneNumber;
+  const address = "〒" + req.body.postcode + " - " + req.body.address;
+
+  store.get(sessionId, (error, session) => {
+    // console.log(session);
+    if (session !== null) {
+      User.findOne({ email: session.user.email })
+        .then((user) => {
+          if (user !== null) {
+            user.name = name;
+            user.doB = doB;
+            user.phoneNumber = phoneNumber;
+            user.address = address;
+            user
+              .save()
+              .then((result) => {
+                const sendEdittedUserToClient = {
+                  // email: user.email,
+                  name: user.name,
+                  doB: user.doB,
+                  phoneNumber: user.phoneNumber,
+                  address: user.address,
+                  // point: user.point,
+                  // imageUrl: user.imageUrl,
+                  // cart: user.cart.items,
+                  // sessionId: sessionId,
+                  // isLoggedIn: isLoggedIn,
+                };
+                res.send({
+                  inform: "Thay đổi thông tin thành công",
+                  isEditted: true,
+                  user: sendEdittedUserToClient,
+                });
+                // console.log(user);
+              })
+              .catch((err) => console.log(err));
+          } else {
+            res.send({
+              inform: "Thay đổi thông tin thất bại",
+              isEditted: false,
+              user: null,
+            });
+          }
+        })
+        .catch((err) => console.log(err));
+    } else {
+      res.send({
+        inform: "Thay đổi thông tin thất bại",
+        isEditted: false,
+        user: null,
+      });
+    }
+    if (error) {
+      console.log(error);
+    }
+  });
+};
+
+exports.postClientChangeAccountPassword = (req, res, next) => {
+  console.log(JSON.stringify(req.body));
+  const sessionId = req.body.sessionId;
+  // const email = req.body.email;
+  const password = req.body.password;
+  store.get(sessionId, (error, session) => {
+    // console.log(session);
+    if (session !== null) {
+      User.findOne({ email: session.user.email })
+        .then((user) => {
+          if (user !== null) {
+            bcrypt
+              .hash(password, 12) //Ma hoa pw thanh ma hash, agr2 la so vong bam, gia tri cang cao cang ton tgian nhung  cang an toan, 12 la du
+              .then((hashedPassword) => {
+                user.password = hashedPassword;
+                user
+                  .save()
+                  .then((result) => {
+                    store.destroy(sessionId);
+
+                    res.send({
+                      inform: "Thay đổi mật khẩu thành công \nVui lòng đăng nhập lại!",
+                      isEditted: true,
+                    });
+                    // console.log(user);
+                  })
+                  .catch((err) => console.log(err));
+              });
+          } else {
+            res.send({
+              inform: "Thay đổi mật khẩu thất bại",
+              isEditted: false
+            });
+          }
+        })
+        .catch((err) => console.log(err));
+    } else {
+      res.send({
+        inform: "Thay đổi mật khẩu thất bại",
+        isEditted: false
+      });
+    }
+    if (error) {
+      console.log(error);
+    }
+  });
 };
 
 exports.postReset = (req, res, next) => {

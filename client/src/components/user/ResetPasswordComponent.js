@@ -95,13 +95,13 @@ const ResetPassword = (props) => {
       //
       navigate("/khoiphucmatkhau");
     } else {
-      // alert("Gửi đăng ký tài khoản");
+      alert("Gửi đăng ký tài khoản");
       //
-      props.fetchConfirmBeforeResetPassword(emailnInfo);
+      // props.fetchConfirmBeforeResetPassword(emailnInfo);
       //
-      handleResetButton();
+      // handleResetButton();
       //
-      navigate("/");
+      // navigate("/");
     }
   };
 
@@ -133,9 +133,9 @@ const ResetPassword = (props) => {
                     setField("email", event.target.value);
                     setEmail(event.target.value);
                   }}
-                  onBlur={(event) => {
-                    fetchCheckEmailExist(event.target.value);
-                  }}
+                  // onBlur={(event) => {
+                  //   fetchCheckEmailExist(event.target.value);
+                  // }}
                   type="text"
                   name="email"
                   value={email}

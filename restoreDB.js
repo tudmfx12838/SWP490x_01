@@ -348,7 +348,7 @@ var productObj = [
     available: true,
   },
   {
-    title: "Bánh phồng tôm",
+    title: "Bánh phồng",
     price: 450,
     type: "thucphamkho",
     description: "Bánh phồng tôm nhập khẩu Việt Nam",

@@ -26,6 +26,14 @@ router.post("/client/checkingAuth", clientController.postCheckingAuth);
 
 router.post("/client/updateCartFromClientToServer", clientController.postUpdateCartFromClientToServer);
 
+router.post("/client/editUserInfo", clientController.postClientEditUserInfo);
+
+router.post("/client/changeAccountPassword", clientController.postClientChangeAccountPassword);
+
+
+
+
+
 
 
 module.exports = router;

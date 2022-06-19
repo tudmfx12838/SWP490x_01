@@ -79,7 +79,7 @@ class Header extends Component {
             >
               Đăng Xuất
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/thongtincanhan" className="text-danger">
+            <Nav.Link as={NavLink} to="/nguoidung" className="text-danger">
               Người Dùng
             </Nav.Link>
           </React.Fragment>
@@ -113,9 +113,10 @@ class Header extends Component {
             </Nav.Link>
             <Nav.Link
               as={NavLink}
-              to="/thongtincanhan"
+              to="/nguoidung"
               className="d-lg-none"
               onSelect={() => {}}
+              eventKey="7"
             >
               Người Dùng
             </Nav.Link>

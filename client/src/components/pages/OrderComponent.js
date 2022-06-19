@@ -51,7 +51,7 @@ const Order = (props) => {
       setName(props.user.user.user.name);
       setEmail(props.user.user.user.email);
       setNumber(props.user.user.user.phoneNumber);
-      const postcode = props.user.user.user.address.substring(1, 7);
+      const postcode = props.user.user.user.address.substring(1, 8);
       const address = props.user.user.user.address.substring(
         9,
         props.user.user.user.address.length
@@ -66,7 +66,6 @@ const Order = (props) => {
     } else {
       handleResetButton();
     }
-    alert();
   }, [props.auth.auth, props.user.user]);
 
   function validateForm() {

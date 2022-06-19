@@ -96,28 +96,33 @@ export const fetchUserLogin = (dataLogin) => (dispatch) => {
     .then((respone) => respone.json())
     .then((respone) => {
       // alert(JSON.stringify(status));
+      if (respone.isLoggedIn) {
+        //Auth data
+        const auth = {
+          isLoggedIn: respone.user.isLoggedIn,
+          sessionId: respone.user.sessionId,
+        };
 
-      //Auth data
-      const auth = {
-        isLoggedIn: respone.user.isLoggedIn,
-        sessionId: respone.user.sessionId,
-      };
+        //User data
+        const status = {
+          status: respone.status,
+          user: {
+            email: respone.user.email,
+            name: respone.user.name,
+            doB: respone.user.doB,
+            imageUrl: respone.user.imageUrl,
+            phoneNumber: respone.user.phoneNumber,
+            address: respone.user.address,
+            point: respone.user.point,
+            cart: respone.user.cart,
+          },
+        };
 
-      //User data
-      const status = {
-        status: respone.status,
-        user: {
-          email: respone.user.email,
-          name: respone.user.name,
-          phoneNumber: respone.user.phoneNumber,
-          address: respone.user.address,
-          point: respone.user.point,
-          cart: respone.user.cart,
-        },
-      };
-
-      dispatch(addAuth(auth));
-      dispatch(userLoginStatus(status));
+        dispatch(addAuth(auth));
+        dispatch(userLoginStatus(status));
+      }else{
+        alert("Tài khoản hoặc mật khẩu không đúng!");
+      }
     })
     .catch((error) => dispatch(userLoginFailed(error.message)));
 };
@@ -142,6 +147,36 @@ export const userLoginStatus = (status) => ({
   payload: status,
 });
 
+export const fetchEditUserInfo = (editUserInfo) => (dispatch) => {
+  // alert("fetchEditUserInfo " + JSON.stringify(editUserInfo));
+  // dispatch(updateUserCart(editUserInfo.Carts));
+  // /client/updateCartFromClientToServer
+  return fetch("http://localhost:4000/client/editUserInfo", {
+    method: "POST",
+    body: JSON.stringify(editUserInfo),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "same-origin",
+  })
+    .then((respone) => respone.json())
+    .then((respone) => {
+      alert(JSON.stringify(respone));
+      if (respone.isEditted) {
+        alert(respone.inform);
+        dispatch(updateEdittedUserInfo(respone.user));
+      } else {
+        alert(respone.inform);
+      }
+    })
+    .catch((error) => console.log(error));
+};
+
+export const updateEdittedUserInfo = (edittedUserInfo) => ({
+  type: ActionTypes.UPDATE_EDITTED_USER_INFO,
+  payload: edittedUserInfo,
+});
+
 export const fetchUserLogout = (sessionId) => (dispatch) => {
   // alert(email);
   return fetch("http://localhost:4000/client/logout", {
@@ -160,7 +195,6 @@ export const fetchUserLogout = (sessionId) => (dispatch) => {
         dispatch(userLoginStatus({ status: "idle", user: null }));
         dispatch(addAuth({ isLoggedIn: false, sessionId: null }));
         dispatch(UpdateUserCartToPageCart([]));
-        
       } else {
         alert("Đăng xuất thất bại");
       }
@@ -199,7 +233,7 @@ export const fetchAuthentication = (sessionId) => (dispatch) => {
     .then((respone) => respone.json())
     .then((auth) => {
       if (auth.isLoggedIn === true) {
-        alert("JSON.stringify(auth)   " + JSON.stringify(auth));
+        // alert("JSON.stringify(auth)   " + JSON.stringify(auth));
         dispatch(updateAuth(auth.isLoggedIn));
       } else {
         alert("Phiên hết hạn vui lòng đăng nhập lại");

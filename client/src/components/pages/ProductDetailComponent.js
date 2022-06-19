@@ -30,31 +30,36 @@ function RenderProduct({ product, callback }) {
     //     <Button variant="primary" onClick={() => callback(product)}>Thêm</Button>
     //   </Card.Footer>
     // </Card>
-  
-      <Row>
+
+    <Container>
+      <Row xs={1} md={2}>
         <Col>
           <Image
             variant=""
             src={"/assets/" + product.imageUrl}
             alt={product.title}
-            width={150}
-            height={200}
+            width={300}
+            height={400}
           />
         </Col>
         <Col>
-          <Card>
-            <Card.Body>
-              <Card.Title>{product.title}</Card.Title>
-              <Card.Text>{product.description}</Card.Text>
-            </Card.Body>
-            <Card.Footer>
-              <Button variant="primary" onClick={() => callback(product)}>
-                Thêm
-              </Button>
-            </Card.Footer>
-          </Card>
+          <Card.Title>{product.title}</Card.Title>
+          <Card.Text>{product.description}</Card.Text>
+          <Card.Text>Giá: {product.price}</Card.Text>
+          <Card.Text>Số Lượng: {product.mount}</Card.Text>
+          <Card.Text>
+            Tình trạng: {product.mount > 0 ? "Còn hàng" : "Hết hàng"}
+          </Card.Text>
+          <Button
+            variant="primary"
+            onClick={() => callback(product)}
+            disabled={product.mount <= 0 ? true : false}
+          >
+            {product.mount <= 0 ? "Hết hàng" : "Thêm"}
+          </Button>
         </Col>
       </Row>
+    </Container>
   );
 }
 

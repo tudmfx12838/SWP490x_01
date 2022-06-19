@@ -1,4 +1,5 @@
 import * as ActionTypes from "./ActionTypes";
+import getFormatDate from "../includes/getFormatDate";
 
 export const User = (
   state = {
@@ -23,6 +24,16 @@ export const User = (
         errmess: action.payload,
         user: {},
       };
+
+    case ActionTypes.UPDATE_EDITTED_USER_INFO:
+      // alert("user" + JSON.stringify(action.payload));
+      // alert("   , state" + JSON.stringify(state));
+      state.user.user.name = action.payload.name;
+      state.user.user.doB = getFormatDate(action.payload.doB);
+      state.user.user.phoneNumber = action.payload.phoneNumber;
+      state.user.user.address = action.payload.address;
+      // alert("   , state" + JSON.stringify(state));
+      return state;
 
     case ActionTypes.LOGIN_STATUS:
       // alert(action.payload);

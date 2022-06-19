@@ -15,6 +15,7 @@ import ResetPassword from "./user/ResetPasswordComponent";
 
 import Cart from "./pages/CartComponent";
 import Order from "./pages/OrderComponent";
+import UserInfo from "./pages/UserInfoComponent";
 
 import axios from "axios";
 
@@ -72,6 +73,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   fetchUserLogout: (sessionId) => {
     dispatch(ActionCreators.fetchUserLogout(sessionId));
+  },
+  fetchEditUserInfo: (editUserInfo) => {
+    dispatch(ActionCreators.fetchEditUserInfo(editUserInfo));
   },
   fetchSignupAccountInfo: (dataSignup) => {
     dispatch(ActionCreators.fetchSignupAccountInfo(dataSignup));
@@ -142,7 +146,6 @@ class Main extends Component {
     // alert("componentDidMount");
   }
 
-  
   // getCSRFToken = async () => {
   //   const response = await axios.get(
   //     "http://localhost:4000/client/getCSRFToken"
@@ -174,17 +177,17 @@ class Main extends Component {
       this.props.cart.Carts.length > 0 &&
       this.props.user.user.user !== null
     ) {
-      alert("update cart");
+      // alert("update cart");
       if (
         !JSON.stringify(this.props.user.user.user.cart).localeCompare(
           JSON.stringify(this.props.cart.Carts)
         )
       ) {
-        alert("same same");
+        // alert("same same");
         //Do nothing
       } else {
         //Chi fetch khi page's Cart thay doi
-        alert("not same");
+        // alert("not same");
         const updateCartInfo = {
           Carts: this.props.cart.Carts,
           sessionId: this.props.auth.auth.sessionId,
@@ -370,6 +373,19 @@ class Main extends Component {
               />
             }
           />
+
+          <Route
+            exact
+            path="/nguoidung"
+            element={
+              <UserInfo
+                fetchEditUserInfo={this.props.fetchEditUserInfo}
+                user={this.props.user}
+                auth={this.props.auth}
+              />
+            }
+          />
+
           {/* <Route
             exact
             path="/quanly"
