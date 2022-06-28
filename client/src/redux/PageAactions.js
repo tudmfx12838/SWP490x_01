@@ -1,5 +1,5 @@
 import * as ActionTypes from "./ActionTypes";
-import { UpdateUserCartToPageCart } from "./CartActions";
+import { UpdateUserCartToPageCart, setEmptyCart } from "./CartActions";
 import { baseUrl } from "../shared/baseUrl";
 import axios from "axios";
 
@@ -48,11 +48,15 @@ export const fetchOrderInfo = (dataOrder) => (dispatch) => {
       "Content-Type": "application/json",
     },
   })
-    .then(function (res) {
-      return res.json();
+    .then((response) => {
+      return response.json();
     })
-    .then(function (data) {
-      alert(JSON.stringify(data));
+    .then((data) => {
+      alert("Đặt hàng thành công!\nMã đơn hàng là: " + data.inform);
+      if(data.hasAccount){
+        dispatch(updateOrder(data.order));
+      }
+      dispatch(setEmptyCart([]));
     })
     .catch((error) => console.log(error.message));
 
@@ -118,9 +122,15 @@ export const fetchUserLogin = (dataLogin) => (dispatch) => {
           },
         };
 
+        const orderHistory = respone.user.orderHistory;
+
+        alert("orderHistory   " + JSON.stringify(orderHistory));
+
         dispatch(addAuth(auth));
         dispatch(userLoginStatus(status));
-      }else{
+
+        dispatch(addOrders(orderHistory));
+      } else {
         alert("Tài khoản hoặc mật khẩu không đúng!");
       }
     })
@@ -243,6 +253,7 @@ export const fetchAuthentication = (sessionId) => (dispatch) => {
         // };
         dispatch(updateAuth(auth.isLoggedIn));
         dispatch(userLoginStatus({ status: "idle", user: null }));
+        dispatch(UpdateUserCartToPageCart([]));
       }
       // dispatch(addAuth(auth));
     })
@@ -382,7 +393,22 @@ export const fetchSignupAccountInfo = (dataSignup) => (dispatch) => {
   //   .catch((error) => console.log(error.message));
 };
 
-export const fetchConfirmBeforeResetPassword = (email) => (dispatch) => {};
+export const fetchConfirmBeforeResetPassword = (email) => (dispatch) => {
+  return fetch("http://localhost:4000/client/confirmBeforeResetPassword", {
+    method: "POST",
+    body: JSON.stringify(email),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "same-origin",
+  })
+    .then((respone) => respone.json())
+    .then((respone) => {
+      alert(respone.inform);
+      //
+    })
+    .catch((error) => console.log(error));
+};
 
 export const fetchUpdateCart = (updateCartInfo) => (dispatch) => {
   // alert("fetchUpdateCart " + JSON.stringify(updateCartInfo));
@@ -421,3 +447,51 @@ export const updateUserCart = (Carts) => ({
   type: ActionTypes.UPDATE_USERCART,
   payload: Carts,
 });
+
+export const fetchOrderHistoryWithOrderId = (orderId) => (dispatch) => {
+  // alert("fetchUpdateCart " + JSON.stringify(updateCartInfo));
+  // dispatch(updateUserCart(updateCartInfo.Carts));
+  // /client/updateCartFromClientToServer
+  return fetch("http://localhost:4000/client/getOrderHistoryByOrderId", {
+    method: "POST",
+    body: JSON.stringify({orderId: orderId}),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "same-origin",
+  })
+    .then((respone) => respone.json())
+    .then((respone) => {
+      alert(respone.inform);
+      if(respone.result){
+        dispatch(addOrder(respone.order));
+      }
+    })
+    .catch((error) => console.log(error));
+};
+
+export const addOrdersLoading = (bol) => ({
+  type: ActionTypes.ORDERS_LOADING,
+  payload: bol,
+});
+
+export const addOrdersFailed = (error) => ({
+  type: ActionTypes.ORDERS_FAILED,
+  payload: error,
+});
+
+export const addOrders = (orders) => ({
+  type: ActionTypes.ADD_ORDERS,
+  payload: orders,
+});
+
+export const addOrder = (order) => ({
+  type: ActionTypes.ADD_ORDER,
+  payload: order,
+});
+
+export const updateOrder = (order) => ({
+  type: ActionTypes.UPDATE_ORDER,
+  payload: order,
+});
+

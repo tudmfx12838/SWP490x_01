@@ -95,9 +95,9 @@ const ResetPassword = (props) => {
       //
       navigate("/khoiphucmatkhau");
     } else {
-      alert("Gửi đăng ký tài khoản");
+      alert("Gửi reset password");
       //
-      // props.fetchConfirmBeforeResetPassword(emailnInfo);
+      props.fetchConfirmBeforeResetPassword(emailnInfo);
       //
       // handleResetButton();
       //

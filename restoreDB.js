@@ -1,4 +1,5 @@
 var MongoClient = require("mongodb").MongoClient;
+const mongoose = require("mongoose");
 var url =
   "mongodb+srv://admin:8888@cluster0.pi4yq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
@@ -16,6 +17,8 @@ var userObj = [
     cart: { items: [] },
     orderHistory: [],
     available: true,
+    resetToken: null,
+    resetTokenExpiration: null,
   },
   {
     email: "admin2@gmail.com",
@@ -30,6 +33,8 @@ var userObj = [
     cart: { items: [] },
     orderHistory: [],
     available: true,
+    resetToken: null,
+    resetTokenExpiration: null,
   },
   {
     email: "user1@gmail.com",
@@ -44,6 +49,8 @@ var userObj = [
     cart: { items: [] },
     orderHistory: [],
     available: true,
+    resetToken: null,
+    resetTokenExpiration: null,
   },
   {
     email: "user2@gmail.com",
@@ -58,6 +65,8 @@ var userObj = [
     cart: { items: [] },
     orderHistory: [],
     available: true,
+    resetToken: null,
+    resetTokenExpiration: null,
   },
   {
     email: "user3@gmail.com",
@@ -72,6 +81,8 @@ var userObj = [
     cart: { items: [] },
     orderHistory: [],
     available: true,
+    resetToken: null,
+    resetTokenExpiration: null,
   },
   {
     email: "user4@gmail.com",
@@ -86,6 +97,8 @@ var userObj = [
     cart: { items: [] },
     orderHistory: [],
     available: true,
+    resetToken: null,
+    resetTokenExpiration: null,
   },
   {
     email: "user5@gmail.com",
@@ -100,6 +113,8 @@ var userObj = [
     cart: { items: [] },
     orderHistory: [],
     available: true,
+    resetToken: null,
+    resetTokenExpiration: null,
   },
   {
     email: "user6@gmail.com",
@@ -114,6 +129,8 @@ var userObj = [
     cart: { items: [] },
     orderHistory: [],
     available: true,
+    resetToken: null,
+    resetTokenExpiration: null,
   },
   {
     email: "user7@gmail.com",
@@ -128,6 +145,8 @@ var userObj = [
     cart: { items: [] },
     orderHistory: [],
     available: true,
+    resetToken: null,
+    resetTokenExpiration: null,
   },
   {
     email: "user8@gmail.com",
@@ -142,6 +161,8 @@ var userObj = [
     cart: { items: [] },
     orderHistory: [],
     available: true,
+    resetToken: null,
+    resetTokenExpiration: null,
   },
   {
     email: "user9@gmail.com",
@@ -156,6 +177,8 @@ var userObj = [
     cart: { items: [] },
     orderHistory: [],
     available: true,
+    resetToken: null,
+    resetTokenExpiration: null,
   },
   {
     email: "user10@gmail.com",
@@ -170,6 +193,8 @@ var userObj = [
     cart: { items: [] },
     orderHistory: [],
     available: true,
+    resetToken: null,
+    resetTokenExpiration: null,
   },
   {
     email: "user11@gmail.com",
@@ -184,6 +209,8 @@ var userObj = [
     cart: { items: [] },
     orderHistory: [],
     available: true,
+    resetToken: null,
+    resetTokenExpiration: null,
   },
   {
     email: "user12@gmail.com",
@@ -198,6 +225,8 @@ var userObj = [
     cart: { items: [] },
     orderHistory: [],
     available: true,
+    resetToken: null,
+    resetTokenExpiration: null,
   },
   {
     email: "user13@gmail.com",
@@ -212,6 +241,8 @@ var userObj = [
     cart: { items: [] },
     orderHistory: [],
     available: true,
+    resetToken: null,
+    resetTokenExpiration: null,
   },
   {
     email: "pocket.se7en@gmail.com",
@@ -224,8 +255,20 @@ var userObj = [
     imageUrl: "images/avatar.jpg",
     point: 50,
     cart: { items: [] },
-    orderHistory: [],
+    orderHistory: [
+      {
+        orderId: mongoose.Types.ObjectId("62b08b7df58ff042f6f4ea60"),
+      },
+      {
+        orderId: mongoose.Types.ObjectId("62b08f330edf7cc75ca58917"),
+      },
+      {
+        orderId: mongoose.Types.ObjectId("62b08fb3692cf1a36d6e0de3"),
+      },
+    ],
     available: true,
+    resetToken: null,
+    resetTokenExpiration: null,
   },
 ];
 
@@ -716,7 +759,9 @@ const orderObj = [
     ],
     cashInfo: {
       totalCash: 600,
-      isPaid: false
+      coupon: { name: "", discount: 0 },
+      afterDiscount: 600,
+      isPaid: false,
     },
     date: {
       $date: "2022-05-28T14:04:04.919Z",
@@ -731,7 +776,7 @@ const orderObj = [
       phoneNumber: "1234567890",
       address: "〒7330822-広島県 広島市西区 庚午中  a123",
       node: "",
-    }
+    },
   },
   {
     products: [
@@ -749,6 +794,8 @@ const orderObj = [
     ],
     cashInfo: {
       totalCash: 600,
+      coupon: { name: "", discount: 0 },
+      afterDiscount: 600,
       isPaid: false,
     },
     date: {
@@ -782,6 +829,8 @@ const orderObj = [
     ],
     cashInfo: {
       totalCash: 600,
+      coupon: { name: "", discount: 0 },
+      afterDiscount: 600,
       isPaid: false,
     },
     date: {
@@ -848,6 +897,8 @@ const orderObj = [
     ],
     cashInfo: {
       totalCash: 2690,
+      coupon: { name: "", discount: 0 },
+      afterDiscount: 2690,
       isPaid: false,
     },
     date: {
@@ -892,6 +943,8 @@ const orderObj = [
     ],
     cashInfo: {
       totalCash: 1710,
+      coupon: { name: "", discount: 0 },
+      afterDiscount: 1710,
       isPaid: false,
     },
     date: {
@@ -947,6 +1000,8 @@ const orderObj = [
     ],
     cashInfo: {
       totalCash: 2850,
+      coupon: { name: "", discount: 0 },
+      afterDiscount: 2850,
       isPaid: false,
     },
     date: {
@@ -963,6 +1018,143 @@ const orderObj = [
       address: "〒7330311-広島県 広島市西区 庚午中  a123",
       node: "",
     },
+  },
+  {
+    _id: mongoose.Types.ObjectId("62b08b7df58ff042f6f4ea60"),
+
+    products: [
+      {
+        productId: mongoose.Types.ObjectId("62af10adf651994f261ffdbc"),
+        title: "Tương ớt",
+        quantity: 2,
+        price: 200,
+         imageUrl: "images/nuocmam.jpg",
+      },
+      {
+        productId: mongoose.Types.ObjectId("62af10adf651994f261ffdba"),
+        title: "Nước Mắm",
+        quantity: 2,
+        price: 570,
+        imageUrl: "images/nuocmam.jpg",
+      },
+      {
+        productId: mongoose.Types.ObjectId("62af10adf651994f261ffdcb"),
+        title: "Thịt bò",
+        quantity: 2,
+        price: 1200,
+        imageUrl: "images/nuocmam.jpg",
+      },
+    ],
+    cashInfo: {
+      totalCash: 3940,
+      coupon: { name: "", discount: 0 },
+      afterDiscount: 3940,
+      isPaid: false,
+    },
+    date: "2022-06-20T15:18:11.180Z",
+    approveStatus: false,
+    hasAccountInfo: {
+      userId: mongoose.Types.ObjectId("62b32fb35d7bfb759e64d9ec"),
+    },
+    deliveryInfo: {
+      name: "Dang Minh Tu",
+      email: "pocket.se7en@gmail.com",
+      phoneNumber: "0901234567",
+      address: "〒7330822-HiroshimaShi HiroshimaShi",
+      node: "",
+    },
+    __v: 0,
+  },
+  {
+    _id: mongoose.Types.ObjectId("62b08f330edf7cc75ca58917"),
+
+    products: [
+      {
+        productId: mongoose.Types.ObjectId("62af10adf651994f261ffdd1"),
+        title: "Bia 333",
+        quantity: 1,
+        price: 180,
+        imageUrl: "images/nuocmam.jpg",
+      },
+      {
+        productId: mongoose.Types.ObjectId("62af10adf651994f261ffdd2"),
+        title: "Nước Sting",
+        quantity: 1,
+        price: 130,
+        imageUrl: "images/nuocmam.jpg",
+      },
+      {
+        productId: mongoose.Types.ObjectId("62af10adf651994f261ffdd3"),
+        title: "Nước Bò Húc",
+        quantity: 1,
+        price: 190,
+        imageUrl: "images/nuocmam.jpg",
+      },
+      {
+        productId: mongoose.Types.ObjectId("62af10adf651994f261ffdd4"),
+        title: "Bia Tiger",
+        quantity: 1,
+        price: 290,
+        imageUrl: "images/nuocmam.jpg",
+      },
+    ],
+    cashInfo: {
+      totalCash: 790,
+      coupon: { name: "", discount: 0 },
+      afterDiscount: 790,
+      isPaid: false,
+    },
+    date: "2022-06-20T15:18:11.180Z",
+    approveStatus: false,
+    hasAccountInfo: {
+      userId: mongoose.Types.ObjectId("62b32fb35d7bfb759e64d9ec"),
+    },
+    deliveryInfo: {
+      name: "Dang Minh Tu",
+      email: "pocket.se7en@gmail.com",
+      phoneNumber: "0901234567",
+      address: "〒7330822-HiroshimaShi HiroshimaShi",
+      node: "",
+    },
+    __v: 0,
+  },
+  {
+    _id: mongoose.Types.ObjectId("62b08fb3692cf1a36d6e0de3"),
+    products: [
+      {
+        productId: mongoose.Types.ObjectId("62af10adf651994f261ffdbc"),
+        title: "Tương ớt",
+        quantity: 2,
+        price: 200,
+        imageUrl: "images/nuocmam.jpg",
+      },
+      {
+        productId: mongoose.Types.ObjectId("62af10adf651994f261ffdba"),
+        title: "Nước Mắm",
+        quantity: 2,
+        price: 570,
+        imageUrl: "images/nuocmam.jpg",
+      },
+    ],
+    cashInfo: {
+      totalCash: 1540,
+      coupon: { name: "", discount: 0 },
+      afterDiscount: 1540,
+      isPaid: false,
+    },
+    date: "2022-06-20T15:18:11.180Z",
+    approveStatus: false,
+    hasAccountInfo: {
+      userId: mongoose.Types.ObjectId("62b32fb35d7bfb759e64d9ec"),
+    },
+    deliveryInfo: {
+      name: "Dang Minh Tu",
+      email: "pocket.se7en@gmail.com",
+      phoneNumber: "0901234567",
+      address: "〒7330822-HiroshimaShi HiroshimaShi",
+      node: "",
+    },
+    __v: 0,
   },
 ];
 

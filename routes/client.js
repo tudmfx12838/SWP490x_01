@@ -16,8 +16,6 @@ router.post("/client/checkEmailExist", clientController.postCheckEmailExist);
 
 router.post("/client/checkCouponExist", clientController.postCheckCouponExist);
 
-router.post("/client/checkOrderExist", clientController.postCheckOrderExist);
-
 router.post("/client/login", clientController.postClientLogin);
 
 router.post("/client/logout", clientController.postClientLogout);
@@ -29,6 +27,15 @@ router.post("/client/updateCartFromClientToServer", clientController.postUpdateC
 router.post("/client/editUserInfo", clientController.postClientEditUserInfo);
 
 router.post("/client/changeAccountPassword", clientController.postClientChangeAccountPassword);
+
+router.post("/client/confirmBeforeResetPassword", clientController.postClientConfirmBeforeResetPassword);
+
+router.post("/client/changeAccountPasswordWithToken", clientController.postChangeAccountPasswordWithToken);
+
+router.post("/client/getOrderHistoryByOrderId", clientController.postGetOrderHistoryByOrderId);
+
+
+
 
 
 

@@ -74,7 +74,7 @@ export const Cart = (state = initCart, action) => {
     case ActionTypes.UPDATE_USERCART_TO_PAGECART:
       const cart = JSON.parse(JSON.stringify(action.payload));
       var sumNumberCart = 0;
-      if(cart.length > 0){
+      if (cart.length > 0) {
         cart.forEach((item) => {
           sumNumberCart += item.quantity;
         });
@@ -84,6 +84,14 @@ export const Cart = (state = initCart, action) => {
         ...state,
         numberCart: sumNumberCart,
         Carts: cart,
+      };
+
+    case ActionTypes.EMPTY_CART:
+      //  state.Carts = [];
+      return {
+        ...state,
+        numberCart: 0,
+        Carts: action.payload,
       };
     default:
       return state;

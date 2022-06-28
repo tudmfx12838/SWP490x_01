@@ -9,6 +9,7 @@ import {
   fetchAuthentication,
   fetchUpdateCart,
   fetchEditUserInfo,
+  fetchOrderHistoryWithOrderId,
 } from "./PageAactions";
 import {
   fetchManageProducts,
@@ -38,6 +39,7 @@ export const ActionCreators = {
   changeLoginStatus: changeLoginStatus,
   fetchAuthentication: fetchAuthentication,
   fetchUpdateCart: fetchUpdateCart,
+  fetchOrderHistoryWithOrderId: fetchOrderHistoryWithOrderId,
   
   // fetchManageProducts: fetchManageProducts,
   // fetchManageUsers: fetchManageUsers,

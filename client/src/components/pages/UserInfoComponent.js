@@ -312,326 +312,339 @@ const UserInfo = (props) => {
       })
       .catch((error) => console.log(error));
   }
+  if (props.user.user.user !== null && props.auth.auth.isLoggedIn) {
+    // alert(
+    //   "(props.auth.auth.isLoggedin " +
+    //     props.auth.auth.isLoggedin +
+    //     " , props.user.user.user" +
+    //     JSON.stringify(props.user.user.user)
+    // );
+    return (
+      <Container>
+        <Row>
+          <Breadcrumb>
+            <NavLink to="/">Trang chủ </NavLink>
 
-  return (
-    <Container>
-      <Row>
-        <Breadcrumb>
-          <NavLink to="/">Trang chủ </NavLink>
+            <Breadcrumb.Item active>/ Thông tin người dùng</Breadcrumb.Item>
+          </Breadcrumb>
+        </Row>
 
-          <Breadcrumb.Item active>
-            / {props.user.user.user.name}
-          </Breadcrumb.Item>
-        </Breadcrumb>
-      </Row>
+        <Row xs={1} md={2}>
+          <Col>
+            <Image
+              variant=""
+              src={"/assets/" + props.user.user.user.imageUrl}
+              alt={props.user.user.user.name}
+              width={300}
+              height={400}
+            />
+          </Col>
+          <Col>
+            <Card.Title>Thông Tin Người Dùng</Card.Title>
+            <Card.Text>
+              <b>Tên:</b> {props.user.user.user.name}
+            </Card.Text>
+            <Card.Text>
+              <b>Ngày sinh:</b> {getFormatDate(props.user.user.user.doB)}
+            </Card.Text>
+            <Card.Text>
+              <b>Email:</b> {props.user.user.user.email}
+            </Card.Text>
+            <Card.Text>
+              <b>Điện thoại:</b> {props.user.user.user.phoneNumber}
+            </Card.Text>
+            <Card.Text>
+              <b>Địa chỉ:</b> {props.user.user.user.address}
+            </Card.Text>
+            <Card.Text>
+              <b>Tích điểm:</b> {props.user.user.user.point}
+            </Card.Text>
 
-      <Row xs={1} md={2}>
-        <Col>
-          <Image
-            variant=""
-            src={"/assets/" + props.user.user.user.imageUrl}
-            alt={props.user.user.user.name}
-            width={300}
-            height={400}
-          />
-        </Col>
-        <Col>
-          <Card.Title>Thông Tin Người Dùng</Card.Title>
-          <Card.Text>
-            <b>Tên:</b> {props.user.user.user.name}
-          </Card.Text>
-          <Card.Text>
-            <b>Ngày sinh:</b> {getFormatDate(props.user.user.user.doB)}
-          </Card.Text>
-          <Card.Text>
-            <b>Email:</b> {props.user.user.user.email}
-          </Card.Text>
-          <Card.Text>
-            <b>Điện thoại:</b> {props.user.user.user.phoneNumber}
-          </Card.Text>
-          <Card.Text>
-            <b>Địa chỉ:</b> {props.user.user.user.address}
-          </Card.Text>
-          <Card.Text>
-            <b>Tích điểm:</b> {props.user.user.user.point}
-          </Card.Text>
+            <Button variant="primary" onClick={handleShow}>
+              Sửa
+            </Button>
 
-          <Button variant="primary" onClick={handleShow}>
-            Sửa
-          </Button>
+            <Button
+              className="ml-3"
+              variant="success"
+              onClick={handleShowChangePasswordModal}
+            >
+              Đổi mật khẩu
+            </Button>
+          </Col>
+        </Row>
 
-          <Button
-            className="ml-3"
-            variant="success"
-            onClick={handleShowChangePasswordModal}
-          >
-            Đổi mật khẩu
-          </Button>
-        </Col>
-      </Row>
+        <Modal
+          show={showChangePasswordModal}
+          onHide={handleCloseChangePasswordModal}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header>
+            <Modal.Title>Thay đổi mật khẩu</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={(event) => handleSubmitChangePassword(event)}>
+              <Form.Group as={Row} className="mb-3" controlId="password">
+                <Form.Label column sm={3}>
+                  Mật khẩu
+                </Form.Label>
+                <Col sm={9}>
+                  <Form.Control
+                    className={!!errors2.password && "red-border"}
+                    onChange={(event) => {
+                      setField2("password", event.target.value);
+                      setPassword(event.target.value);
+                    }}
+                    type="password"
+                    name="password"
+                    value={password}
+                    placeholder="Xin nhập mật khẩu đăng ký"
+                    isInvalid={!!errors2.password}
+                    // required
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors2.password}
+                  </Form.Control.Feedback>
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} className="mb-3" controlId="confirmPassword">
+                <Form.Label column sm={3}>
+                  Xác nhận MK
+                </Form.Label>
+                <Col sm={9}>
+                  <Form.Control
+                    className={!!errors2.confirmPassword && "red-border"}
+                    onChange={(event) => {
+                      setField2("confirmPassword", event.target.value);
+                      setConfirmPassword(event.target.value);
+                    }}
+                    type="password"
+                    name="confirmPassword"
+                    value={confirmPassword}
+                    placeholder="Xin xác nhận mật khẩu đăng ký"
+                    isInvalid={!!errors2.confirmPassword}
+                    // required
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors2.confirmPassword}
+                  </Form.Control.Feedback>
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} className="mb-3">
+                <Col sm={{ span: 10, offset: 3 }}>
+                  <Button type="submit">Đổi mật khẩu</Button>
+                  <Button
+                    type="button"
+                    className="btn btn-success ml-2"
+                    onClick={() => {
+                      handleResetChangePasswordButton();
+                    }}
+                  >
+                    Reset
+                  </Button>
+                  <Button
+                    type="button"
+                    className="btn btn-danger ml-2"
+                    onClick={() => {
+                      handleResetChangePasswordButton();
+                      handleCloseChangePasswordModal();
+                    }}
+                  >
+                    Hủy
+                  </Button>
+                </Col>
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          {/* <Modal.Footer>
+            <Button variant="primary" onClick={handleEdit}>
+              Thay đổi
+            </Button>
+            <Button variant="secondary" onClick={handleClose}>
+              Hủy
+            </Button>
+          </Modal.Footer> */}
+        </Modal>
 
-      <Modal
-        show={showChangePasswordModal}
-        onHide={handleCloseChangePasswordModal}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header>
-          <Modal.Title>Thay đổi mật khẩu</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={(event) => handleSubmitChangePassword(event)}>
-            <Form.Group as={Row} className="mb-3" controlId="password">
-              <Form.Label column sm={3}>
-                Mật khẩu
-              </Form.Label>
-              <Col sm={9}>
-                <Form.Control
-                  className={!!errors2.password && "red-border"}
-                  onChange={(event) => {
-                    setField2("password", event.target.value);
-                    setPassword(event.target.value);
-                  }}
-                  type="password"
-                  name="password"
-                  value={password}
-                  placeholder="Xin nhập mật khẩu đăng ký"
-                  isInvalid={!!errors2.password}
-                  // required
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors2.password}
-                </Form.Control.Feedback>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3" controlId="confirmPassword">
-              <Form.Label column sm={3}>
-                Xác nhận MK
-              </Form.Label>
-              <Col sm={9}>
-                <Form.Control
-                  className={!!errors2.confirmPassword && "red-border"}
-                  onChange={(event) => {
-                    setField2("confirmPassword", event.target.value);
-                    setConfirmPassword(event.target.value);
-                  }}
-                  type="password"
-                  name="confirmPassword"
-                  value={confirmPassword}
-                  placeholder="Xin xác nhận mật khẩu đăng ký"
-                  isInvalid={!!errors2.confirmPassword}
-                  // required
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors2.confirmPassword}
-                </Form.Control.Feedback>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3">
-              <Col sm={{ span: 10, offset: 3 }}>
-                <Button type="submit">Đổi mật khẩu</Button>
-                <Button
-                  type="button"
-                  className="btn btn-success ml-2"
-                  onClick={() => {
-                    handleResetChangePasswordButton();
-                  }}
-                >
-                  Reset
-                </Button>
-                <Button
-                  type="button"
-                  className="btn btn-danger ml-2"
-                  onClick={() => {
-                    handleResetChangePasswordButton();
-                    handleCloseChangePasswordModal();
-                  }}
-                >
-                  Hủy
-                </Button>
-              </Col>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        {/* <Modal.Footer>
-          <Button variant="primary" onClick={handleEdit}>
-            Thay đổi
-          </Button>
-          <Button variant="secondary" onClick={handleClose}>
-            Hủy
-          </Button>
-        </Modal.Footer> */}
-      </Modal>
-
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header>
-          <Modal.Title>Sửa Thông Tin Người Dùng</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={(event) => handleSubmit(event)}>
-            <Form.Group as={Row} className="mb-3" controlId="name">
-              <Form.Label column sm={3}>
-                Tên
-              </Form.Label>
-              <Col sm={9}>
-                <Form.Control
-                  className={!!errors.name && "red-border"}
-                  onChange={(event) => {
-                    setField("name", event.target.value);
-                    setName(event.target.value);
-                  }}
-                  type="text"
-                  name="name"
-                  value={name}
-                  placeholder="Xin nhập Tên Khách Hàng đăng ký"
-                  isInvalid={!!errors.name}
-                  // required
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.name}
-                </Form.Control.Feedback>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3" controlId="doB">
-              <Form.Label column sm={3}>
-                Ngày sinh
-              </Form.Label>
-              <Col sm={9}>
-                <Form.Control
-                  className={!!errors.doB && "red-border"}
-                  onChange={(event) => {
-                    setField("doB", event.target.value);
-                    setdoB(event.target.value);
-                  }}
-                  type="date"
-                  name="doB"
-                  value={doB}
-                  placeholder=""
-                  isInvalid={!!errors.doB}
-                  // required
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.doB}
-                </Form.Control.Feedback>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3" controlId="phoneNumber">
-              <Form.Label column sm={3}>
-                Điện thoại
-              </Form.Label>
-              <Col sm={9}>
-                <Form.Control
-                  className={!!errors.phoneNumber && "red-border"}
-                  onChange={(event) => {
-                    setField("phoneNumber", event.target.value);
-                    setPhoneNumber(event.target.value);
-                  }}
-                  type="text"
-                  name="phoneNumber"
-                  value={phoneNumber}
-                  placeholder="Số điện thoại 10 chữ số"
-                  isInvalid={!!errors.phoneNumber}
-                  // required
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.phoneNumber}
-                </Form.Control.Feedback>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3" controlId="postcode">
-              <Form.Label column sm={3}>
-                Mã bưu điện
-              </Form.Label>
-              <Col sm={9}>
-                <Form.Control
-                  className={!!errors.postcode && "red-border"}
-                  onBlur={(e) => {
-                    handlePostCodechange(e);
-                  }}
-                  onKeyDown={(e) => {
-                    handlePostCodechange(e);
-                  }}
-                  onChange={(event) => {
-                    setField("postcode", event.target.value);
-                    setPostcode(event.target.value);
-                  }}
-                  type="text"
-                  name="postcode"
-                  value={postcode}
-                  placeholder="Mã bưu điện 7 chữ số"
-                  isInvalid={!!errors.postcode}
-                  // required
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.postcode}
-                </Form.Control.Feedback>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3" controlId="address">
-              <Form.Label column sm={3}>
-                Địa chỉ
-              </Form.Label>
-              <Col sm={9}>
-                <Form.Control
-                  className={!!errors.address && "red-border"}
-                  onChange={(event) => {
-                    setField("address", event.target.value);
-                    setAddress(event.target.value);
-                  }}
-                  type="text"
-                  name="address"
-                  value={address}
-                  placeholder="Xin nhập địa chỉ"
-                  isInvalid={!!errors.address}
-                  // required
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.address}
-                </Form.Control.Feedback>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3">
-              <Col sm={{ span: 10, offset: 3 }}>
-                <Button type="submit">Thay đổi</Button>
-                <Button
-                  type="button"
-                  className="btn btn-success ml-2"
-                  onClick={() => {
-                    handleResetButton();
-                  }}
-                >
-                  Reset
-                </Button>
-                <Button
-                  type="button"
-                  className="btn btn-danger ml-2"
-                  onClick={() => {
-                    // handleResetButton();
-                    handleClose();
-                  }}
-                >
-                  Hủy
-                </Button>
-              </Col>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        {/* <Modal.Footer>
-          <Button variant="primary" onClick={handleEdit}>
-            Thay đổi
-          </Button>
-          <Button variant="secondary" onClick={handleClose}>
-            Hủy
-          </Button>
-        </Modal.Footer> */}
-      </Modal>
-    </Container>
-  );
+        <Modal
+          show={show}
+          onHide={handleClose}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header>
+            <Modal.Title>Sửa Thông Tin Người Dùng</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={(event) => handleSubmit(event)}>
+              <Form.Group as={Row} className="mb-3" controlId="name">
+                <Form.Label column sm={3}>
+                  Tên
+                </Form.Label>
+                <Col sm={9}>
+                  <Form.Control
+                    className={!!errors.name && "red-border"}
+                    onChange={(event) => {
+                      setField("name", event.target.value);
+                      setName(event.target.value);
+                    }}
+                    type="text"
+                    name="name"
+                    value={name}
+                    placeholder="Xin nhập Tên Khách Hàng đăng ký"
+                    isInvalid={!!errors.name}
+                    // required
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.name}
+                  </Form.Control.Feedback>
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} className="mb-3" controlId="doB">
+                <Form.Label column sm={3}>
+                  Ngày sinh
+                </Form.Label>
+                <Col sm={9}>
+                  <Form.Control
+                    className={!!errors.doB && "red-border"}
+                    onChange={(event) => {
+                      setField("doB", event.target.value);
+                      setdoB(event.target.value);
+                    }}
+                    type="date"
+                    name="doB"
+                    value={doB}
+                    placeholder=""
+                    isInvalid={!!errors.doB}
+                    // required
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.doB}
+                  </Form.Control.Feedback>
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} className="mb-3" controlId="phoneNumber">
+                <Form.Label column sm={3}>
+                  Điện thoại
+                </Form.Label>
+                <Col sm={9}>
+                  <Form.Control
+                    className={!!errors.phoneNumber && "red-border"}
+                    onChange={(event) => {
+                      setField("phoneNumber", event.target.value);
+                      setPhoneNumber(event.target.value);
+                    }}
+                    type="text"
+                    name="phoneNumber"
+                    value={phoneNumber}
+                    placeholder="Số điện thoại 10 chữ số"
+                    isInvalid={!!errors.phoneNumber}
+                    // required
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.phoneNumber}
+                  </Form.Control.Feedback>
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} className="mb-3" controlId="postcode">
+                <Form.Label column sm={3}>
+                  Mã bưu điện
+                </Form.Label>
+                <Col sm={9}>
+                  <Form.Control
+                    className={!!errors.postcode && "red-border"}
+                    onBlur={(e) => {
+                      handlePostCodechange(e);
+                    }}
+                    onKeyDown={(e) => {
+                      handlePostCodechange(e);
+                    }}
+                    onChange={(event) => {
+                      setField("postcode", event.target.value);
+                      setPostcode(event.target.value);
+                    }}
+                    type="text"
+                    name="postcode"
+                    value={postcode}
+                    placeholder="Mã bưu điện 7 chữ số"
+                    isInvalid={!!errors.postcode}
+                    // required
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.postcode}
+                  </Form.Control.Feedback>
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} className="mb-3" controlId="address">
+                <Form.Label column sm={3}>
+                  Địa chỉ
+                </Form.Label>
+                <Col sm={9}>
+                  <Form.Control
+                    className={!!errors.address && "red-border"}
+                    onChange={(event) => {
+                      setField("address", event.target.value);
+                      setAddress(event.target.value);
+                    }}
+                    type="text"
+                    name="address"
+                    value={address}
+                    placeholder="Xin nhập địa chỉ"
+                    isInvalid={!!errors.address}
+                    // required
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.address}
+                  </Form.Control.Feedback>
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} className="mb-3">
+                <Col sm={{ span: 10, offset: 3 }}>
+                  <Button type="submit">Thay đổi</Button>
+                  <Button
+                    type="button"
+                    className="btn btn-success ml-2"
+                    onClick={() => {
+                      handleResetButton();
+                    }}
+                  >
+                    Reset
+                  </Button>
+                  <Button
+                    type="button"
+                    className="btn btn-danger ml-2"
+                    onClick={() => {
+                      // handleResetButton();
+                      handleClose();
+                    }}
+                  >
+                    Hủy
+                  </Button>
+                </Col>
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          {/* <Modal.Footer>
+            <Button variant="primary" onClick={handleEdit}>
+              Thay đổi
+            </Button>
+            <Button variant="secondary" onClick={handleClose}>
+              Hủy
+            </Button>
+          </Modal.Footer> */}
+        </Modal>
+      </Container>
+    );
+  } else {
+    return (
+      <Container>
+        <Row>
+          <h1>Vui lòng đăng nhập!</h1>
+        </Row>
+      </Container>
+    );
+  }
 };
 
 export default UserInfo;

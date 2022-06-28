@@ -12,6 +12,7 @@ import OrderHistory from "./pages/OrderHistoryComponet";
 import Login from "./user/LoginComponent";
 import Signup from "./user/SignupComponent";
 import ResetPassword from "./user/ResetPasswordComponent";
+import ChangePassword from "./user/ChangePasswordComponent";
 
 import Cart from "./pages/CartComponent";
 import Order from "./pages/OrderComponent";
@@ -49,6 +50,7 @@ const mapStateToProps = (state) => {
     products: state.products,
     user: state.user,
     auth: state.auth,
+    orders: state.orders,
     // manageProducts: state.manageProducts,
     // manageUsers: state.manageUsers,
     // manageEvents: state.manageEvents,
@@ -94,6 +96,12 @@ const mapDispatchToProps = (dispatch) => ({
   fetchUpdateCart: (updateCartInfo) => {
     dispatch(ActionCreators.fetchUpdateCart(updateCartInfo));
   },
+
+  //Order
+  fetchOrderHistoryWithOrderId: (orderId) => {
+    dispatch(ActionCreators.fetchOrderHistoryWithOrderId(orderId));
+  },
+
   // fetchManageProducts: () => {
   //   dispatch(ActionCreators.fetchManageProducts());
   // },
@@ -163,6 +171,7 @@ class Main extends Component {
     //     "     Cart: " +
     //     JSON.stringify(this.props.cart.Carts)
     // );
+    alert("orders Main: " + JSON.stringify(this.props.orders));
 
     //Tracking user loggedin or not
     if (
@@ -173,21 +182,18 @@ class Main extends Component {
     }
 
     //Update user's cart each changing cart
-    if (
-      this.props.cart.Carts.length > 0 &&
-      this.props.user.user.user !== null
-    ) {
+    if (this.props.user.user.user !== null) {
       // alert("update cart");
       if (
         !JSON.stringify(this.props.user.user.user.cart).localeCompare(
           JSON.stringify(this.props.cart.Carts)
         )
       ) {
-        // alert("same same");
+        alert("same same");
         //Do nothing
       } else {
         //Chi fetch khi page's Cart thay doi
-        // alert("not same");
+        alert("not same");
         const updateCartInfo = {
           Carts: this.props.cart.Carts,
           sessionId: this.props.auth.auth.sessionId,
@@ -195,18 +201,10 @@ class Main extends Component {
         this.props.fetchUpdateCart(updateCartInfo);
       }
     }
-
-    // this.props.UpdateUserCartToPageCart([]);
   }
-
-  // alertTest(value){
-  //   this.props.AddCart(value,1);
-  // <Route exact path="/trangchu" element={<Home products={this.props.products.products} AddCart={(value) => this.alertTest(value)}/>} />
-  // }
 
   render() {
     const ProductWithIdAndType = () => {
-      // alert(useParams().productId);
       const paramId = useParams().productId;
       const paramTypeFood = useParams().typeFood;
       return (
@@ -219,6 +217,16 @@ class Main extends Component {
           AddCart={this.props.AddCart}
         />
       );
+    };
+
+    const ChangePasswordWithToken = () => {
+      // alert(useParams().productId);
+      // <Route
+      //   path="/khoiphucmatkhau/:token"
+      //   element={<ChangePasswordWithToken />}
+      // />;
+      const token = useParams().token;
+      return <ChangePassword token={token} />;
     };
 
     return (
@@ -315,11 +323,13 @@ class Main extends Component {
             path="/lichsu"
             element={
               <OrderHistory
-              // cart={this.props.cart}
-              // products={this.props.products.products}
-              // IncreaseQuantity={this.props.IncreaseQuantity}
-              // DecreaseQuantity={this.props.DecreaseQuantity}
-              // DeleteCart={this.props.DeleteCart}
+                orders={this.props.orders}
+                auth={this.props.auth}
+                user={this.props.user}
+                products={this.props.products.products}
+                fetchOrderHistoryWithOrderId={
+                  this.props.fetchOrderHistoryWithOrderId
+                }
               />
             }
           />
@@ -348,6 +358,7 @@ class Main extends Component {
               />
             }
           />
+
           <Route
             exact
             path="/khoiphucmatkhau"
@@ -358,6 +369,11 @@ class Main extends Component {
                 }
               />
             }
+          />
+
+          <Route
+            path="/khoiphucmatkhau/:token"
+            element={<ChangePasswordWithToken />}
           />
 
           <Route

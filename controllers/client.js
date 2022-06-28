@@ -4,7 +4,11 @@ const Order = require("../models/order");
 const User = require("../models/user");
 const Event = require("../models/event");
 
+const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
+
+const nodemailer = require("nodemailer");
+const sendGridTransport = require("nodemailer-sendgrid-transport");
 
 const session = require("express-session");
 const MongoDbStote = require("connect-mongodb-session")(session);
@@ -19,6 +23,16 @@ const store = new MongoDbStote({
   // expires: 1000 * 60 * 60,
   // expires  them vao de tu xoa sau het phien
 });
+
+const transporter = nodemailer.createTransport(
+  sendGridTransport({
+    auth: {
+      api_key:
+        "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",
+      // "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",
+    },
+  })
+);
 
 /**
  * The method getProducts() implement geting product's data from database and respone to client
@@ -43,10 +57,11 @@ exports.postClientOrder = (req, res, next) => {
   // console.log("OK123");
   // console.log(JSON.stringify(req.body));
   // res.json("OK123456");
-
+  const sessionId = req.body.sessionId;
   const name = req.body.name;
   const email = req.body.email;
   const phoneNumber = req.body.number;
+  // const imageUrl = req.body.imageUrl;
   const address =
     "〒" +
     req.body.postcode +
@@ -56,43 +71,110 @@ exports.postClientOrder = (req, res, next) => {
     req.body.inputAddress;
   const node = req.body.inputNode;
   const products = req.body.products;
+  const couponName = req.body.coupon.name;
+  const couponDiscount = req.body.coupon.discount;
 
   var totalCash = 0;
   products.forEach((item, index) => {
     totalCash += item.quantity * item.price;
   });
 
-  const order = new Order({
-    products: products,
-    cashInfo: { totalCash: totalCash, isPaid: false },
-    date: new Date(),
-    approveStatus: false,
-    hasAccountInfo: { userId: null },
-    deliveryInfo: {
-      name: name,
-      email: email,
-      phoneNumber: phoneNumber,
-      address: address,
-      node: node,
-    },
-  });
+  const afterDiscount = totalCash - totalCash * couponDiscount;
+  var userId = null;
 
-  order
-    .save()
-    .then((result) => {
-      console.log(result);
-      console.log("order successfully");
-      res.send(result._id);
-      // alert("Them thanh cong");
-      // return res.redirect("/admin/manage/products");
-    })
-    .catch((err) => {
-      console.log(err);
+  if (sessionId) {
+    store.get(sessionId, (error, session) => {
+      if (error) {
+        console.log(error);
+      } else {
+        if (session !== null) {
+          userId = session.user._id;
+
+          const order = new Order({
+            products: products,
+            cashInfo: {
+              totalCash: totalCash,
+              coupon: { name: couponName, discount: couponDiscount },
+              afterDiscount: afterDiscount,
+              isPaid: false,
+            },
+            date: new Date(),
+            approveStatus: false,
+            hasAccountInfo: { userId: userId },
+            deliveryInfo: {
+              name: name,
+              email: email,
+              phoneNumber: phoneNumber,
+              address: address,
+              node: node,
+            },
+          });
+
+          order
+            .save()
+            .then((resultOrder) => {
+              User.findOne({ _id: userId })
+                .then((user) => {
+                  if (user !== null) {
+                    user.orderHistory.push({
+                      orderId: mongoose.Types.ObjectId(resultOrder._id),
+                    });
+                    user
+                      .save()
+                      .then((result) => {
+                        console.log(user);
+                      })
+                      .catch((err) => console.log(err));
+                  }
+                })
+                .catch((err) => console.log(err));
+
+              // console.log(resultOrder);
+              console.log("order successfully");
+              res.send({hasAccount: true, order: resultOrder, inform: resultOrder._id});
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      }
     });
+  } else {
+    const order = new Order({
+      products: products,
+      cashInfo: {
+        totalCash: totalCash,
+        coupon: { name: couponName, discount: couponDiscount },
+        afterDiscount: afterDiscount,
+        isPaid: false,
+      },
+      date: new Date(),
+      approveStatus: false,
+      hasAccountInfo: { userId: null },
+      deliveryInfo: {
+        name: name,
+        email: email,
+        phoneNumber: phoneNumber,
+        address: address,
+        node: node,
+      },
+    });
+
+    order
+      .save()
+      .then((resultOrder) => {
+        console.log(resultOrder);
+        console.log("order successfully");
+        res.send({hasAccount: false, order: null, inform: resultOrder._id});
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 };
 
 exports.postCheckEmailExist = (req, res, next) => {
-  console.log(JSON.stringify(req.body));
+  // console.log(JSON.stringify(req.body));
   const email = req.body.email;
   // User.findOne()
   User.findOne({ email: email })
@@ -150,23 +232,23 @@ exports.postCheckCouponExist = (req, res, next) => {
     });
 };
 
-exports.postCheckOrderExist = (req, res, next) => {
+exports.postGetOrderHistoryByOrderId = (req, res, next) => {
   console.log(JSON.stringify(req.body));
-  const orderCode = mongoose.Types.ObjectId(req.body.orderCode);
+  const orderId = req.body.orderId;  //mongoose.Types.ObjectId(req.body.orderCode);
 
   // User.findOne()
-  Order.findById(orderCode)
+  Order.findById(orderId)
     .then((orderDoc) => {
       if (!orderDoc) {
         res.send({
-          result: "false",
+          result: false,
           inform: "Mã đơn hàng không tồn tại",
           order: null,
         });
         // console.log("not exist");
       } else {
         res.send({
-          result: "true",
+          result: true,
           inform: "Mã đơn hàng hợp lệ",
           order: orderDoc,
         });
@@ -225,6 +307,8 @@ exports.postClientLogin = (req, res, next) => {
       if (!user) {
         res.send(false);
       } else {
+        const orderIds = user.orderHistory.map((item) => item.orderId);
+
         const sendUserToClient = {
           email: user.email,
           name: user.name,
@@ -234,6 +318,7 @@ exports.postClientLogin = (req, res, next) => {
           point: user.point,
           imageUrl: user.imageUrl,
           cart: user.cart.items,
+          orderHistory: null,
           sessionId: sessionId,
           isLoggedIn: isLoggedIn,
         };
@@ -268,7 +353,20 @@ exports.postClientLogin = (req, res, next) => {
 
                     sendUserToClient.sessionId = sessionId;
                     sendUserToClient.isLoggedIn = isLoggedIn;
-                    res.send({ status: "success", isLoggedIn: true, user: sendUserToClient });
+
+                    // console.log("orderIds  " + orderIds);
+                    Order.find({ _id: orderIds })
+                      .then((orders) => {
+                        // console.log(JSON.stringify(orders));
+                        sendUserToClient.orderHistory = orders;
+
+                        res.send({
+                          status: "success",
+                          isLoggedIn: true,
+                          user: sendUserToClient,
+                        });
+                      })
+                      .catch((err) => console.log(err));
                   } else {
                     throw "obj is null";
                   }
@@ -471,7 +569,8 @@ exports.postClientChangeAccountPassword = (req, res, next) => {
                     store.destroy(sessionId);
 
                     res.send({
-                      inform: "Thay đổi mật khẩu thành công \nVui lòng đăng nhập lại!",
+                      inform:
+                        "Thay đổi mật khẩu thành công \nVui lòng đăng nhập lại!",
                       isEditted: true,
                     });
                     // console.log(user);
@@ -481,7 +580,7 @@ exports.postClientChangeAccountPassword = (req, res, next) => {
           } else {
             res.send({
               inform: "Thay đổi mật khẩu thất bại",
-              isEditted: false
+              isEditted: false,
             });
           }
         })
@@ -489,7 +588,7 @@ exports.postClientChangeAccountPassword = (req, res, next) => {
     } else {
       res.send({
         inform: "Thay đổi mật khẩu thất bại",
-        isEditted: false
+        isEditted: false,
       });
     }
     if (error) {
@@ -498,41 +597,104 @@ exports.postClientChangeAccountPassword = (req, res, next) => {
   });
 };
 
-exports.postReset = (req, res, next) => {
-  // crypto.randomBytes(32, (err, buffer) => {
-  //   if (err) {
-  //     console.log(err);
-  //     return res.redirect("/reset");
-  //   }
-  //   const token = buffer.toString("hex");
-  //   User.findOne({ email: req.body.email })
-  //     .then((user) => {
-  //       if (!user) {
-  //         req.flash("error", "No account with that email fonud !");
-  //         return res.redirect("/reset");
-  //       }
-  //       user.resetToken = token;
-  //       user.resetTokenExpiration = Date.now() + 360000; //360000 milisecond = 1hour
-  //       return user.save();
-  //     })
-  //     .then((result) => {
-  //       res.redirect("/login");
-  //       // console.log(req.body.email);
-  //       // return transporter.sendMail({
-  //       //   to: req.body.email,
-  //       //   from: "tudmfx12838@funix.edu.vn",
-  //       //   subject: "Reset password succeeded!",
-  //       //   html: `<h1>Reset password successfully!</h1>
-  //       //        <p><a href="http://localhost:3000/reset/${token}">Click here to return!</a></p>
-  //       //       `,
-  //       // });
-  //     })
-  //     .catch((err) => {
-  //       const error = new Error(err);
-  //       error.httpStatusCode = 500;
-  //       return next(error);
-  //     });
-  // });
+exports.postClientConfirmBeforeResetPassword = (req, res, next) => {
+  console.log(JSON.stringify(req.body.email));
+  const email = req.body.email;
+
+  crypto.randomBytes(32, (err, buffer) => {
+    if (err) {
+      console.log(err);
+    } else {
+      const token = buffer.toString("hex");
+      User.findOne({ email: req.body.email })
+        .then((user) => {
+          if (!user) {
+            res.send({ inform: "Địa chỉ email không tồn tại" });
+          } else {
+            user.resetToken = token;
+            user.resetTokenExpiration = Date.now() + 1000 * 60; //360000 milisecond = 1hour
+            return user.save();
+          }
+        })
+        .then((result) => {
+          res.send({ inform: "Kiểm tra email xác nhận thay đổi mật khẩu" });
+          // res.redirect("/login");
+          // console.log(req.body.email);
+          // return transporter.sendMail({
+          //   to: req.body.email,
+          //   from: "tudmfx12838@funix.edu.vn",
+          //   subject: "Reset password succeeded!",
+          //   html: `<h1>Reset password successfully!</h1>
+          //        <p><a href="http://localhost:3000/reset/${token}">Click here to return!</a></p>
+          //       `,
+          // });
+        })
+        .catch((err) => {
+          // const error = new Error(err);
+          // error.httpStatusCode = 500;
+          // return next(error);
+        });
+    }
+  });
+};
+
+exports.postChangeAccountPasswordWithToken = (req, res, next) => {
+  console.log(JSON.stringify(req.body));
+  const token = req.body.token;
+  const newPassword = req.body.password;
+
+  // , resetTokenExpiration: { $gt: new Date() }
+  User.findOne({ resetToken: token })
+    .then((resetUser) => {
+      // console.log(resetUser);
+      // console.log(Date.parse(resetUser.resetTokenExpiration));
+      if (!resetUser) {
+        res.send({
+          inform:
+            "Token không hợp lệ\nVui lòng thực hiện lại thao tác quên mật khẩu",
+          isEditted: false,
+        });
+      } else {
+        const resetTokenExpiration = Date.parse(resetUser.resetTokenExpiration);
+        const timeNow = Date.now();
+        // console.log(resetTokenExpiration + " , " + timeNow);
+
+        if (timeNow < resetTokenExpiration) {
+          // console.log("lt");
+          bcrypt.hash(newPassword, 12).then((hashedPassword) => {
+            resetUser.password = hashedPassword;
+            resetUser.resetToken = undefined;
+            resetUser.resetTokenExpiration = undefined;
+            resetUser
+              .save()
+              .then((result) => {
+                res.send({
+                  inform: "Thay đổi mật khẩu thành công",
+                  isEditted: true,
+                });
+              })
+              .catch((err) => console.log(err));
+          });
+        } else {
+          resetUser.resetToken = undefined;
+          resetUser.resetTokenExpiration = undefined;
+          resetUser
+            .save()
+            .then((result) => {
+              res.send({
+                inform: "Thời gian thay đổi mật khẩu hết hạn",
+                isEditted: false,
+              });
+            })
+            .catch((err) => console.log(err));
+        }
+      }
+    })
+    .catch((err) => {
+      // const error = new Error(err);
+      // error.httpStatusCode = 500;
+      // return next(error);
+    });
 };
 
 exports.getCSRFToken = (req, res, next) => {

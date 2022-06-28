@@ -43,3 +43,8 @@ export function DecreaseQuantity(payload) {
 export function UpdateUserCartToPageCart(payload) {
   return { type: ActionTypes.UPDATE_USERCART_TO_PAGECART, payload };
 }
+
+export function setEmptyCart(payload) {
+  return { type: ActionTypes.EMPTY_CART, payload };
+}
+

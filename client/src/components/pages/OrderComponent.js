@@ -61,8 +61,19 @@ const Order = (props) => {
       setInputAddress(address);
       setInputNode("");
       setCoupon("");
+      // setErrors({});
+      // setForm({});
+      var newForm = {};
+
+      newForm.name = props.user.user.user.name;
+      newForm.email = props.user.user.user.email;
+      newForm.number = props.user.user.user.phoneNumber;
+      newForm.postcode = postcode;
+      newForm.address1 = address;
+      newForm.address2 = address;
+
+      setForm(newForm);
       setErrors({});
-      setForm({});
     } else {
       handleResetButton();
     }
@@ -136,9 +147,13 @@ const Order = (props) => {
         title: item.title,
         quantity: item.quantity,
         price: item.price,
+        imageUrl: item.imageUrl,
       };
     });
+
+    const authen = props.auth.auth.isLoggedIn && props.user.user.user !== null;
     const orderInfo = {
+      sessionId: !authen ? null : props.auth.auth.sessionId,
       name: name,
       email: email,
       number: number,
@@ -147,7 +162,10 @@ const Order = (props) => {
       inputAddress: inputAddress,
       inputNode: inputNode,
       products: products,
-      coupon: coupon,
+      coupon: {
+        name: coupon === null ? "" : coupon,
+        discount: coupon === null ? 0 : existCoupon.discount,
+      },
     };
 
     // alert(JSON.stringify(form));
@@ -179,7 +197,7 @@ const Order = (props) => {
   // Chưa hoàn thiện ...
   function handleCheckCouponExist(coupon, inform) {
     // alert(coupon);
-    if (coupon === "" &&inform) {
+    if (coupon === "" && inform) {
       alert("Xin nhập mã giảm giá để kiểm tra!");
       setIsExistCoupon({ result: true, discount: 0 });
     } else {
@@ -209,20 +227,52 @@ const Order = (props) => {
   }
 
   function handleResetButton() {
-    setName("");
-    setEmail("");
-    setNumber("");
-    setPostcode("");
-    setAddressFromPostCode("");
-    setInputAddress("");
-    setInputNode("");
-    setCoupon("");
-    setErrors({});
-    setForm({});
-    setIsExistCoupon({
-      result: true,
-      discount: 0,
-    });
+    if (props.auth.auth.isLoggedIn && props.user.user.user !== null) {
+      setName(props.user.user.user.name);
+      setEmail(props.user.user.user.email);
+      setNumber(props.user.user.user.phoneNumber);
+      const postcode = props.user.user.user.address.substring(1, 8);
+      const address = props.user.user.user.address.substring(
+        9,
+        props.user.user.user.address.length
+      );
+      setPostcode(postcode);
+      setAddressFromPostCode(address);
+      setInputAddress(address);
+      setInputNode("");
+      setCoupon("");
+      // setErrors({});
+      // setForm({});
+      var newForm = {};
+
+      newForm.name = props.user.user.user.name;
+      newForm.email = props.user.user.user.email;
+      newForm.number = props.user.user.user.phoneNumber;
+      newForm.postcode = postcode;
+      newForm.address1 = address;
+      newForm.address2 = address;
+
+      setForm(newForm);
+      setIsExistCoupon({
+        result: true,
+        discount: 0,
+      });
+    } else {
+      setName("");
+      setEmail("");
+      setNumber("");
+      setPostcode("");
+      setAddressFromPostCode("");
+      setInputAddress("");
+      setInputNode("");
+      setCoupon("");
+      setErrors({});
+      setForm({});
+      setIsExistCoupon({
+        result: true,
+        discount: 0,
+      });
+    }
   }
 
   let ListCart = [];
@@ -280,6 +330,7 @@ const Order = (props) => {
               </Form.Label>
               <Col sm={9}>
                 <Form.Control
+                  // disabled={props.auth.auth.isLoggedIn && props.user.user.user !== null ? true : false}
                   className={!!errors.email && "red-border"}
                   // onBlur={(event) => {
                   //   setEmail(event.target.value);

@@ -165,7 +165,7 @@ const Login = (props) => {
     setisExistEmaill(null);
   }
 
-  if (!props.auth.auth.isLoggedin) {
+  if (!props.auth.auth.isLoggedIn) {
     return (
       <Container>
         <Row className="mt-3">

@@ -18,6 +18,8 @@ import { User } from "./user";
 
 import { Auth } from "./auth";
 
+import { Orders } from "./order";
+
 // import { Departments } from './departments';
 // import { StaffsSalary } from './staffsSalary';
 
@@ -28,6 +30,7 @@ export const ConfigureStore = () => {
       cart: Cart,
       user: User,
       auth: Auth,
+      orders: Orders,
       // manageProducts: manageProducts,
       // manageUsers: manageUsers,
       // manageEvents: manageEvents,
