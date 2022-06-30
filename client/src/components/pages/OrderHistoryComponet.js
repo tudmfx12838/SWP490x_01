@@ -7,6 +7,7 @@ import {
   Col,
   Nav,
   Navbar,
+  Modal,
   Form,
   FormControl,
   Table,
@@ -20,13 +21,12 @@ import getFormatDate from "../../includes/getFormatDate";
 const baseUrl = "/assets/";
 
 const OrderHistory = (props) => {
+  const [show, setShow] = useState(false);
+  const [cancelInfo, setCancelInfo] = useState({});
   const [keyword, setKeyword] = useState("");
-
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
-
   const [orderHistory, setOrderHistory] = useState([]);
-
   const setField = (field, value) => {
     setForm({
       ...form,
@@ -42,9 +42,8 @@ const OrderHistory = (props) => {
   };
 
   useEffect(() => {
-
     setOrderHistory(props.orders.orders);
-  }, [props,orderHistory]);
+  }, [props, orderHistory]);
 
   function validateForm() {
     // const required = (val) => val && val.length;
@@ -86,7 +85,32 @@ const OrderHistory = (props) => {
     }
   };
 
-  function RenderSearchResult(orders) {
+  function handleCancelOrder(){
+    // alert("CancelInfo " + JSON.stringify(cancelInfo));
+    
+    if(cancelInfo.approveStatus){
+      alert("Đơn hàng đã được xác nhận không thể hủy!");
+    }else{
+      props.fetchCancelOrderWithOrderId(cancelInfo);
+    }
+    handleClose();
+  }
+
+  const handleShowConfirmModal = (orderId, approveStatus) => {
+    //show confirm modal
+    setCancelInfo({orderId: orderId, approveStatus: approveStatus});
+    setShow(true);
+  };
+
+  /**
+   * The method handleDelete() implement delete a product in cart
+   */
+  const handleClose = () => {
+    //hide confirm modal
+    setShow(false);
+  };
+
+  function RenderSearchResult({orders}) {
     // alert(
     //   " orders history " +
     //     JSON.stringify(orders) +
@@ -124,7 +148,6 @@ const OrderHistory = (props) => {
                     <Card.Text>
                       <b>Địa chỉ:</b> {item.deliveryInfo.address}
                     </Card.Text>
-
                     <Card.Title>---Thông Tin Sản Phẩm---</Card.Title>
                     <Table className="table">
                       <thead>
@@ -177,6 +200,17 @@ const OrderHistory = (props) => {
                         </tr>
                       </tbody>
                     </Table>
+                    <Button
+                    // hasAccountInfo.userId
+                      type="button"
+                      className="btn btn-danger"
+                      // disabled={item.approveStatus === false ? false : true}
+                      onClick={() => {
+                        handleShowConfirmModal(item._id, item.approveStatus);
+                      }}
+                    >
+                      Hủy Đơn Hàng
+                    </Button>
                   </Accordion.Body>
                 </Accordion.Item>
               );
@@ -184,10 +218,33 @@ const OrderHistory = (props) => {
           </Accordion>
         </React.Fragment>
       );
-      // return(<h1>ok</h1>);
     } else {
-      return <h1>Empty</h1>;
+      return <h3>Trống</h3>;
     }
+  }
+
+  function RenderConfirmModal(){
+    return(
+      <Modal
+          show={show}
+          onHide={handleClose}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Xác nhận hủy đơn hàng</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Bạn có muốn hủy đơn hàng này?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleCancelOrder}>
+              Có
+            </Button>
+            <Button variant="secondary" onClick={handleClose}>
+              Không
+            </Button>
+          </Modal.Footer>
+        </Modal>
+    )
   }
 
   if (!props.auth.auth.isLoggedIn && props.user.user.user === null) {
@@ -234,11 +291,15 @@ const OrderHistory = (props) => {
             </Form>
           </Col>
         </Row>
-        <Row className="mt-3"><Card.Title>---Kết Quả Tra Cứu Đơn Hàng---</Card.Title></Row>
         <Row className="mt-3">
-          {/* <RenderSearchResult orders={orderHistory} /> */}
-          {RenderSearchResult(orderHistory)}
+          <Card.Title>---Kết Quả Tra Cứu Đơn Hàng---</Card.Title>
         </Row>
+        <Row className="mt-3">
+          <RenderSearchResult orders={orderHistory} />
+          {/* {RenderSearchResult(orderHistory)} */}
+        </Row>
+
+        <RenderConfirmModal />
       </Container>
     );
   } else {
@@ -326,12 +387,24 @@ const OrderHistory = (props) => {
                         </tr>
                       </tbody>
                     </Table>
+                    <Button
+                      type="button"
+                      className="btn btn-danger"
+                      // disabled={item.approveStatus === false ? false : true}
+                      onClick={() => {
+                        handleShowConfirmModal(item._id, item.approveStatus);
+                      }}
+                    >
+                      Hủy Đơn Hàng
+                    </Button>
                   </Accordion.Body>
                 </Accordion.Item>
               );
             })}
           </Accordion>
         </Row>
+
+        <RenderConfirmModal />
       </Container>
     );
   }

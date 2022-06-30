@@ -34,6 +34,9 @@ router.post("/client/changeAccountPasswordWithToken", clientController.postChang
 
 router.post("/client/getOrderHistoryByOrderId", clientController.postGetOrderHistoryByOrderId);
 
+router.post("/client/cancelOrderWithOrderId", clientController.postCancelOrderWithOrderId);
+
+
 
 
 

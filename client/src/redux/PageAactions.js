@@ -53,7 +53,7 @@ export const fetchOrderInfo = (dataOrder) => (dispatch) => {
     })
     .then((data) => {
       alert("Đặt hàng thành công!\nMã đơn hàng là: " + data.inform);
-      if(data.hasAccount){
+      if (data.hasAccount) {
         dispatch(updateOrder(data.order));
       }
       dispatch(setEmptyCart([]));
@@ -124,7 +124,7 @@ export const fetchUserLogin = (dataLogin) => (dispatch) => {
 
         const orderHistory = respone.user.orderHistory;
 
-        alert("orderHistory   " + JSON.stringify(orderHistory));
+        // alert("orderHistory   " + JSON.stringify(orderHistory));
 
         dispatch(addAuth(auth));
         dispatch(userLoginStatus(status));
@@ -205,6 +205,7 @@ export const fetchUserLogout = (sessionId) => (dispatch) => {
         dispatch(userLoginStatus({ status: "idle", user: null }));
         dispatch(addAuth({ isLoggedIn: false, sessionId: null }));
         dispatch(UpdateUserCartToPageCart([]));
+        dispatch(addOrders([]));
       } else {
         alert("Đăng xuất thất bại");
       }
@@ -454,7 +455,7 @@ export const fetchOrderHistoryWithOrderId = (orderId) => (dispatch) => {
   // /client/updateCartFromClientToServer
   return fetch("http://localhost:4000/client/getOrderHistoryByOrderId", {
     method: "POST",
-    body: JSON.stringify({orderId: orderId}),
+    body: JSON.stringify({ orderId: orderId }),
     headers: {
       "Content-Type": "application/json",
     },
@@ -463,8 +464,30 @@ export const fetchOrderHistoryWithOrderId = (orderId) => (dispatch) => {
     .then((respone) => respone.json())
     .then((respone) => {
       alert(respone.inform);
-      if(respone.result){
+      if (respone.result) {
         dispatch(addOrder(respone.order));
+      }
+    })
+    .catch((error) => console.log(error));
+};
+
+export const fetchCancelOrderWithOrderId = (orderInfo) => (dispatch) => {
+  // alert("fetchUpdateCart " + JSON.stringify(updateCartInfo));
+  // dispatch(updateUserCart(updateCartInfo.Carts));
+  // /client/updateCartFromClientToServer
+  return fetch("http://localhost:4000/client/cancelOrderWithOrderId", {
+    method: "POST",
+    body: JSON.stringify({ orderId: orderInfo.orderId, approveStatus: orderInfo.approveStatus}),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "same-origin",
+  })
+    .then((respone) => respone.json())
+    .then((respone) => {
+      alert(respone.inform);
+      if (respone.result) {
+        dispatch(removeOrder(respone.orderId));
       }
     })
     .catch((error) => console.log(error));
@@ -493,5 +516,10 @@ export const addOrder = (order) => ({
 export const updateOrder = (order) => ({
   type: ActionTypes.UPDATE_ORDER,
   payload: order,
+});
+
+export const removeOrder = (orderId) => ({
+  type: ActionTypes.REMOVE_ORDER,
+  payload: orderId,
 });
 

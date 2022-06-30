@@ -259,6 +259,48 @@ exports.postGetOrderHistoryByOrderId = (req, res, next) => {
     });
 };
 
+exports.postCancelOrderWithOrderId = (req, res, next) => {
+  // console.log(JSON.stringify(req.body));
+  const orderId = req.body.orderId;  //mongoose.Types.ObjectId(req.body.orderCode);
+  const approveStatus = req.body.approveStatus;
+
+  // User.findOne()
+  Order.findById(orderId)
+    .then((orderDoc) => {
+      if (!orderDoc) {
+        res.send({
+          result: false,
+          inform: "Mã đơn hàng không tồn tại",
+          orderId: null,
+        });
+      } else {
+        if(approveStatus === true){
+          res.send({
+            result: false,
+            inform: "Mã đơn hàng này đã xác nhận nên không thể hủy",
+            orderId: null,
+          });
+        }else{
+          Order.deleteOne({ _id: orderDoc._id })
+          .then((result) => {
+            res.send({
+              result: true,
+              inform: `Mã đơn hàng ${orderDoc._id} đã hủy thành công`,
+              orderId: orderDoc._id,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
+        }
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 exports.postCheckingAuth = (req, res, next) => {
   // console.log(JSON.stringify(req.body));
   const sessionId = req.body.sessionId;

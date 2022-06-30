@@ -32,7 +32,7 @@ export const Orders = (
       };
 
     case ActionTypes.ADD_ORDER:
-      alert("Call me" + JSON.stringify(action.payload));
+      // alert("ADD_ORDER" + JSON.stringify(action.payload));
 
       let check = false;
       state.orders.map((item, key) => {
@@ -44,17 +44,26 @@ export const Orders = (
         state.orders.push(action.payload);
       }
 
-      return {...state};
+      return { ...state };
 
     case ActionTypes.UPDATE_ORDER:
       state.orders.push(action.payload);
 
       return state;
-    //   ...state,
-    //   isLoading: false,
-    //   errmess: null,
-    //   orders: action.payload,
-    // };
+
+    case ActionTypes.REMOVE_ORDER:
+      // alert("ADD_ORDER" + JSON.stringify(action.payload));
+      // state.orders.
+
+      return {
+        ...state,
+        isLoading: false,
+        errmess: null,
+        orders:  state.orders.filter((item) => {
+          return item._id !== action.payload;
+        }),
+      };
+
     default:
       return state;
   }

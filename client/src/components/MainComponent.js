@@ -101,6 +101,9 @@ const mapDispatchToProps = (dispatch) => ({
   fetchOrderHistoryWithOrderId: (orderId) => {
     dispatch(ActionCreators.fetchOrderHistoryWithOrderId(orderId));
   },
+  fetchCancelOrderWithOrderId: (orderInfo) => {
+    dispatch(ActionCreators.fetchCancelOrderWithOrderId(orderInfo));
+  },
 
   // fetchManageProducts: () => {
   //   dispatch(ActionCreators.fetchManageProducts());
@@ -171,7 +174,7 @@ class Main extends Component {
     //     "     Cart: " +
     //     JSON.stringify(this.props.cart.Carts)
     // );
-    alert("orders Main: " + JSON.stringify(this.props.orders));
+    // alert("orders Main: " + JSON.stringify(this.props.orders));
 
     //Tracking user loggedin or not
     if (
@@ -189,11 +192,11 @@ class Main extends Component {
           JSON.stringify(this.props.cart.Carts)
         )
       ) {
-        alert("same same");
+        // alert("same same");
         //Do nothing
       } else {
         //Chi fetch khi page's Cart thay doi
-        alert("not same");
+        // alert("not same");
         const updateCartInfo = {
           Carts: this.props.cart.Carts,
           sessionId: this.props.auth.auth.sessionId,
@@ -329,6 +332,9 @@ class Main extends Component {
                 products={this.props.products.products}
                 fetchOrderHistoryWithOrderId={
                   this.props.fetchOrderHistoryWithOrderId
+                }
+                fetchCancelOrderWithOrderId={
+                  this.props.fetchCancelOrderWithOrderId
                 }
               />
             }
