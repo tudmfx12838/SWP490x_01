@@ -746,15 +746,40 @@ const orderObj = [
   {
     products: [
       {
-        productId: {
-          $oid: "629048d034434f7448b169ca",
-        },
+        productId: mongoose.Types.ObjectId("629048d034434f7448b169ca"),
         title: "Tương ớt",
         quantity: 3,
         price: 200,
-        _id: {
-          $oid: "62922bd4c9425920267df7af",
-        },
+        imageUrl: "images/tuongotchinsu.jpg",
+      },
+    ],
+    cashInfo: {
+      totalCash: 600,
+      coupon: { name: "", discount: 0 },
+      afterDiscount: 600,
+      isPaid: true,
+    },
+    date: "2022-05-28T14:04:04.919Z",
+    approveStatus: true,
+    hasAccountInfo: {
+      userId: null,
+    },
+    deliveryInfo: {
+      name: "admin",
+      email: "admin2@gmail.com",
+      phoneNumber: "1234567890",
+      address: "〒7330822-広島県 広島市西区 庚午中  a123",
+      node: "",
+    },
+  },
+  {
+    products: [
+      {
+        productId: mongoose.Types.ObjectId("629048d034434f7448b169ca"),
+        title: "Tương ớt",
+        quantity: 3,
+        price: 200,
+        imageUrl: "images/tuongotchinsu.jpg",
       },
     ],
     cashInfo: {
@@ -763,9 +788,7 @@ const orderObj = [
       afterDiscount: 600,
       isPaid: false,
     },
-    date: {
-      $date: "2022-05-28T14:04:04.919Z",
-    },
+    date: "2022-05-28T14:04:23.929Z",
     approveStatus: false,
     hasAccountInfo: {
       userId: null,
@@ -781,15 +804,11 @@ const orderObj = [
   {
     products: [
       {
-        productId: {
-          $oid: "629048d034434f7448b169ca",
-        },
+        productId: mongoose.Types.ObjectId("629048d034434f7448b169ca"),
         title: "Tương ớt",
         quantity: 3,
         price: 200,
-        _id: {
-          $oid: "62922be7c9425920267df7b2",
-        },
+        imageUrl: "images/tuongot.jpg",
       },
     ],
     cashInfo: {
@@ -798,9 +817,7 @@ const orderObj = [
       afterDiscount: 600,
       isPaid: false,
     },
-    date: {
-      $date: "2022-05-28T14:04:23.929Z",
-    },
+    date: "2022-05-28T14:04:27.014Z",
     approveStatus: false,
     hasAccountInfo: {
       userId: null,
@@ -816,83 +833,32 @@ const orderObj = [
   {
     products: [
       {
-        productId: {
-          $oid: "629048d034434f7448b169ca",
-        },
+        productId: mongoose.Types.ObjectId("629048d034434f7448b169ca"),
         title: "Tương ớt",
         quantity: 3,
         price: 200,
-        _id: {
-          $oid: "62922bebc9425920267df7b5",
-        },
-      },
-    ],
-    cashInfo: {
-      totalCash: 600,
-      coupon: { name: "", discount: 0 },
-      afterDiscount: 600,
-      isPaid: false,
-    },
-    date: {
-      $date: "2022-05-28T14:04:27.014Z",
-    },
-    approveStatus: false,
-    hasAccountInfo: {
-      userId: null,
-    },
-    deliveryInfo: {
-      name: "admin",
-      email: "admin2@gmail.com",
-      phoneNumber: "1234567890",
-      address: "〒7330822-広島県 広島市西区 庚午中  a123",
-      node: "",
-    },
-  },
-  {
-    products: [
-      {
-        productId: {
-          $oid: "629048d034434f7448b169ca",
-        },
-        title: "Tương ớt",
-        quantity: 3,
-        price: 200,
-        _id: {
-          $oid: "62922c09c9425920267df7b8",
-        },
+        imageUrl: "images/tuongotchinsu.jpg",
       },
       {
-        productId: {
-          $oid: "629048d034434f7448b169e0",
-        },
+        productId: mongoose.Types.ObjectId("629048d034434f7448b169e0"),
         title: "Nước Sting",
         quantity: 2,
         price: 130,
-        _id: {
-          $oid: "62922c09c9425920267df7b9",
-        },
+        imageUrl: "images/tuongotchinsu.jpg",
       },
       {
-        productId: {
-          $oid: "629048d034434f7448b169e1",
-        },
+        productId: mongoose.Types.ObjectId("629048d034434f7448b169e1"),
         title: "Nước Bò Húc",
         quantity: 2,
         price: 190,
-        _id: {
-          $oid: "62922c09c9425920267df7ba",
-        },
+        imageUrl: "images/tuongotchinsu.jpg",
       },
       {
-        productId: {
-          $oid: "629048d034434f7448b169e2",
-        },
+        productId: mongoose.Types.ObjectId("629048d034434f7448b169e2"),
         title: "Bia Tiger",
         quantity: 5,
         price: 290,
-        _id: {
-          $oid: "62922c09c9425920267df7bb",
-        },
+        imageUrl: "images/tuongotchinsu.jpg",
       },
     ],
     cashInfo: {
@@ -901,9 +867,7 @@ const orderObj = [
       afterDiscount: 2690,
       isPaid: false,
     },
-    date: {
-      $date: "2022-05-28T14:04:57.493Z",
-    },
+    date: "2022-05-28T14:04:57.493Z",
     approveStatus: false,
     hasAccountInfo: {
       userId: null,
@@ -919,26 +883,18 @@ const orderObj = [
   {
     products: [
       {
-        productId: {
-          $oid: "629048d034434f7448b169e0",
-        },
+        productId: mongoose.Types.ObjectId("629048d034434f7448b169e0"),
         title: "Nước Sting",
         quantity: 2,
         price: 130,
-        _id: {
-          $oid: "62922c5ec9425920267df7be",
-        },
+        imageUrl: "images/tuongotchinsu.jpg",
       },
       {
-        productId: {
-          $oid: "629048d034434f7448b169e2",
-        },
+        productId: mongoose.Types.ObjectId("629048d034434f7448b169e2"),
         title: "Bia Tiger",
         quantity: 5,
         price: 290,
-        _id: {
-          $oid: "62922c5ec9425920267df7bf",
-        },
+        imageUrl: "images/tuongotchinsu.jpg",
       },
     ],
     cashInfo: {
@@ -947,9 +903,7 @@ const orderObj = [
       afterDiscount: 1710,
       isPaid: false,
     },
-    date: {
-      $date: "2022-05-28T14:06:22.269Z",
-    },
+    date: "2022-05-28T14:06:22.269Z",
     approveStatus: false,
     hasAccountInfo: {
       userId: null,
@@ -965,37 +919,25 @@ const orderObj = [
   {
     products: [
       {
-        productId: {
-          $oid: "629048d034434f7448b169db",
-        },
+        productId: mongoose.Types.ObjectId("629048d034434f7448b169db"),
         title: "Gà ta",
         quantity: 1,
         price: 650,
-        _id: {
-          $oid: "62922cf2c9425920267df7c4",
-        },
+        imageUrl: "images/tuongotchinsu.jpg",
       },
       {
-        productId: {
-          $oid: "629048d034434f7448b169da",
-        },
+        productId: mongoose.Types.ObjectId("629048d034434f7448b169da"),
         title: "Thịt heo",
         quantity: 1,
         price: 1000,
-        _id: {
-          $oid: "62922cf2c9425920267df7c5",
-        },
+        imageUrl: "images/tuongotchinsu.jpg",
       },
       {
-        productId: {
-          $oid: "629048d034434f7448b169d9",
-        },
+        productId: mongoose.Types.ObjectId("629048d034434f7448b169d9"),
         title: "Thịt bò",
         quantity: 1,
         price: 1200,
-        _id: {
-          $oid: "62922cf2c9425920267df7c6",
-        },
+        imageUrl: "images/tuongotchinsu.jpg",
       },
     ],
     cashInfo: {
@@ -1004,9 +946,7 @@ const orderObj = [
       afterDiscount: 2850,
       isPaid: false,
     },
-    date: {
-      $date: "2022-05-28T14:08:50.324Z",
-    },
+    date: "2022-05-28T14:08:50.324Z",
     approveStatus: false,
     hasAccountInfo: {
       userId: null,
@@ -1028,7 +968,7 @@ const orderObj = [
         title: "Tương ớt",
         quantity: 2,
         price: 200,
-         imageUrl: "images/nuocmam.jpg",
+        imageUrl: "images/nuocmam.jpg",
       },
       {
         productId: mongoose.Types.ObjectId("62af10adf651994f261ffdba"),
@@ -1140,7 +1080,7 @@ const orderObj = [
       totalCash: 1540,
       coupon: { name: "", discount: 0 },
       afterDiscount: 1540,
-      isPaid: false,
+      isPaid: true,
     },
     date: "2022-06-20T15:18:11.180Z",
     approveStatus: false,

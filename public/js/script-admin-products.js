@@ -23,6 +23,12 @@ var newRowValue = {
 };
 
 $(function () {
+  var inform = $("#admin-products-page").attr("inform");
+  if (inform !== "") {
+    window.location.replace("http://localhost:4000/admin/manage/products");
+    alert(inform);
+  }
+
   var addProductValidationErrors = $("#admin-products-page").attr(
     "addProductValidationErrors"
   );

@@ -26,7 +26,25 @@ var newRowValue = {
   imageUrl: "",
 };
 
+function getFormatDate(date) {
+  var date_obj = new Date(date);
+  var day =
+  date_obj.getDate() < 10 ? "0" + date_obj.getDate() : date_obj.getDate();
+  var month =
+  date_obj.getMonth() + 1 < 10
+      ? "0" + (date_obj.getMonth() + 1)
+      : date_obj.getMonth() + 1;
+  var formattedDate = date_obj.getFullYear() + "-" + month + "-" + day;
+  return formattedDate;
+}
+
 $(function () {
+  var inform = $("#admin-events-page").attr("inform");
+  if (inform !== "") {
+    window.location.replace("http://localhost:4000/admin/manage/events");
+    alert(inform);
+  }
+
   var $table = $("#table");
   var $btn_delete = $("#btn-delete");
   $btn_delete.prop("disabled", true);
@@ -150,7 +168,7 @@ $(function () {
   $("#detailItemModal")
     .find("#btn-editItem")
     .click(function () {
-      alert(JSON.stringify(oldRowValue));
+      // alert(JSON.stringify(oldRowValue));
       $("#editItemModal").find("#title").val(oldRowValue.title);
       $("#editItemModal").find("#startDate").val(oldRowValue.startDate);
       $("#editItemModal").find("#endDate").val(oldRowValue.endDate);
@@ -197,8 +215,6 @@ $(function () {
       imageUrl: $("#editItemModal").find("#image").val(),
       // imageUrl: $('#editProductModal').find('#image').prop('files')[0],
     };
-
-    // alert('newRowValue ' +  JSON.stringify(newRowValue) + '\n oldRowValue' + JSON.stringify(oldRowValue));
 
     if (String(newRowValue.title) === String(oldRowValue.title)) {
       $("#confirmEditItemModal")
@@ -331,29 +347,8 @@ $(function () {
 
 window.actionEditEventEvents = {
   "click .btn-editItem": function (e, value, row, index) {
-    var startDate_obj = new Date(row.startDate);
-    var startDate_day =
-      startDate_obj.getDate() < 10
-        ? "0" + startDate_obj.getDate()
-        : startDate_obj.getDate();
-    var startDate_month =
-      startDate_obj.getMonth() + 1 < 10
-        ? "0" + (startDate_obj.getMonth() + 1)
-        : startDate_obj.getMonth() + 1;
-    var startDate =
-      startDate_obj.getFullYear() + "-" + startDate_month + "-" + startDate_day;
-
-    var endDate_obj = new Date(row.endDate);
-    var endDate_day =
-      endDate_obj.getDate() < 10
-        ? "0" + endDate_obj.getDate()
-        : endDate_obj.getDate();
-    var endDate_month =
-      endDate_obj.getMonth() + 1 < 10
-        ? "0" + (endDate_obj.getMonth() + 1)
-        : endDate_obj.getMonth() + 1;
-    var endDate =
-      endDate_obj.getFullYear() + "-" + endDate_month + "-" + endDate_day;
+    var startDate = getFormatDate(row.startDate);
+    var endDate = getFormatDate(row.endDate);
 
     // if (oldRowValue._id === undefined) {
 
@@ -411,33 +406,12 @@ window.actionEditEventEvents = {
     // }
   },
   "click .btn-detailItem"(e, value, row, index) {
-    var startDate_obj = new Date(row.startDate);
-    var startDate_day =
-      startDate_obj.getDate() < 10
-        ? "0" + startDate_obj.getDate()
-        : startDate_obj.getDate();
-    var startDate_month =
-      startDate_obj.getMonth() + 1 < 10
-        ? "0" + (startDate_obj.getMonth() + 1)
-        : startDate_obj.getMonth() + 1;
-    var startDate =
-      startDate_obj.getFullYear() + "-" + startDate_month + "-" + startDate_day;
-
-    var endDate_obj = new Date(row.endDate);
-    var endDate_day =
-      endDate_obj.getDate() < 10
-        ? "0" + endDate_obj.getDate()
-        : endDate_obj.getDate();
-    var endDate_month =
-      endDate_obj.getMonth() + 1 < 10
-        ? "0" + (endDate_obj.getMonth() + 1)
-        : endDate_obj.getMonth() + 1;
-    var endDate =
-      endDate_obj.getFullYear() + "-" + endDate_month + "-" + endDate_day;
+    var startDate = getFormatDate(row.startDate);
+    var endDate = getFormatDate(row.endDate);
 
     $("#detailItemModal").find(".title").text(row.title);
-    $("#detailItemModal").find(".startDate").text(row.startDate);
-    $("#detailItemModal").find(".endDate").text(row.endDate);
+    $("#detailItemModal").find(".startDate").text(startDate);
+    $("#detailItemModal").find(".endDate").text(endDate);
     $("#detailItemModal").find(".hasCoupon").text(row.hasCoupon);
     $("#detailItemModal").find(".coupon").text(row.coupon);
     $("#detailItemModal").find(".discount").text(row.discount);
@@ -461,7 +435,19 @@ window.actionEditEventEvents = {
   },
 };
 
+function startDateFormatter(index, row) {
+  var startDate = getFormatDate(row.startDate);
+  return startDate;
+}
+
+function endDateFormatter(index, row) {
+  var endDate = getFormatDate(row.endDate);
+  return endDate;
+}
+
 function actionEditEvent(index, row) {
   return `<button class="btn-detailItem btn btn-secondary" data-bs-toggle="modal" data-bs-target="#detailItemModal" >Chi tiết</button>
                 <button class="btn-editItem btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editItemModal" >Sửa</button>`;
 }
+
+

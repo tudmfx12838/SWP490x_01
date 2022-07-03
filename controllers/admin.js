@@ -61,6 +61,7 @@ exports.getAdminProducts = (req, res, next) => {
         oldAddProductValue: null,
         addProductValidationErrors: [],
         editProductValidationErrors: [],
+        inform: "",
         // validationErrors: [],
         // isAuthenticated: req.session.isLoggedIn,
         // csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
@@ -103,20 +104,12 @@ exports.postAddProduct = (req, res, next) => {
           oldAddProductValue: oldAddProductValue,
           addProductValidationErrors: errors.array(),
           editProductValidationErrors: [],
+          inform: "Thêm sản phẩm thất bại",
           // csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
         });
       })
       .catch((err) => console.log(err));
   } else {
-    // console.log("not errors");
-    // // return res.redirect("/admin/manage/products");
-    // console.log(title);
-    // console.log(type);
-    // console.log(price);
-    // console.log(mount);
-    // console.log(description);
-    // console.log(req.file);
-
     if (!image) {
       return res.redirect("/admin/manage/products");
     }
@@ -136,7 +129,21 @@ exports.postAddProduct = (req, res, next) => {
       .save()
       .then((result) => {
         // alert("Them thanh cong");
-        return res.redirect("/admin/manage/products");
+        // return res.redirect("/admin/manage/products");
+        Product.find()
+          .then((products) => {
+            return res.render("admin/admin-products", {
+              path: "/manage/products",
+              pageTitle: "Quản lý Sản Phẩm",
+              products: products,
+              oldAddProductValue: oldAddProductValue,
+              addProductValidationErrors: errors.array(),
+              editProductValidationErrors: [],
+              inform: "Thêm sản phẩm thành công",
+              // csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
+            });
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => {
         console.log(err);
@@ -163,14 +170,6 @@ exports.postEditProduct = (req, res, next) => {
   const updatedDescription = req.body.description;
   const updatedImageUrl = req.file;
 
-  // console.log(productId);
-  // console.log(updatedTitle);
-  // console.log(updatedType);
-  // console.log(updatedPrice);
-  // console.log(updatedMount);
-  // console.log(updatedDescription);
-  // console.log(updatedImageUrl);
-
   Product.findById(productId)
     .then((product) => {
       product.title = updatedTitle;
@@ -185,8 +184,20 @@ exports.postEditProduct = (req, res, next) => {
       }
 
       return product.save().then((result) => {
-        console.log("Updated Product");
-        res.redirect("/admin/manage/products");
+        // console.log("Updated Product");
+        Product.find()
+          .then((products) => {
+            return res.render("admin/admin-products", {
+              path: "/manage/products",
+              pageTitle: "Quản lý Sản Phẩm",
+              products: products,
+              oldAddProductValue: null,
+              addProductValidationErrors: [],
+              editProductValidationErrors: [],
+              inform: "Cập nhật sản phẩm thành công",
+            });
+          })
+          .catch((err) => console.log(err));
       }); //Ham save nay cua mongoose
     })
     .catch((err) => {
@@ -211,7 +222,19 @@ exports.postDeleteProduct = (req, res, next) => {
   Product.deleteMany({ _id: productId })
     .then((result) => {
       console.log("Delete complete");
-      res.redirect("/admin/manage/products");
+      Product.find()
+        .then((products) => {
+          return res.render("admin/admin-products", {
+            path: "/manage/products",
+            pageTitle: "Quản lý Sản Phẩm",
+            products: products,
+            oldAddProductValue: null,
+            addProductValidationErrors: [],
+            editProductValidationErrors: [],
+            inform: "Xóa sản phẩm thành công",
+          });
+        })
+        .catch((err) => console.log(err));
     })
     .catch((err) => {
       console.log(err);
@@ -229,6 +252,7 @@ exports.getAdminEvents = (req, res, next) => {
         pageTitle: "Quản Lý Sự Kiện",
         path: "/manage/events",
         events: events,
+        inform: "",
         // errorMessage: message,
         // oldInput: { loginId: "" },
         // validationErrors: [],
@@ -252,17 +276,18 @@ exports.postAddEvent = (req, res, next) => {
   const discount = req.body.discount;
   const image = req.file;
 
-  // console.log(title);
-  // console.log(startDate);
-  // console.log(endDate);
-  // console.log(hasCoupon);
-  // console.log(coupon);
-  // // console.log(description);
-  // console.log(image);
-  // console.log(req.file);
-
   if (!image) {
-    return res.redirect("/admin/manage/events");
+    Event.find()
+      .then((events) => {
+        // res.json(products);
+        return res.render("admin/admin-events", {
+          pageTitle: "Quản Lý Sự Kiện",
+          path: "/manage/events",
+          events: events,
+          inform: "Thêm sự kiện thất bại\nLý do: Thiếu hình ảnh",
+        });
+      })
+      .catch((err) => console.log(err));
   }
 
   const imageUrl = image.path;
@@ -281,7 +306,17 @@ exports.postAddEvent = (req, res, next) => {
   event
     .save()
     .then((result) => {
-      return res.redirect("/admin/manage/events");
+      Event.find()
+        .then((events) => {
+          // res.json(products);
+          return res.render("admin/admin-events", {
+            pageTitle: "Quản Lý Sự Kiện",
+            path: "/manage/events",
+            events: events,
+            inform: "Thêm sự kiện thành công",
+          });
+        })
+        .catch((err) => console.log(err));
     })
     .catch((err) => {
       console.log(err);
@@ -299,13 +334,20 @@ exports.postDeleteEvent = (req, res, next) => {
 
   const eventIds = req.body._id.split(",");
 
-  // console.log(req.body._id);
-  // console.log(eventIds);
-
   Event.deleteMany({ _id: eventIds })
     .then((result) => {
-      console.log("Delete complete");
-      res.redirect("/admin/manage/events");
+      // console.log("Delete complete");
+      Event.find()
+        .then((events) => {
+          // res.json(products);
+          return res.render("admin/admin-events", {
+            pageTitle: "Quản Lý Sự Kiện",
+            path: "/manage/events",
+            events: events,
+            inform: "Xóa sự kiện thành công",
+          });
+        })
+        .catch((err) => console.log(err));
     })
     .catch((err) => {
       console.log(err);
@@ -333,15 +375,7 @@ exports.postEditEvent = (req, res, next) => {
   const updatedDescription = req.body.description;
   const updatedImageUrl = req.file;
 
-  // console.log(eventId);
-  // console.log(updatedTitle);
-  // console.log(updatedStartDate);
-  //  console.log(updatedEndDate);
-  //   console.log(updatedHasCoupon);
-  //   console.log(updatedCoupon);
-  //   console.log(updatedDiscount);
-  // console.log(updatedDescription);
-  console.log(updatedImageUrl);
+  // console.log(updatedImageUrl);
 
   Event.findById(eventId)
     .then((event) => {
@@ -359,8 +393,17 @@ exports.postEditEvent = (req, res, next) => {
       }
 
       return event.save().then((result) => {
-        console.log("Updated Event");
-        res.redirect("/admin/manage/events");
+        Event.find()
+          .then((events) => {
+            // res.json(products);
+            return res.render("admin/admin-events", {
+              pageTitle: "Quản Lý Sự Kiện",
+              path: "/manage/events",
+              events: events,
+              inform: "Cập nhật sự kiện thành công",
+            });
+          })
+          .catch((err) => console.log(err));
       }); //Ham save nay cua mongoose
     })
     .catch((err) => {
@@ -384,6 +427,7 @@ exports.getAdminUsers = (req, res, next) => {
         users: users,
         oldAddUserValue: {},
         addUserValidationErrors: [],
+        inform: "",
         // isAuthenticated: req.session.isLoggedIn,
         // csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
       });
@@ -431,6 +475,7 @@ exports.postAddUser = (req, res, next) => {
           users: users,
           oldAddUserValue: oldAddUserValue,
           addUserValidationErrors: errors.array(),
+          inform: "Thêm user thất bại",
           // isAuthenticated: req.session.isLoggedIn,
         });
       })
@@ -464,7 +509,19 @@ exports.postAddUser = (req, res, next) => {
         return user.save();
       })
       .then((result) => {
-        return res.redirect("/admin/manage/users");
+        //  res.redirect("/admin/manage/users");
+        User.find()
+          .then((users) => {
+            return res.render("admin/admin-users", {
+              pageTitle: "Quản Lý Người Dùng",
+              path: "/manage/users",
+              users: users,
+              oldAddUserValue: [],
+              addUserValidationErrors: [],
+              inform: "Thêm user thành công",
+            });
+          })
+          .catch((err) => console.log(err));
         // console.log(email);
         // return transporter.sendMail({
         //   to: email,
@@ -492,13 +549,21 @@ exports.postDeleteUser = (req, res, next) => {
 
   const eventIds = req.body._id.split(",");
 
-  // console.log(req.body._id);
-  // console.log(eventIds);
-
   User.deleteMany({ _id: eventIds })
     .then((result) => {
       console.log("Delete complete");
-      res.redirect("/admin/manage/users");
+      User.find()
+        .then((users) => {
+          return res.render("admin/admin-users", {
+            pageTitle: "Quản Lý Người Dùng",
+            path: "/manage/users",
+            users: users,
+            oldAddUserValue: [],
+            addUserValidationErrors: [],
+            inform: "Xóa user thành công",
+          });
+        })
+        .catch((err) => console.log(err));
     })
     .catch((err) => {
       console.log(err);
@@ -527,17 +592,6 @@ exports.postEditUser = (req, res, next) => {
   const updatedPoint = req.body.point;
   const updatedImageUrl = req.file;
 
-  // console.log(userId);
-  // console.log(updatedEmail);
-  // console.log(updatedPassword);
-  // console.log(updatedPermission);
-  // console.log(updatedName);
-  // console.log(updatedDoB);
-  // console.log(updatedPhoneNumber);
-  // console.log(updatedAddress);
-  // console.log(updatedPoint);
-  // console.log(updatedImageUrl);
-
   User.findById(userId)
     .then((user) => {
       if (updatedPassword) {
@@ -559,7 +613,18 @@ exports.postEditUser = (req, res, next) => {
 
       return user.save().then((result) => {
         console.log("Updated Event");
-        res.redirect("/admin/manage/events");
+        User.find()
+          .then((users) => {
+            return res.render("admin/admin-users", {
+              pageTitle: "Quản Lý Người Dùng",
+              path: "/manage/users",
+              users: users,
+              oldAddUserValue: [],
+              addUserValidationErrors: [],
+              inform: "Cập nhật user thành công",
+            });
+          })
+          .catch((err) => console.log(err));
       }); //Ham save nay cua mongoose
     })
     .catch((err) => {
@@ -581,12 +646,191 @@ exports.getAdminOrders = (req, res, next) => {
         pageTitle: "Quản Lý Đơn Hàng",
         path: "/manage/orders",
         orders: orders,
-        // errorMessage: message,
-        // oldInput: { loginId: "" },
-        // validationErrors: [],
-        // isAuthenticated: req.session.isLoggedIn,
-        // csrfToken: "", //req.csrfToken() //duoc cung cap boi goi csrfProtection trong middleware app.js
+        inform: "",
       });
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.postDeleteOrder = (req, res, next) => {
+  const deleteMode = req.query.delete;
+  if (!deleteMode) {
+    return res.redirect("/");
+  }
+
+  const orderIds = req.body._id.split(",");
+
+  // console.log(req.body._id);
+  // console.log(eventIds);
+
+  Order.deleteMany({ _id: orderIds })
+    .then((result) => {
+      // console.log("Delete complete");
+      // res.redirect("/admin/manage/orders");
+      Order.find()
+        .then((orders) => {
+          // res.json(products);
+          res.render("admin/admin-orders", {
+            pageTitle: "Quản Lý Đơn Hàng",
+            path: "/manage/orders",
+            orders: orders,
+            inform: "Xóa đơn hàng thành công",
+          });
+        })
+        .catch((err) => console.log(err));
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+exports.postConfirmOrder = (req, res, next) => {
+  const confirmMode = req.query.confirm;
+
+  if (!confirmMode) {
+    return res.redirect("/");
+  }
+
+  const orderId = req.body._id;
+
+  // console.log(orderId);
+  Order.findOne({ _id: orderId })
+    .then((order) => {
+      if (!order) {
+        return res.redirect("/");
+      } else {
+        // console.log(JSON.stringify(order));
+        if (order.cashInfo.isPaid) {
+          order.approveStatus = true;
+          return order.save().then((result) => {
+            // console.log("Confirmed");
+            // res.redirect("/admin/manage/orders");
+            Order.find()
+              .then((orders) => {
+                // res.json(products);
+                res.render("admin/admin-orders", {
+                  pageTitle: "Quản Lý Đơn Hàng",
+                  path: "/manage/orders",
+                  orders: orders,
+                  inform: "Xác nhận đơn hàng thành công",
+                });
+              })
+              .catch((err) => console.log(err));
+          });
+        } else {
+          Order.find()
+            .then((orders) => {
+              // res.json(products);
+              res.render("admin/admin-orders", {
+                pageTitle: "Quản Lý Đơn Hàng",
+                path: "/manage/orders",
+                orders: orders,
+                inform:
+                  "Đơn hàng chưa được thanh toán\nXác nhận đơn hàng thất bại",
+              });
+            })
+            .catch((err) => console.log(err));
+        }
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.postCancelConfirmOrder = (req, res, next) => {
+  const cancelConfirmMode = req.query.cancel;
+
+  if (!cancelConfirmMode) {
+    return res.redirect("/");
+  }
+
+  const orderId = req.body._id;
+
+  console.log(orderId);
+  Order.findOne({ _id: orderId })
+    .then((order) => {
+      if (!order) {
+        return res.redirect("/");
+      } else {
+        // console.log(JSON.stringify(order));
+        if (order.cashInfo.isPaid) {
+          order.approveStatus = false;
+          return order.save().then((result) => {
+            // console.log("Cancelled");
+            Order.find()
+              .then((orders) => {
+                // res.json(products);
+                res.render("admin/admin-orders", {
+                  pageTitle: "Quản Lý Đơn Hàng",
+                  path: "/manage/orders",
+                  orders: orders,
+                  inform: "Hủy xác nhận đơn hàng thành công",
+                });
+              })
+              .catch((err) => console.log(err));
+          });
+        } else {
+          Order.find()
+            .then((orders) => {
+              // res.json(products);
+              res.render("admin/admin-orders", {
+                pageTitle: "Quản Lý Đơn Hàng",
+                path: "/manage/orders",
+                orders: orders,
+                inform: "Hủy xác nhận đơn hàng thất bại",
+              });
+            })
+            .catch((err) => console.log(err));
+        }
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.postConfirmIsPaidOrder = (req, res, next) => {
+  const confirmMode = req.query.confirm;
+
+  if (!confirmMode) {
+    return res.redirect("/");
+  }
+
+  const orderId = req.body._id;
+  // console.log(orderId);
+  Order.findOne({ _id: orderId })
+    .then((order) => {
+      if (!order) {
+        return res.redirect("/");
+      } else {
+        // console.log(JSON.stringify(order));
+        if (!order.cashInfo.isPaid) {
+          order.cashInfo.isPaid = true;
+          return order.save().then((result) => {
+            // console.log("Confirmed");
+            Order.find()
+              .then((orders) => {
+                // res.json(products);
+                res.render("admin/admin-orders", {
+                  pageTitle: "Quản Lý Đơn Hàng",
+                  path: "/manage/orders",
+                  orders: orders,
+                  inform: "Hủy xác thanh toán thành công",
+                });
+              })
+              .catch((err) => console.log(err));
+          });
+        } else {
+          Order.find()
+            .then((orders) => {
+              // res.json(products);
+              res.render("admin/admin-orders", {
+                pageTitle: "Quản Lý Đơn Hàng",
+                path: "/manage/orders",
+                orders: orders,
+                inform: "Hủy xác thanh toán thất bại",
+              });
+            })
+            .catch((err) => console.log(err));
+        }
+      }
     })
     .catch((err) => console.log(err));
 };

@@ -30,12 +30,29 @@ var newRowValue = {
   imageUrl: "",
 };
 
+function getFormatDate(date) {
+  var date_obj = new Date(date);
+  var day =
+    date_obj.getDate() < 10 ? "0" + date_obj.getDate() : date_obj.getDate();
+  var month =
+    date_obj.getMonth() + 1 < 10
+      ? "0" + (date_obj.getMonth() + 1)
+      : date_obj.getMonth() + 1;
+  var formattedDate = date_obj.getFullYear() + "-" + month + "-" + day;
+  return formattedDate;
+}
+
 $(function () {
+  var inform = $("#admin-users-page").attr("inform");
+  if (inform !== "") {
+    window.location.replace("http://localhost:4000/admin/manage/users");
+    alert(inform);
+  }
 
   var addUserValidationErrors = $("#admin-users-page").attr(
     "addUserValidationErrors"
   );
-// alert(JSON.stringify(addUserValidationErrors) + ' ' +  addUserValidationErrors);
+  // alert(JSON.stringify(addUserValidationErrors) + ' ' +  addUserValidationErrors);
   $(window).bind("load", function () {
     if (addUserValidationErrors.length > 2) {
       $("#addItemModal").modal("show");
@@ -76,12 +93,17 @@ $(function () {
       return {
         _id: row._id,
         name: row.name,
+        permission: row.permission,
       };
     });
 
     var userName = "";
     var userId = [];
+    var getAdminNames = "";
     for (let i = 0; i < users.length; i++) {
+      if (users[i].permission === "admin") {
+        getAdminNames += users[i].name + "\n";
+      }
       if (i == users.length - 1) {
         userName += users[i].name;
       } else {
@@ -90,11 +112,16 @@ $(function () {
       userId.push(users[i]._id);
     }
 
-    $("#confirmDeleteItemModal").find(".name").text(userName);
-    $("#confirmDeleteItemModal").find("#_id").val(userId);
-    $("#confirmDeleteItemModal").modal("show");
-
-    $btn_delete.prop("disabled", true);
+    if (getAdminNames !== "") {
+      alert("Không thể xóa admin: \n" + getAdminNames);
+    } else {
+      $("#confirmDeleteItemModal")
+        .find(".name")
+        .text(userName + " admin " + getAdminNames);
+      $("#confirmDeleteItemModal").find("#_id").val(userId);
+      $("#confirmDeleteItemModal").modal("show");
+      $btn_delete.prop("disabled", true);
+    }
   });
 
   /**
@@ -321,14 +348,7 @@ $(function () {
 
 window.actionEditUserEvents = {
   "click .btn-editItem": function (e, value, row, index) {
-    var doB_obj = new Date(row.doB);
-    var doB_day =
-      doB_obj.getDate() < 10 ? "0" + doB_obj.getDate() : doB_obj.getDate();
-    var doB_month =
-      doB_obj.getMonth() + 1 < 10
-        ? "0" + (doB_obj.getMonth() + 1)
-        : doB_obj.getMonth() + 1;
-    var doB = doB_obj.getFullYear() + "-" + doB_month + "-" + doB_day;
+    var doB = getFormatDate(row.doB);
 
     const postcode = row.address.substr(1, 7);
     const address = row.address.substr(9, row.address.length - 1);
@@ -384,15 +404,7 @@ window.actionEditUserEvents = {
     //   }
   },
   "click .btn-detailItem"(e, value, row, index) {
-    // alert(JSON.stringify(row));
-    var doB_obj = new Date(row.doB);
-    var doB_day =
-      doB_obj.getDate() < 10 ? "0" + doB_obj.getDate() : doB_obj.getDate();
-    var doB_month =
-      doB_obj.getMonth() + 1 < 10
-        ? "0" + (doB_obj.getMonth() + 1)
-        : doB_obj.getMonth() + 1;
-    var doB = doB_obj.getFullYear() + "-" + doB_month + "-" + doB_day;
+    var doB = getFormatDate(row.doB);
 
     const postcode = row.address.substr(1, 7);
     const address = row.address.substr(9, row.address.length - 1);

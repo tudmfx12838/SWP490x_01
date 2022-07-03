@@ -40,8 +40,8 @@
                 <th data-field="state" data-checkbox="true"></th>
                 <th data-field="_id" data-visible="false">Mã SK</th>
                 <th data-field="title">Tên SK</th>
-                <th data-field="startDate">Ngày bắt đầu</th>
-                <th data-field="endDate">Ngày kết thúc</th>
+                <th data-field="startDate" data-formatter="startDateFormatter">Ngày bắt đầu</th>
+                <th data-field="endDate" data-formatter="endDateFormatter">Ngày kết thúc</th>
                 <th data-field="hasCoupon" data-visible="false">Có Mã KM</th>
                 <th data-field="coupon" >Mã KM</th>
                 <th data-field="discount" data-visible="false">Giảm giá %</th>
@@ -293,6 +293,10 @@
         </div>
     </main>
 
-   <script id="admin-events-page" src="/js/script-admin-events.js" events-data='<%- JSON.stringify(events) %>'></script>
+   <script id="admin-events-page" 
+            src="/js/script-admin-events.js" 
+            events-data='<%- JSON.stringify(events) %>'
+            inform='<%= inform %>'
+   ></script>
 
    <%- include('../includes/page-end.ejs') %>

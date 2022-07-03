@@ -14,7 +14,7 @@
 
         <div class="row">
             <div class="toolbar">
-                <button id="btn-add" class="btn-toolbar btn btn-success" data-bs-toggle="modal" data-bs-target="#addItemModal">+</button>
+                <!-- <button id="btn-add" class="btn-toolbar btn btn-success" data-bs-toggle="modal" data-bs-target="#addItemModal">+</button> -->
                 <button id="btn-delete" class="btn-toolbar btn btn-danger"> x </button>
             </div>
         </div>
@@ -27,7 +27,7 @@
         imageUrl: "images\/mung30042021.jpg" -->
         <div class="row">
             <table 
-            id="table" 
+            id="table-orders" 
             data-click-to-select="true"
             data-pagination="true"
             data-show-columns="true"
@@ -35,143 +35,161 @@
             data-search="true"
             data-toolbar=".toolbar"
             >
-
-            <!-- "_id": {
-                "$oid": "62917c1cf6209eff2b80e22b"
-            },
-            "products": [{
-                "productId": {
-                    "$oid": "629048d034434f7448b169ca"
-                },
-                "quantity": 3,
-                "price": 200,
-                "_id": {
-                    "$oid": "62917c1cf6209eff2b80e22c"
-                }
-            }, {
-                "productId": {
-                    "$oid": "629048d034434f7448b169cb"
-                },
-                "quantity": 2,
-                "price": 350,
-                "_id": {
-                    "$oid": "62917c1cf6209eff2b80e22d"
-                }
-            }, {
-                "productId": {
-                    "$oid": "629048d034434f7448b169cc"
-                },
-                "quantity": 2,
-                "price": 350,
-                "_id": {
-                    "$oid": "62917c1cf6209eff2b80e22e"
-                }
-            }],
-            "cashInfo": {
-                "totalCash": 2000,
-                "isPaid": false
-            },
-            "date": {
-                "$date": "2022-05-28T01:34:20.598Z"
-            },
-            "approveStatus": false,
-            "hasAccountInfo": {
-                "userId": null
-            },
-            "deliveryInfo": {
-                "name": "tu",
-                "email": "pocket.se7en@gmail.com",
-                "phoneNumber": "1234567892",
-                "address": "〒7330822-広島県 広島市西区 庚午中 111111",
-                "node": "adasd"
-            },
-            "__v": 0 -->
             <thead>
                 <tr>
                 <th data-field="state" data-checkbox="true"></th>
-                <th data-field="_id" data-visible="false">Mã đơn</th>
+                <th data-field="_id" data-visible="false" >Mã đơn</th>
                 <th data-field="deliveryInfo" data-width="400" data-formatter="deliveryInfoFormatter">Thông tin Khách Hàng</th>
                 <th data-field="products" data-width="400" data-formatter="productsInfoFormatter">Thông tin Hàng Hóa</th>
-                <th data-field="approveStatus" data-formatter="approveStatusFormatter">Xác nhận</th>
-                <!-- <th data-field="startDate">Ngày bắt đầu</th>
-                <th data-field="endDate">Ngày kết thúc</th>
-                <th data-field="hasCoupon" data-visible="false">Có Mã KM</th>
-                <th data-field="coupon" >Mã KM</th>
-                <th data-field="discount" data-visible="false">Giảm giá %</th>
-                <th data-field="description" data-visible="false">Mô tả</th>
-                <th data-field="imageUrl" data-visible="false">Ảnh</th>
-                <th data-field="action" data-width="150" data-formatter="actionEditEvent" data-events="actionEditEventEvents">Action</th> -->
+                <th data-field="isPaid" data-formatter="isPaidStatusFormatter" data-events="actionConfirmPayEvents">Thanh Toán</th>
+                <th data-field="approveStatus" data-formatter="approveStatusFormatter" >Trạng thái</th>
+                <th data-field="action" data-width="180" data-formatter="actionEditEvent" data-events="actionConfirmOrderEvents">Hành động</th>
                 </tr>
             </thead>
             </table>
         </div>
 
         <div class="row">
-            <!-- <div id="addItemModal" class="modal" data-bs-backdrop="static">
-                <div class="modal-dialog modal-lg">
+            <div id="confirmOrderModal" class="modal" data-bs-backdrop="static">
+                <div class="modal-dialog modal-md">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Thêm Sự Kiện Mới</h4>
+                            <h4 class="modal-title">Xác Nhận Đơn Hàng</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
-                            <form class="product-form"  action="/admin/manage/add-event/" method="POST" enctype="multipart/form-data">
+                            <form class="product-form"  action="/admin/manage/confirm-order/?confirm=true " method="POST">
                                 <div class="mb-3 mt-3">
-                                    <label class="form-label" for="title">Tên SK: </label>
-                                    <input class="form-control" type="text" name="title" id="title" value="" placeholder="Nhập tên sự kiện" required>
+                                    <label class="fw-bold form-label" for="_id">Mã đơn: </label>
+                                    <span name="_id" class="_id"></span>
                                 </div>
                                 <div class="mb-3 mt-3">
-                                    <label class="form-label" for="startDate">Ngày bắt đầu: </label>
-                                    <input class="form-control" type="date" name="startDate" id="startDate" value="" required>
+                                    <label class="fw-bold form-label" for="date">Ngày đặt: </label>
+                                    <span name="date" class="date"></span>
                                 </div>
                                 <div class="mb-3 mt-3">
-                                    <label class="form-label" for="endDate">Ngày kết thúc: </label>
-                                    <input class="form-control" type="date" name="endDate" id="endDate" value="" required>
+                                    <label class="fw-bold form-label" for="name">Tên KH: </label>
+                                    <span name="name" class="name"></span>
                                 </div>
                                 <div class="mb-3 mt-3">
-                                    <label class="form-label" for="hasCoupon">Có mã giảm giá? </label>
-                                    <input type="checkbox" id="hasCoupon_cbx" name="hasCoupon_cbx" value="">
-                                    <input type="hidden" id="hasCoupon" name="hasCoupon" value="false">
-                                    <input type="text" id="coupon" name="coupon" value="" placeholder="Nhập mã giảm giá">
+                                    <label class="fw-bold form-label" for="email">Email: </label>
+                                    <span name="email" class="email"></span>
                                 </div>
                                 <div class="mb-3 mt-3">
-                                    <label class="form-label" for="title">Giảm giá(vd: 15% thì điền 0.15): </label>
-                                    <input class="form-control" type="number" name="discount" id="discount" value="" step="0.01" required>
+                                    <label class="fw-bold form-label" for="phoneNumber">Điện thoại: </label>
+                                    <span name="phoneNumber" class="phoneNumber"></span>
                                 </div>
                                 <div class="mb-3 mt-3">
-                                    <label class="form-label" for="description">Mô tả: </label>
-                                    <textarea class="form-control" name="description" id="description" value="" required></textarea>
+                                    <label class="fw-bold form-label" for="address">Địa chỉ: </label>
+                                    <span name="address" class="address"></span>
                                 </div>
                                 <div class="mb-3 mt-3">
-                                    <label class="form-label" for="image">Ảnh: </label>
-                                    <input class="form-control"
-                                        type="file" 
-                                        name="image" 
-                                        id="image" 
-                                        required
-                                    >
+                                    <label class="fw-bold form-label" for="total">Tổng: </label>
+                                    <span name="total" class="total"></span>
                                 </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="fw-bold form-label" for="isPaid">Thanh Toán: </label>
+                                    <span name="isPaid" class="isPaid"></span>
+                                </div>
+                                
+                                <input type="hidden" name="_id" id="_id" val="">
+    
                                 <input type="hidden" name="_csrf">
-                                <button class="btn btn-primary" type="submit">Thêm</button>
+                                <button id="btn-submit-confirm-order" class="btn btn-primary" type="submit">Xác nhận</button>
+                                <button type="button" id="btn-cancel" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <div id="cancelOrderModal" class="modal" data-bs-backdrop="static">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Hủy Xác Nhận Đơn Hàng</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="product-form"  action="/admin/manage/cancel-confirm-order/?cancel=true " method="POST">
+                                <div class="mb-3 mt-3">
+                                    <label class="fw-bold form-label" for="_id">Mã đơn: </label>
+                                    <span name="_id" class="_id"></span>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="fw-bold form-label" for="date">Ngày đặt: </label>
+                                    <span name="date" class="date"></span>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="fw-bold form-label" for="isPaid">Thanh Toán: </label>
+                                    <span name="isPaid" class="isPaid"></span>
+                                </div>
+                                
+                                <input type="hidden" name="_id" id="_id" val="">
+    
+                                <input type="hidden" name="_csrf">
+                                <button id="btn-submit-confirm-order" class="btn btn-primary" type="submit">Hủy xác nhận</button>
+                                <button type="button" id="btn-cancel" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="confirmIsPaidModal" class="modal" data-bs-backdrop="static">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Xác Nhận Thanh Toán</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="product-form"  action="/admin/manage/confirm-isPaid-order/?confirm=true " method="POST">
+                                <div class="mb-3 mt-3">
+                                    <label class="fw-bold form-label" for="_id">Mã đơn: </label>
+                                    <span name="_id" class="_id"></span>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="fw-bold form-label" for="date">Ngày đặt: </label>
+                                    <span name="date" class="date"></span>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="fw-bold form-label" for="name">Tên KH: </label>
+                                    <span name="name" class="name"></span>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="fw-bold form-label" for="total">Tổng: </label>
+                                    <span name="total" class="total"></span>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="fw-bold form-label" for="isPaid">Thanh Toán: </label>
+                                    <span name="isPaid" class="isPaid"></span>
+                                </div>
+                                
+                                <input type="hidden" name="_id" id="_id" val="">
+    
+                                <input type="hidden" name="_csrf">
+                                <button class="btn btn-primary" type="submit">Xác nhận</button>
+                                <button type="button" id="btn-cancel" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div id="confirmDeleteItemModal" class="modal" data-bs-backdrop="static">
                 <div class="modal-dialog modal-md">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Xác Nhận Xóa Sự Kiện</h4>
+                            <h4 class="modal-title">Xác Nhận Xóa Đơn Hàng</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
-                            <form class="product-form"  action="/admin/manage/delete-event/?delete=true" method="POST">
+                            <form class="product-form"  action="/admin/manage/delete-order/?delete=true" method="POST">
                                 <div class="mb-3 mt-3">
-                                    <label class="fw-bold form-label" for="title">Tên sự kiện: </label>
-                                    <span name="title" class="title"></span>
-                                    <input type="hidden" name="title" id="title">
+                                    <label class="fw-bold form-label" for="title">Mã đơn hàng: </label>
+                                    <div name="orderId" class="orderId"></div>
+                                    <input type="hidden" name="orderId" id="orderId">
                                 </div>
                                 
                                 <input type="hidden" name="_id" id="_id" val="">
@@ -184,172 +202,15 @@
                     </div>
                 </div>
             </div>
-
-            <div id="editItemModal" class="modal" data-bs-backdrop="static">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Cập nhật Sản Phẩm</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="form-editItemModal" class="product-form"  action="/admin/manage/edit-event/?edit=true" method="POST" enctype="multipart/form-data">
-                                <div class="mb-3 mt-3">
-                                    <label class="form-label" for="title">Tên SK: </label>
-                                    <input class="form-control" type="text" name="title" id="title" value="" required>
-                                </div>
-                                <div class="mb-3 mt-3">
-                                    <label class="form-label" for="startDate">Ngày bắt đầu: </label>
-                                    <input class="form-control" type="date" name="startDate" id="startDate" value="" required>
-                                </div>
-                                <div class="mb-3 mt-3">
-                                    <label class="form-label" for="endDate">Ngày kết thúc: </label>
-                                    <input class="form-control" type="date" name="endDate" id="endDate" value="" required>
-                                </div>
-                                <div class="mb-3 mt-3">
-                                    <label class="form-label" for="hasCoupon">Có mã giảm giá? </label>
-                                    <input type="checkbox" id="hasCoupon_cbx" name="hasCoupon_cbx" value="">
-                                    <input type="hidden" id="hasCoupon" name="hasCoupon" value="">
-                                    <input type="text" id="coupon" name="coupon" value="" placeholder="Nhập mã giảm giá">
-                                </div>
-                                <div class="mb-3 mt-3">
-                                    <label class="form-label" for="title">Giảm giá(vd: 15% thì điền 0.15): </label>
-                                    <input class="form-control" type="number" name="discount" id="discount" value="" step="0.01" required>
-                                </div>
-                                <div class="mb-3 mt-3">
-                                    <label class="form-label" for="description">Mô tả: </label>
-                                    <textarea class="form-control" name="description" id="description" value="" required></textarea>
-                                </div>
-                                <div class="mb-3 mt-3">
-                                    <label class="form-label" for="image">Ảnh: </label>
-                                    <input class="form-control"
-                                        type="file" 
-                                        name="image" 
-                                        id="image" 
-                                    >
-                                </div>
-    
-                                <input type="hidden" name="_id" id="_id" val="">
-                                
-                                <button type="button" id="btn-confirmEditItem" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmEditItemModal">Xác nhận</button>
-                                 <button class="btn btn-primary" type="submit">Cập nhật</button> 
-                                <button type="button" id="btn-cancel" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>    
-                            </form> 
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="confirmEditItemModal" class="modal" data-bs-backdrop="static">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Xác Nhận Cập nhật Sự Kiện</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            
-                            <div class="mb-3 mt-3">
-                                <label class="fw-bold form-label" for="title">Tên sự kiện: </label>
-                                <span name="title" class="title"></span>
-                            </div>
-                            <div class="mb-3 mt-3">
-                                <label class="fw-bold form-label" for="startDate">Ngày bắt đầu: </label>
-                                <span name="startDate" class="startDate"></span>
-                            </div>
-                            <div class="mb-3 mt-3">
-                                <label class="fw-bold form-label" for="endDate">Ngày kết thúc: </label>
-                                <span name="endDate" class="endDate"></span>
-                            </div>
-                            <div class="mb-3 mt-3">
-                                <label class="fw-bold form-label" for="hasCoupon">Có mã giảm giá?: </label>
-                                <span name="hasCoupon" class="hasCoupon"></span>
-                            </div>
-                            <div class="mb-3 mt-3">
-                                <label class="fw-bold form-label" for="coupon">Mã giảm giá: </label>
-                                <span name="coupon" class="coupon"></span>
-                            </div>
-                            <div class="mb-3 mt-3">
-                                <label class="fw-bold form-label" for="discount">Mã giảm giá: </label>
-                                <span name="discount" class="discount"></span>
-                            </div>
-                            <div class="mb-3 mt-3">
-                                <label class="fw-bold form-label" for="description">Mô tả: </label>
-                                <span name="description" class="description"></span>
-                            </div>
-                            <div class="mb-3 mt-3">
-                                <label class="fw-bold form-label" for="image">Ảnh: </label>
-                                <span name="image" class="image"></span>
-
-                            </div>
-                            <input type="hidden" name="_id" id="_id" val="">
-
-                            <input type="hidden" name="_csrf">
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editItemModal" role="button">Trở về</button>
-                            <button type="button" id="btn-submitConfirmEditItem" class="btn btn-primary">Cập nhật</button>
-                            <button type="button" id="btn-cancel" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>
-                        
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="detailItemModal" class="modal fade" data-bs-backdrop="static" >
-                <div class="modal-dialog modal-md">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Chi Tiết Sự Kiện</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                                <div class="mb-3 mt-3">
-                                    <img name="image" id="imageUrl" class="mh-200" style="width: 150px; height: 200px" src="" alt="">
-                                </div>
-                                <div class="mb-3 mt-3">
-                                    <label class="fw-bold form-label" for="title">Tên sự kiện: </label>
-                                    <span name="title" class="title"></span>
-                                </div>
-                                <div class="mb-3 mt-3">
-                                    <label class="fw-bold form-label" for="startDate">Ngày bắt đầu: </label>
-                                    <span name="startDate" class="startDate"></span>
-                                </div>
-                                <div class="mb-3 mt-3">
-                                    <label class="fw-bold form-label" for="endDate">Ngày kết thúc: </label>
-                                    <span name="endDate" class="endDate"></span>
-                                </div>
-                                <div class="mb-3 mt-3">
-                                    <label class="fw-bold form-label" for="hasCoupon">Có mã giảm giá?: </label>
-                                    <span name="hasCoupon" class="hasCoupon"></span>
-                                </div>
-                                <div class="mb-3 mt-3">
-                                    <label class="fw-bold form-label" for="coupon">Mã giảm giá: </label>
-                                    <span name="coupon" class="coupon"></span>
-                                </div>
-                                <div class="mb-3 mt-3">
-                                    <label class="fw-bold form-label" for="discount">Mã giảm giá: </label>
-                                    <span name="discount" class="discount"></span>
-                                </div>
-                                <div class="mb-3 mt-3">
-                                    <label class="fw-bold form-label" for="description">Mô tả: </label>
-                                    <span name="description" class="description"></span>
-                                </div>
-
-                                <input type="hidden" name="_id" id="_id" val="">
-    
-                                <input type="hidden" name="_csrf">
-                                <button type="button" id="btn-editItem" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editItemModal" >Sửa</button>
-                                <button type="button" id="btn-cancel" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+            
         </div>
     </main>
 
    <script 
    id="admin-orders-page" 
-   src="/js/script-admin-orders.js" orders
-   orders-data='<%- JSON.stringify(orders) %>' 
+   src="/js/script-admin-orders.js"
+   orders-data='<%- JSON.stringify(orders) %>'  
+   inform='<%= inform %>'
    >
     </script>
 

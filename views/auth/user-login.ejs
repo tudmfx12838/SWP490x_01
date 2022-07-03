@@ -24,7 +24,7 @@
                                 class="form-control <%= validationErrors.filter(e => e.param === 'email')[0] === undefined ? '' : 'red-border'%>" 
                                 type="text" 
                                 name="email" 
-                                id="emails" 
+                                id="email" 
                                 value="<%= oldInput === null ? '' :  oldInput.email %>" 
                                 >
                             <% if (validationErrors.filter(e => e.param === "email")[0]) { %> 

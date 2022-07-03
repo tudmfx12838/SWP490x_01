@@ -1,37 +1,27 @@
-/**
- * The object oldRowValue to store old value
- */
-var oldRowValue = {
-  title: "",
-  startDate: null,
-  endDate: null,
-  hasCoupon: null,
-  coupon: "",
-  discount: null,
-  description: "",
-  imageUrl: "",
-};
-
-/**
- * The object newRowValue to store new inputed value
- */
-var newRowValue = {
-  title: "",
-  startDate: null,
-  endDate: null,
-  hasCoupon: null,
-  coupon: "",
-  discount: null,
-  description: "",
-  imageUrl: "",
-};
+function getFormatDate(date) {
+  var date_obj = new Date(date);
+  var day =
+    date_obj.getDate() < 10 ? "0" + date_obj.getDate() : date_obj.getDate();
+  var month =
+    date_obj.getMonth() + 1 < 10
+      ? "0" + (date_obj.getMonth() + 1)
+      : date_obj.getMonth() + 1;
+  var formattedDate = date_obj.getFullYear() + "-" + month + "-" + day;
+  return formattedDate;
+}
 
 $(function () {
-  var $table = $("#table");
+
+  var inform = $("#admin-orders-page").attr("inform");
+  if (inform !== "") {
+    window.location.replace("http://localhost:4000/admin/manage/orders");
+    alert(inform);
+  }
+
+  var $table = $("#table-orders");
   var $btn_delete = $("#btn-delete");
   $btn_delete.prop("disabled", true);
 
-  // var json = "<%- JSON.stringify(products) %>";
   var json = $("#admin-orders-page").attr("orders-data");
   //   alert(json);
   var myArr = eval(json); //Json.parse(json)
@@ -44,426 +34,151 @@ $(function () {
   $table.on(
     "check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table",
     function () {
+      // alert($table.bootstrapTable("getSelections").length);
       $btn_delete.prop(
         "disabled",
         !$table.bootstrapTable("getSelections").length
       );
     }
   );
+
   /**
    * The event will be trigged when user click show a confirm before delete
    */
-  // $btn_delete.click(function () {
-  //   var events = $.map($table.bootstrapTable("getSelections"), function (row) {
-  //     return {
-  //       _id: row._id,
-  //       title: row.title,
-  //     };
-  //   });
+  $btn_delete.click(function () {
+    var orders = $.map($table.bootstrapTable("getSelections"), function (row) {
+      return {
+        _id: row._id,
+        title: row.title,
+        approveStatus: row.approveStatus,
+      };
+    });
 
-  //   var eventTitle = "";
-  //   var eventId = [];
-  //   for (let i = 0; i < events.length; i++) {
-  //     if (i == events.length - 1) {
-  //       eventTitle += events[i].title;
-  //     } else {
-  //       eventTitle += events[i].title + ", ";
-  //     }
-  //     eventId.push(events[i]._id);
-  //   }
+    // var eventTitle = "";
+    var orderId = "";
+    var orderId_arr = [];
+    var approvedOrderId = "";
+    for (let i = 0; i < orders.length; i++) {
+      if (orders[i].approveStatus === true) {
+        approvedOrderId += orders[i]._id + "\n";
+      } else {
+        orderId += `<p>${orders[i]._id}<p>`;
+        orderId_arr.push(orders[i]._id);
+      }
+    }
 
-  //   $("#confirmDeleteItemModal").find(".title").text(eventTitle);
-  //   $("#confirmDeleteItemModal").find("#_id").val(eventId);
-  //   $("#confirmDeleteItemModal").modal("show");
+    if (approvedOrderId !== "") {
+      alert(
+        `Không thể xác đơn hàng đã xác nhận \nMã đơn: \n${approvedOrderId} \nVui lòng bấm hủy xác nhận đơn hàng trước khi xóa.`
+      );
+    } else {
+      $("#confirmDeleteItemModal").find(".orderId").html(orderId);
+      $("#confirmDeleteItemModal").find("#_id").val(orderId_arr);
+      $("#confirmDeleteItemModal").modal("show");
+      $btn_delete.prop("disabled", true);
+    }
+  });
 
-  //   $btn_delete.prop("disabled", true);
-  // });
+  /**
+   * Disable button of delete atfer canceling or closing confirm delete from
+   */
+  $("#confirmDeleteItemModal")
+    .find("#btn-cancel, .btn-close")
+    .click(function () {
+      $btn_delete.prop("disabled", false);
+      // $table.bootstrapTable('uncheckAll');
+    });
 
-  //   /**
-  //    * will be set both objest backup of old and new value  to null when user click button as close or cancel
-  //    */
-  // $("#editItemModal, #detailItemModal")
-  //   .find("#btn-cancel, .btn-close")
-  //   .click(function () {
-  //     oldRowValue = {
-  //       title: "",
-  //       startDate: null,
-  //       endDate: null,
-  //       hasCoupon: null,
-  //       coupon: "",
-  //       discount: null,
-  //       description: "",
-  //       imageUrl: "",
-  //     };
-
-  //     newRowValue = {
-  //       title: "",
-  //       startDate: null,
-  //       endDate: null,
-  //       hasCoupon: null,
-  //       coupon: "",
-  //       discount: null,
-  //       description: "",
-  //       imageUrl: "",
-  //     };
-  //   });
-
-  //   /**
-  //    * Disable button of delete atfer canceling or closing confirm delete from
-  //    */
-  // $("#confirmDeleteItemModal")
-  //   .find("#btn-cancel, .btn-close")
-  //   .click(function () {
-  //     $btn_delete.prop("disabled", false);
-  //     // $table.bootstrapTable('uncheckAll');
-  //   });
-
-  // $("#addItemModal")
-  //   .find("#hasCoupon_cbx")
-  //   .change(function () {
-  //     if (this.checked) {
-  //       $("#addItemModal").find("#coupon").prop("disabled", false);
-  //       // $("addItemModal").find("#coupon").prop('required',true);
-  //       $("#addItemModal").find("#hasCoupon").val(true);
-  //     } else {
-  //       $("#addItemModal").find("#coupon").prop("disabled", true);
-  //       // $("addItemModal").find("#coupon").prop('required', false);
-  //       $("#addItemModal").find("#hasCoupon").val(false);
-  //     }
-  //   });
-
-  // $("#editItemModal")
-  //   .find("#hasCoupon_cbx")
-  //   .change(function () {
-  //     if (this.checked) {
-  //       $("#editItemModal").find("#coupon").prop("disabled", false);
-  //       // $("editItemModal").find("#coupon").prop('required',true);
-  //       $("#editItemModal").find("#hasCoupon").val(true);
-  //     } else {
-  //       $("#editItemModal").find("#coupon").prop("disabled", true);
-  //       // $("editItemModal").find("#coupon").prop('required', false);
-  //       $("#editItemModal").find("#hasCoupon").val(false);
-  //     }
-  //   });
-
-  // $("#detailItemModal")
-  //   .find("#btn-editItem")
-  //   .click(function () {
-  //     alert(JSON.stringify(oldRowValue));
-  //     $("#editItemModal").find("#title").val(oldRowValue.title);
-  //     $("#editItemModal").find("#startDate").val(oldRowValue.startDate);
-  //     $("#editItemModal").find("#endDate").val(oldRowValue.endDate);
-
-  //     $("#editItemModal").find("#hasCoupon").val(oldRowValue.hasCoupon);
-  //     if (oldRowValue.hasCoupon === false) {
-  //       $("#editItemModal").find("#coupon").prop("disabled", true);
-  //       $("#editItemModal").find("#hasCoupon_cbx").prop("checked", false);
-  //     } else {
-  //       $("#editItemModal").find("#coupon").prop("disabled", false);
-  //       $("#editItemModal").find("#hasCoupon_cbx").prop("checked", true);
-  //     }
-
-  //     $("#editItemModal").find("#coupon").val(oldRowValue.coupon);
-  //     $("#editItemModal").find("#discount").val(oldRowValue.discount);
-  //     $("#editItemModal").find("#description").val(oldRowValue.description);
-  //     $("#editItemModal").find("#_id").val(oldRowValue._id);
-  //     $("#editItemModal").find("#image").val(oldRowValue.imageUrl);
-  //   });
-
-  // $("#editItemModal")
-  //   .find("#btn-confirmEditItem")
-  //   .click(function () {
-  //     // alert($('#editItemModal').find('#hasCoupon_cbx').val());
-  //     // if($('#editItemModal').find('#hasCoupon_cbx').is(":checked")){
-  //     //   alert('checked');
-  //     //   $("editItemModal").find("#coupon").prop('required',true);
-  //     // }else{
-  //     //   alert('unchecked');
-  //     //   $("editItemModal").find("#coupon").prop('required',false);
-  //     // }
-  //   });
-
-  // $("#confirmEditItemModal").on("shown.bs.modal", function (event) {
-  //   newRowValue = {
-  //     _id: $("#editItemModal").find("#_id").val(),
-  //     title: $("#editItemModal").find("#title").val(),
-  //     startDate: $("#editItemModal").find("#startDate").val(),
-  //     endDate: $("#editItemModal").find("#endDate").val(),
-  //     hasCoupon: $("#editItemModal").find("#hasCoupon").val(),
-  //     coupon: $("#editItemModal").find("#coupon").val(),
-  //     discount: $("#editItemModal").find("#discount").val(),
-  //     description: $("#editItemModal").find("#description").val(),
-  //     imageUrl: $("#editItemModal").find("#image").val(),
-  //     // imageUrl: $('#editProductModal').find('#image').prop('files')[0],
-  //   };
-
-  //   // alert('newRowValue ' +  JSON.stringify(newRowValue) + '\n oldRowValue' + JSON.stringify(oldRowValue));
-
-  //   if (String(newRowValue.title) === String(oldRowValue.title)) {
-  //     $("#confirmEditItemModal")
-  //       .find(".title")
-  //       .text(oldRowValue.title)
-  //       .css("color", "black");
-  //   } else {
-  //     $("#confirmEditItemModal")
-  //       .find(".title")
-  //       .text(oldRowValue.title + "  -->  " + newRowValue.title)
-  //       .css("color", "red");
-  //   }
-
-  //   if (String(newRowValue.startDate) === String(oldRowValue.startDate)) {
-  //     $("#confirmEditItemModal")
-  //       .find(".startDate")
-  //       .text(oldRowValue.startDate)
-  //       .css("color", "black");
-  //   } else {
-  //     $("#confirmEditItemModal")
-  //       .find(".startDate")
-  //       .text(oldRowValue.startDate + "  -->  " + newRowValue.startDate)
-  //       .css("color", "red");
-  //   }
-
-  //   if (String(newRowValue.endDate) === String(oldRowValue.endDate)) {
-  //     $("#confirmEditItemModal")
-  //       .find(".endDate")
-  //       .text(oldRowValue.endDate)
-  //       .css("color", "black");
-  //   } else {
-  //     $("#confirmEditItemModal")
-  //       .find(".endDate")
-  //       .text(oldRowValue.endDate + "  -->  " + newRowValue.endDate)
-  //       .css("color", "red");
-  //   }
-
-  //   if (String(newRowValue.hasCoupon) === String(oldRowValue.hasCoupon)) {
-  //     $("#confirmEditItemModal")
-  //       .find(".hasCoupon")
-  //       .text(oldRowValue.hasCoupon)
-  //       .css("color", "black");
-  //   } else {
-  //     $("#confirmEditItemModal")
-  //       .find(".hasCoupon")
-  //       .text(oldRowValue.hasCoupon + "  -->  " + newRowValue.hasCoupon)
-  //       .css("color", "red");
-  //   }
-
-  //   if (newRowValue.hasCoupon === false) {
-  //     newRowValue.coupon = "";
-  //   }
-
-  //   if (String(newRowValue.coupon) === String(oldRowValue.coupon)) {
-  //     $("#confirmEditItemModal")
-  //       .find(".coupon")
-  //       .text(oldRowValue.coupon)
-  //       .css("color", "black");
-  //   } else {
-  //     $("#confirmEditItemModal")
-  //       .find(".coupon")
-  //       .text(oldRowValue.coupon + "  -->  " + newRowValue.coupon)
-  //       .css("color", "red");
-  //   }
-
-  //   if (String(newRowValue.discount) === String(oldRowValue.discount)) {
-  //     $("#confirmEditItemModal")
-  //       .find(".discount")
-  //       .text(oldRowValue.discount)
-  //       .css("color", "black");
-  //   } else {
-  //     $("#confirmEditItemModal")
-  //       .find(".discount")
-  //       .text(oldRowValue.discount + "  -->  " + newRowValue.discount)
-  //       .css("color", "red");
-  //   }
-
-  //   if (String(newRowValue.description) === String(oldRowValue.description)) {
-  //     $("#confirmEditItemModal")
-  //       .find(".description")
-  //       .text(oldRowValue.description)
-  //       .css("color", "black");
-  //   } else {
-  //     $("#confirmEditItemModal")
-  //       .find(".description")
-  //       .text(oldRowValue.description + "  -->  " + newRowValue.description)
-  //       .css("color", "red");
-  //   }
-
-  //   // // alert($('#editProductModal').find('#image').val().replace("C:\\fakepath\\", "images\/"));
-  //   // // alert(oldRowValue.imageUrl);
-  //   if (newRowValue.imageUrl) {
-  //     const newImage = newRowValue.imageUrl.replace(
-  //       "C:\\fakepath\\",
-  //       "images/"
-  //     );
-  //     const oldImage = oldRowValue.imageUrl;
-  //     if (newImage === oldImage || newImage === "") {
-  //       $("#confirmEditItemModal")
-  //         .find(".image")
-  //         .text(oldRowValue.imageUrl)
-  //         .css("color", "black");
-  //     } else {
-  //       $("#confirmEditItemModal")
-  //         .find(".image")
-  //         .text(oldRowValue.imageUrl + "  -->  " + newImage)
-  //         .css("color", "red");
-  //     }
-  //   } else {
-  //     $("#confirmEditItemModal")
-  //       .find(".image")
-  //       .text(oldRowValue.imageUrl)
-  //       .css("color", "black");
-  //   }
-
-  //   if (String(newRowValue._id) === String(oldRowValue._id)) {
-  //     $("#confirmEditItemModal").find("#_id").val(oldRowValue._id);
-  //   } else {
-  //     $("#confirmEditItemModal").find("#_id").val(oldRowValue._id);
-  //   }
-  // });
-
-  // //Submit editproduct form
-  // $("#confirmEditItemModal")
-  //   .find("#btn-submitConfirmEditItem")
-  //   .click(function () {
-  //     $("#form-editItemModal").submit();
-  //   });
 });
+window.actionConfirmPayEvents = {
+  "click .btn-confirm-pay": function (e, value, row, index) {
+    var date = getFormatDate(row.date);
+    // alert(date);
 
-//   window.actionEditEventEvents = {
-//     "click .btn-editItem": function (e, value, row, index) {
-//       var startDate_obj = new Date(row.startDate);
-//       var startDate_day =
-//         startDate_obj.getDate() < 10
-//           ? "0" + startDate_obj.getDate()
-//           : startDate_obj.getDate();
-//       var startDate_month =
-//         startDate_obj.getMonth() + 1 < 10
-//           ? "0" + (startDate_obj.getMonth() + 1)
-//           : startDate_obj.getMonth() + 1;
-//       var startDate =
-//         startDate_obj.getFullYear() + "-" + startDate_month + "-" + startDate_day;
+    $("#confirmIsPaidModal").find("._id").text(row._id);
+    $("#confirmIsPaidModal").find(".date").text(date);
+    $("#confirmIsPaidModal").find(".name").text(row.deliveryInfo.name);
+    $("#confirmIsPaidModal").find(".total").text(row.cashInfo.afterDiscount);
+    if (row.cashInfo.isPaid) {
+      $("#confirmIsPaidModal")
+        .find(".isPaid")
+        .text("Đã thanh toán")
+        .css("color", "black");
+      $("#confirmIsPaidModal")
+        .find("#btn-submit-confirm-order")
+        .prop("disabled", false);
+    } else {
+      $("#confirmIsPaidModal")
+        .find(".isPaid")
+        .text("Chưa thanh toán")
+        .css("color", "red");
+      $("#confirmIsPaidModal")
+        .find("#btn-submit-confirm-order")
+        .prop("disabled", true);
+    }
+    $("#confirmIsPaidModal").find("#_id").val(row._id);
+  }
+}
 
-//       var endDate_obj = new Date(row.endDate);
-//       var endDate_day =
-//         endDate_obj.getDate() < 10
-//           ? "0" + endDate_obj.getDate()
-//           : endDate_obj.getDate();
-//       var endDate_month =
-//         endDate_obj.getMonth() + 1 < 10
-//           ? "0" + (endDate_obj.getMonth() + 1)
-//           : endDate_obj.getMonth() + 1;
-//       var endDate =
-//         endDate_obj.getFullYear() + "-" + endDate_month + "-" + endDate_day;
+window.actionConfirmOrderEvents = {
+  "click .btn-confirm": function (e, value, row, index) {
+    var date = getFormatDate(row.date);
+    // alert(date);
 
-//       // if (oldRowValue._id === undefined) {
+    $("#confirmOrderModal").find("._id").text(row._id);
+    $("#confirmOrderModal").find(".date").text(date);
+    $("#confirmOrderModal").find(".name").text(row.deliveryInfo.name);
+    $("#confirmOrderModal").find(".email").text(row.deliveryInfo.email);
+    $("#confirmOrderModal")
+      .find(".phoneNumber")
+      .text(row.deliveryInfo.phoneNumber);
+    $("#confirmOrderModal").find(".address").text(row.deliveryInfo.address);
+    $("#confirmOrderModal").find(".total").text(row.cashInfo.afterDiscount);
+    if (row.cashInfo.isPaid) {
+      $("#confirmOrderModal")
+        .find(".isPaid")
+        .text("Đã thanh toán")
+        .css("color", "black");
+      $("#confirmOrderModal")
+        .find("#btn-submit-confirm-order")
+        .prop("disabled", false);
+    } else {
+      $("#confirmOrderModal")
+        .find(".isPaid")
+        .text("Chưa thanh toán")
+        .css("color", "red");
+      $("#confirmOrderModal")
+        .find("#btn-submit-confirm-order")
+        .prop("disabled", true);
+    }
 
-//       $("#editItemModal").find("#title").val(row.title);
-//       $("#editItemModal").find("#startDate").val(startDate);
-//       $("#editItemModal").find("#endDate").val(endDate);
+    $("#confirmOrderModal").find("#_id").val(row._id);
 
-//       $("#editItemModal").find("#hasCoupon").val(row.hasCoupon);
-//       if (row.hasCoupon === false) {
-//         $("#editItemModal").find("#coupon").prop("disabled", true);
-//         $("#editItemModal").find("#hasCoupon_cbx").prop("checked", false);
-//       } else {
-//         $("#editItemModal").find("#coupon").prop("disabled", false);
-//         $("#editItemModal").find("#hasCoupon_cbx").prop("checked", true);
-//       }
+    // btn-submit-confirm-order cancelOrderModal
+  },
+  "click .btn-cancelConfirm": function (e, value, row, index) {
+    var date = getFormatDate(row.date);
+    // alert(date);
 
-//       $("#editItemModal").find("#coupon").val(row.coupon);
-//       $("#editItemModal").find("#discount").val(row.discount);
-//       $("#editItemModal").find("#description").val(row.description);
-//       $("#editItemModal").find("#_id").val(row._id);
-//       // $("#editItemModal").find("#imageUrl").val(row.imageUrl);
+    $("#cancelOrderModal").find("._id").text(row._id);
+    $("#cancelOrderModal").find(".date").text(date);
+    if (row.cashInfo.isPaid) {
+      $("#cancelOrderModal")
+        .find(".isPaid")
+        .text("Đã thanh toán")
+        .css("color", "black");
+    } else {
+      $("#cancelOrderModal")
+        .find(".isPaid")
+        .text("Chưa thanh toán")
+        .css("color", "red");
+    }
 
-//       oldRowValue = {
-//         _id: row._id,
-//         title: row.title,
-//         startDate: startDate,
-//         endDate: endDate,
-//         hasCoupon: row.hasCoupon,
-//         coupon: row.coupon,
-//         discount: row.discount,
-//         description: row.description,
-//         imageUrl: row.imageUrl,
-//       };
-//       // } else {
-//       // $("#editItemModal").find("#title").val(oldRowValue.title);
-//       // $("#editItemModal").find("#startDate").val(oldRowValue.startDate);
-//       // $("#editItemModal").find("#endDate").val(oldRowValue.endDate);
+    $("#cancelOrderModal").find("#_id").val(row._id);
 
-//       // $("#editItemModal").find("#hasCoupon").val(oldRowValue.hasCoupon);
-//       // if (oldRowValue.hasCoupon === false) {
-//       //   $("#editItemModal").find("#coupon").prop("disabled", true);
-//       //   $("#editItemModal").find("#hasCoupon_cbx").prop("checked", false);
-//       // } else {
-//       //   $("#editItemModal").find("#coupon").prop("disabled", false);
-//       //   $("#editItemModal").find("#hasCoupon_cbx").prop("checked", true);
-//       // }
-
-//       // $("#editItemModal").find("#coupon").val(oldRowValue.coupon);
-//       // $("#editItemModal").find("#discount").val(oldRowValue.discount);
-//       // $("#editItemModal").find("#description").val(oldRowValue.description);
-//       // $("#editItemModal").find("#_id").val(oldRowValue._id);
-//       // $("#editItemModal")
-//       //   .find("#imageUrl")
-//       //   .attr("src", oldRowValue.imageUrl.replace("images", "/images"));
-//       // }
-//     },
-//     "click .btn-detailItem"(e, value, row, index) {
-//       var startDate_obj = new Date(row.startDate);
-//       var startDate_day =
-//         startDate_obj.getDate() < 10
-//           ? "0" + startDate_obj.getDate()
-//           : startDate_obj.getDate();
-//       var startDate_month =
-//         startDate_obj.getMonth() + 1 < 10
-//           ? "0" + (startDate_obj.getMonth() + 1)
-//           : startDate_obj.getMonth() + 1;
-//       var startDate =
-//         startDate_obj.getFullYear() + "-" + startDate_month + "-" + startDate_day;
-
-//       var endDate_obj = new Date(row.endDate);
-//       var endDate_day =
-//         endDate_obj.getDate() < 10
-//           ? "0" + endDate_obj.getDate()
-//           : endDate_obj.getDate();
-//       var endDate_month =
-//         endDate_obj.getMonth() + 1 < 10
-//           ? "0" + (endDate_obj.getMonth() + 1)
-//           : endDate_obj.getMonth() + 1;
-//       var endDate =
-//         endDate_obj.getFullYear() + "-" + endDate_month + "-" + endDate_day;
-
-//       $("#detailItemModal").find(".title").text(row.title);
-//       $("#detailItemModal").find(".startDate").text(row.startDate);
-//       $("#detailItemModal").find(".endDate").text(row.endDate);
-//       $("#detailItemModal").find(".hasCoupon").text(row.hasCoupon);
-//       $("#detailItemModal").find(".coupon").text(row.coupon);
-//       $("#detailItemModal").find(".discount").text(row.discount);
-//       $("#detailItemModal").find(".description").text(row.description);
-//       $("#detailItemModal").find("#_id").text(row._id);
-//       $("#detailItemModal")
-//         .find("#imageUrl")
-//         .attr("src", row.imageUrl.replace("images", "/images"));
-
-//       oldRowValue = {
-//         _id: row._id,
-//         title: row.title,
-//         startDate: startDate,
-//         endDate: endDate,
-//         hasCoupon: row.hasCoupon,
-//         coupon: row.coupon,
-//         discount: row.discount,
-//         description: row.description,
-//         imageUrl: row.imageUrl,
-//       };
-//     },
-//   };
-
-//   function actionEditEvent(index, row) {
-//     return `<button class="btn-detailItem btn btn-secondary" data-bs-toggle="modal" data-bs-target="#detailItemModal" >Chi tiết</button>
-//                   <button class="btn-editItem btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editItemModal" >Sửa</button>`;
-//   }
+    // btn-submit-confirm-order cancelOrderModal
+  },
+};
 
 function deliveryInfoFormatter(index, row) {
   return `<p><b>Tên:</b> ${row.deliveryInfo.name}</p>
@@ -473,17 +188,14 @@ function deliveryInfoFormatter(index, row) {
 }
 
 function productsInfoFormatter(index, row) {
-  var orderDay_obj = new Date(row.date);
-  var orderDay_day =
-    orderDay_obj.getDate() < 10
-      ? "0" + orderDay_obj.getDate()
-      : orderDay_obj.getDate();
-  var orderDay_month =
-    orderDay_obj.getMonth() + 1 < 10
-      ? "0" + (orderDay_obj.getMonth() + 1)
-      : orderDay_obj.getMonth() + 1;
-  var orderDay =
-    orderDay_obj.getFullYear() + "-" + orderDay_month + "-" + orderDay_day;
+  var orderDay = getFormatDate(row.date);
+  // let isPaidCss = "";
+  // if (!row.cashInfo.isPaid) {
+  //   isPaidCss = 'style="color: red;"';
+  // } else {
+  //   isPaidCss = 'style="color: black;"';
+  // }
+
   const productInfo = row.products.map((item) => {
     return `<p><i>${item.title}:</i> ${item.price} x ${item.quantity} = ${
       item.price * item.quantity
@@ -493,16 +205,75 @@ function productsInfoFormatter(index, row) {
   const cashInfo = `<p><i>(Tên SP: Giá x SL = Thành tiền)</i></p> ${productInfo.join(
     " "
   )} <p><b>Tổng:</b> ${row.cashInfo.totalCash}</p>  
-    <p><b>Ngày:</b> ${orderDay}</p>`;
+    <p><b>Ngày:</b> ${orderDay}</p> <p><b>Ghi chú:</b> ${row.deliveryInfo.node}</p>` ; 
+  //   <p ${isPaidCss}><b>Trạng thái:</b> ${
+  //   row.cashInfo.isPaid ? "Đã thanh toán" : "Chưa Thanh Toán"
+  // }</p>`;
 
   return cashInfo;
 }
 
 function approveStatusFormatter(index, row) {
-  const approveBotton = `<button class="btn-approve btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailItemModal" >Xác nhận</button>`;
-  const approveStatus = `<p><b>Trạng thái:</b> ${
+  let approveStatusCss = "";
+  if (!row.approveStatus) {
+    approveStatusCss = 'style="color: red;"';
+  } else {
+    approveStatusCss = 'style="color: black;"';
+  }
+
+  const approveStatus = `<p ${approveStatusCss}>${
     row.approveStatus === false ? "Chưa xác nhận" : "Đã xác nhận"
   }<p>`;
 
-  return `${approveBotton} ${approveStatus}`;
+  return `${approveStatus}`;
+}
+
+function isPaidStatusFormatter(index, row) {
+  let isPaidCss = "";
+  let disable_btn = "";
+  if (!row.cashInfo.isPaid) {
+    isPaidCss = 'style="color: red;"';
+    disable_btn = "";
+  } else {
+    isPaidCss = 'style="color: black;"';
+    disable_btn = "disabled"
+  }
+
+
+  const isPaidStatus = `<p ${isPaidCss}>${
+    row.cashInfo.isPaid === false ? "Chưa thanh toán" : "Đã thanh toán"
+  }<p>`;
+
+  const approveBotton = `<button ${disable_btn} class="btn-confirm-pay btn btn-primary red-border" data-bs-toggle="modal" data-bs-target="#confirmIsPaidModal" >Xác nhận</button>`;
+
+  return `${isPaidStatus} ${approveBotton}`;
+}
+
+function actionEditEvent(index, row) {
+  const isPaid = row.cashInfo.isPaid;
+  const approveStatus = row.approveStatus;
+
+  let disable_confirm_btn = "";
+  let disable_cancel_btn = "";
+
+  if (isPaid && !approveStatus) {
+    disable_confirm_btn = "";
+  } else {
+    disable_confirm_btn = "disabled";
+  }
+
+  if (!approveStatus) {
+    disable_cancel_btn = "disabled";
+  } else {
+    disable_cancel_btn = "";
+  }
+
+  // disabled={p.mount <= 0 ? true : false}
+  const approveBotton = `<button ${disable_confirm_btn} class="btn-confirm btn btn-primary red-border" data-bs-toggle="modal" data-bs-target="#confirmOrderModal" >Xác nhận</button>`;
+  const cancelBotton = `<button ${disable_cancel_btn} class="btn-cancelConfirm btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelOrderModal" >Hủy</button>`;
+
+  return `${approveBotton} ${cancelBotton}`;
+
+  // return `<button class="btn-approve btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailItemModal" >Xác nhận</button>`;
+  // <button class="btn-approve btn btn-danger" data-bs-toggle="modal" data-bs-target="#detailItemModal" >Hủy</button>`;
 }

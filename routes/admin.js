@@ -16,40 +16,82 @@ router.get("/admin", isAuth, adminController.getAdminProducts);
 router.get("/admin/manage/products", isAuth, adminController.getAdminProducts);
 
 router.post(
-  "/admin/manage/add-product", isAuth,
+  "/admin/manage/add-product",
+  isAuth,
   validate.validateAddOrEditProduct(),
   adminController.postAddProduct
 );
 
 router.post(
-  "/admin/manage/edit-product", isAuth,
+  "/admin/manage/edit-product",
+  isAuth,
   validate.validateAddOrEditProduct(),
   adminController.postEditProduct
 );
 
-router.post("/admin/manage/delete-product", isAuth, adminController.postDeleteProduct);
+router.post(
+  "/admin/manage/delete-product",
+  isAuth,
+  adminController.postDeleteProduct
+);
 
 router.get("/admin/manage/events", isAuth, adminController.getAdminEvents);
 
 router.post("/admin/manage/add-event", isAuth, adminController.postAddEvent);
 
-router.post("/admin/manage/delete-event", isAuth, adminController.postDeleteEvent);
+router.post(
+  "/admin/manage/delete-event",
+  isAuth,
+  adminController.postDeleteEvent
+);
 
 router.post("/admin/manage/edit-event", isAuth, adminController.postEditEvent);
 
 router.get("/admin/manage/users", isAuth, adminController.getAdminUsers);
 
 router.post(
-  "/admin/manage/add-user", isAuth,
+  "/admin/manage/add-user",
+  isAuth,
   validate.validateAddOrEditUser(),
   adminController.postAddUser
 );
 
-router.post("/admin/manage/delete-user", isAuth, adminController.postDeleteUser);
+router.post(
+  "/admin/manage/delete-user",
+  isAuth,
+  adminController.postDeleteUser
+);
 
 router.post("/admin/manage/edit-user", isAuth, adminController.postEditUser);
 
 router.get("/admin/manage/orders", isAuth, adminController.getAdminOrders);
+
+router.post(
+  "/admin/manage/delete-order",
+  isAuth,
+  adminController.postDeleteOrder
+);
+
+router.post(
+  "/admin/manage/confirm-order",
+  isAuth,
+  adminController.postConfirmOrder
+);
+
+router.post(
+  "/admin/manage/cancel-confirm-order",
+  isAuth,
+  adminController.postCancelConfirmOrder
+);
+
+router.post(
+  "/admin/manage/confirm-isPaid-order",
+  isAuth,
+  adminController.postConfirmIsPaidOrder
+);
+
+
+
 
 // router.get("/", adminController.getProducts);
 

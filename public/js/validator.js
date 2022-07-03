@@ -1,5 +1,6 @@
 const { check } = require("express-validator");
 const User = require("../../models/user");
+const Order = require("../../models/order");
 
 let validateAddOrEditProduct = () => {
   return [
@@ -82,11 +83,32 @@ let validateLogin = () => {
   ];
 };
 
+// let validateConfirmOrder = () => {
+//   return [
+//     check("_id").custom((value, { req }) => {
+//       return Order.findOne({ _id: value }).then((orderDoc) => {
+//         if (!orderDoc) {
+//           return Promise.reject(
+//             //them loi xac thuc khong dong bo
+//             "Đơn hàng này không tồn tại"
+//           );
+//         }else if(orderDoc.cashInfo.isPaid === false){
+//           return Promise.reject(
+//             //them loi xac thuc khong dong bo
+//             "Không thể xác nhận đơn hàng chưa thanh toán"
+//           );
+//         }
+//       });
+//     }),
+//   ];
+// };
+
 let validate = {
   validateAddOrEditProduct: validateAddOrEditProduct,
   validateAddOrEditEvent: validateAddOrEditEvent,
   validateLogin: validateLogin,
   validateAddOrEditUser: validateAddOrEditUser,
+  // validateConfirmOrder: validateConfirmOrder,
 };
 
 module.exports = { validate };
