@@ -15,6 +15,8 @@ router.get("/admin", isAuth, adminController.getAdminProducts);
 
 router.get("/admin/manage/products", isAuth, adminController.getAdminProducts);
 
+router.get("/admin/manage/test", isAuth, adminController.getAdminTest);
+
 router.post(
   "/admin/manage/add-product",
   isAuth,

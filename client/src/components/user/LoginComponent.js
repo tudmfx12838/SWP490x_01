@@ -67,10 +67,11 @@ const Login = (props) => {
     // alert(JSON.stringify(props.auth.auth));
     if (props.user.user.status === "success") {
       //
-      alert("Đăng nhập thành công");
+      alert("Đăng nhập thành công ");
       //
       props.changeLoginStatus({ status: "logged", user: props.user.user.user });
-      props.UpdateUserCartToPageCart(props.user.user.user.cart);
+
+      // props.UpdateUserCartToPageCart(props.user.user.user.cart);
       navigate("/");
 
     } else if (props.user.user.status === "failed") {

@@ -37,15 +37,15 @@ function RenderHomeItem({ products, type, callback }) {
                 </Link>
                 <Card.Text className="product-cost">Giá: {p.price}</Card.Text>
                 <Card.Text className="product-cost">
-                  {p.mount > 0 ? "(Còn hàng)" : "(Hết hàng)"}
+                  {p.available === false ? "(Ngừng bán)" : p.mount > 0 ? "(Còn hàng)" : "(Hết hàng)"}
                 </Card.Text>
                 <Button
                   variant="secondary"
                   className="product-add-button"
                   onClick={() => callback(p)}
-                  disabled={p.mount <= 0 ? true : false}
+                  disabled={p.mount > 0 && p.available ? false : true}
                 >
-                  {p.mount <= 0 ? "Hết hàng" : "Thêm"}
+                  {p.available === false ? "Ngừng bán" : p.mount <= 0 ? "Hết hàng" : "Thêm"}
                 </Button>
               </Card>
             </Col>

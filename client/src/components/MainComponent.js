@@ -135,9 +135,6 @@ const mapDispatchToProps = (dispatch) => ({
   DecreaseQuantity: (product) => {
     dispatch(ActionCreators.DecreaseQuantity(product));
   },
-  UpdateUserCartToPageCart: (product) => {
-    dispatch(ActionCreators.UpdateUserCartToPageCart(product));
-  },
 });
 
 class Main extends Component {
@@ -349,7 +346,6 @@ class Main extends Component {
                 user={this.props.user}
                 changeLoginStatus={this.props.changeLoginStatus}
                 fetchAuthentication={this.props.fetchAuthentication}
-                UpdateUserCartToPageCart={this.props.UpdateUserCartToPageCart}
                 auth={this.props.auth}
               />
             }

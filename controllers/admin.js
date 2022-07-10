@@ -10,6 +10,7 @@ const { validationResult } = require("express-validator");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const fileHelper = require("../util/file");
+const product = require("../models/product");
 
 exports.getProducts = (req, res, next) => {
   Product.find()
@@ -43,6 +44,19 @@ exports.getOrders = (req, res, next) => {
     .then((orders) => {
       res.json(orders);
       // console.log(orders);
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.getAdminTest = (req, res, next) => {
+  Product.find()
+    .then((products) => {
+      // res.json(products);
+      res.render("admin/admin-test", {
+        pageTitle: "Quản lý Sản Phẩm",
+        path: "/manage/products",
+        products: products,
+      });
     })
     .catch((err) => console.log(err));
 };
@@ -168,6 +182,7 @@ exports.postEditProduct = (req, res, next) => {
   const updatedPrice = req.body.price;
   const updatedMount = req.body.mount;
   const updatedDescription = req.body.description;
+  const updatedAvailable = req.body.available;
   const updatedImageUrl = req.file;
 
   Product.findById(productId)
@@ -177,6 +192,7 @@ exports.postEditProduct = (req, res, next) => {
       product.price = updatedPrice;
       product.mount = updatedMount;
       product.description = updatedDescription;
+      product.available = updatedAvailable;
 
       if (updatedImageUrl) {
         fileHelper.deleteFile(product.imageUrl);
@@ -208,6 +224,48 @@ exports.postEditProduct = (req, res, next) => {
     });
 };
 
+var checkingProductExistInUserCart = (productIds, users) => {
+  const checkingResult = productIds.map((productId) => {
+    var result = false;
+    for (let i = 0; i <= users.length - 1; i++) {
+      if (users[i].cart.items.length > 0) {
+        let items = users[i].cart.items;
+        for (let j = 0; j <= items.length - 1; j++) {
+          if (items[j]._id == productId) {
+            result = true;
+            break;
+          }
+        }
+      }
+      if (result) {
+        break;
+      }
+    }
+
+    return {
+      _id: productId,
+      isExist: result,
+    };
+  });
+
+  var productIsExistInCart = checkingResult.filter(
+    (product) => product.isExist === true
+  );
+  productIsExistInCart = productIsExistInCart.map((product) => product._id);
+
+  var productIsNotExistInCart = checkingResult.filter(
+    (product) => product.isExist === false
+  );
+  productIsNotExistInCart = productIsNotExistInCart.map(
+    (product) => product._id
+  );
+
+  return {
+    productIsExistInCart: productIsExistInCart,
+    productIsNotExistInCart: productIsNotExistInCart,
+  };
+};
+
 /**
  * The method postEditProduct() implement geting data's ID from DOM and delete them from product's database
  * */
@@ -219,26 +277,72 @@ exports.postDeleteProduct = (req, res, next) => {
 
   const productId = req.body._id.split(",");
 
-  Product.deleteMany({ _id: productId })
-    .then((result) => {
-      console.log("Delete complete");
-      Product.find()
-        .then((products) => {
-          return res.render("admin/admin-products", {
-            path: "/manage/products",
-            pageTitle: "Quản lý Sản Phẩm",
-            products: products,
-            oldAddProductValue: null,
-            addProductValidationErrors: [],
-            editProductValidationErrors: [],
-            inform: "Xóa sản phẩm thành công",
-          });
+  User.find()
+    .then((users) => {
+      const checkingResult = checkingProductExistInUserCart(productId, users);
+      // console.log(checkingResult.productIsExistInCart);
+      // console.log(checkingResult.productIsNotExistInCart);
+      // console.log(productId);
+
+      Product.find({ _id: productId })
+        .then((prods) => {
+          // console.log("Delete complete" + JSON.stringify(prods));
+          const productIsExistInCart_info =
+            checkingResult.productIsExistInCart.map((propductId) => {
+              return prods.filter((prod) => prod._id == propductId)[0].title;
+            });
+          const productIsNotExistInCart_info =
+            checkingResult.productIsNotExistInCart.map((propductId) => {
+              return prods.filter((prod) => prod._id == propductId)[0].title;
+            });
+
+          for (let i = 0; i <= prods.length - 1; i++) {
+            for (
+              let j = 0;
+              j <= checkingResult.productIsExistInCart.length - 1;
+              j++
+            ) {
+              if (prods[i]._id == checkingResult.productIsExistInCart[j]) {
+                // console.log("prods[i].available = false; " + prods[i].title);
+                prods[i].available = false;
+                prods[i]
+                  .save()
+                  .then((result) => {})
+                  .catch((err) => console.log(err));
+              }
+            }
+          }
+
+          Product.deleteMany({ _id: checkingResult.productIsNotExistInCart })
+            .then((result) => {
+              // console.log("Delete complete");
+              Product.find()
+                .then((products) => {
+                  const inform = `${productIsExistInCart_info.length > 0 ?"Đã vô hiệu hóa sản phẩm" + productIsExistInCart_info + "\n": ""}
+                  ${productIsNotExistInCart_info.length > 0? "\nĐã xóa sản phẩm:" + productIsNotExistInCart_info + "\n" : ""}
+                  \nChú thích: Sản phẩm chưa được thêm vào giỏ khách hàng sẽ bị xóa, ngược lại sẽ vô hiệu hóa sản phẩm và cảnh báo ngừng bán`;
+
+                  return res.render("admin/admin-products", {
+                    path: "/manage/products",
+                    pageTitle: "Quản lý Sản Phẩm",
+                    products: products,
+                    oldAddProductValue: null,
+                    addProductValidationErrors: [],
+                    editProductValidationErrors: [],
+                    inform: inform,
+                  });
+                })
+                .catch((err) => console.log(err));
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+        });
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch((err) => console.log(err));
 };
 
 /**
@@ -812,7 +916,7 @@ exports.postConfirmIsPaidOrder = (req, res, next) => {
                   pageTitle: "Quản Lý Đơn Hàng",
                   path: "/manage/orders",
                   orders: orders,
-                  inform: "Hủy xác thanh toán thành công",
+                  inform: "Xác thanh toán thành công",
                 });
               })
               .catch((err) => console.log(err));

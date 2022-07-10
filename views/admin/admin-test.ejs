@@ -1,0 +1,55 @@
+<%- include('../includes/page-head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+
+<body>
+   <%- include('../includes/page-navigation.ejs') %>
+    <main class="container">
+
+        <div class="row">
+            <div class="text-center">
+                <h1>Quản Lý Sản Phẩm</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="toolbar">
+                <button id="btn-add" class="btn-toolbar btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">+</button>
+                <button id="btn-delete" class="btn-toolbar btn btn-danger"> x </button>
+            </div>
+        </div>
+
+        <div class="row">
+            <table 
+            id="table" 
+            data-click-to-select="true"
+            data-pagination="true"
+            data-show-columns="true"
+            data-show-columns-toggle-all="true"
+            data-filter-control="true"
+            data-search="true"
+            data-toolbar=".toolbar"
+            >
+            <thead>
+                <tr>
+                <th data-field="state" data-checkbox="true"></th>
+                <th data-field="_id" data-visible="false" data-filter-control="input">Mã SP</th>
+                <th data-field="title">Tên SP</th>
+                <th data-field="price">Giá Bán</th>
+                <th data-field="mount" data-filter-control="select">SL</th>
+                <th data-field="description" data-visible="false">Mô tả</th>
+                </tr>
+            </thead>
+            </table>
+        </div>
+        
+    </main>
+
+   <script 
+        id="admin-products-page" 
+        src="/js/script-admin-test.js" 
+        products-data='<%- JSON.stringify(products) %>' 
+   >
+    </script>
+
+   <%- include('../includes/page-end.ejs') %>

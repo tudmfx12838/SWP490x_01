@@ -8,6 +8,7 @@ var oldRowValue = {
   mount: null,
   description: "",
   imageUrl: "",
+  available: "",
 };
 
 /**
@@ -20,6 +21,7 @@ var newRowValue = {
   mount: null,
   description: "",
   imageUrl: "",
+  available: "",
 };
 
 $(function () {
@@ -128,6 +130,7 @@ $(function () {
         mount: null,
         description: "",
         imageUrl: "",
+        available: "",
       };
 
       newRowValue = {
@@ -138,6 +141,7 @@ $(function () {
         mount: null,
         description: "",
         imageUrl: "",
+        available: "",
       };
     });
 
@@ -151,12 +155,14 @@ $(function () {
       $("#editProductModal").find("#description").val(oldRowValue.description);
       $("#editProductModal").find("#_id").val(oldRowValue._id);
       $("#editProductModal").find("#image").val(oldRowValue.imageUrl);
+      $("#editProductModal").find("#available").val(oldRowValue.available);
     });
 
   $("#confirmEditProductModal").on("shown.bs.modal", function (event) {
     newRowValue = {
       _id: $("#editProductModal").find("#_id").val(),
       title: $("#editProductModal").find("#title").val(),
+      available: $("#editProductModal").find("#available").val(),
       type: $("#editProductModal").find("#type").val(),
       price: $("#editProductModal").find("#price").val(),
       mount: $("#editProductModal").find("#mount").val(),
@@ -215,6 +221,20 @@ $(function () {
         .css("color", "red");
     }
 
+    if (String(newRowValue.available) === String(oldRowValue.available)) {
+      $("#confirmEditProductModal")
+        .find(".available")
+        .text(oldRowValue.available ? "Đang bán" : "Ngừng bán")
+        .css("color", "black");
+    } else {
+      let old_value = oldRowValue.available == "true" ? "Đang bán" : "Ngừng bán";
+      let new_value = newRowValue.available == "true" ? "Đang bán" : "Ngừng bán";
+      $("#confirmEditProductModal")
+        .find(".available")
+        .text(old_value + "  -->  " + new_value)
+        .css("color", "red");
+    }
+
     if (String(newRowValue.description) === String(oldRowValue.description)) {
       $("#confirmEditProductModal")
         .find(".description")
@@ -258,7 +278,6 @@ $(function () {
 
 window.actionEditProductEvents = {
   "click .btn-editProduct": function (e, value, row, index) {
-    // alert(String(oldRowValue._id));
     if (oldRowValue._id === undefined) {
       $("#editProductModal").find("#title").val(row.title);
       $("#editProductModal").find("#type").val(row.type);
@@ -267,6 +286,7 @@ window.actionEditProductEvents = {
       $("#editProductModal").find("#description").val(row.description);
       $("#editProductModal").find("#_id").val(row._id);
       $("#editProductModal").find("#imageUrl").val(row.imageUrl);
+      $("#editProductModal").find("#available").val(row.available.toString());
 
       oldRowValue = {
         _id: row._id,
@@ -276,6 +296,7 @@ window.actionEditProductEvents = {
         mount: row.mount,
         description: row.description,
         imageUrl: row.imageUrl,
+        available: row.available.toString(),
       };
     } else {
       $("#editProductModal").find("#title").val(oldRowValue.title);
@@ -285,6 +306,7 @@ window.actionEditProductEvents = {
       $("#editProductModal").find("#description").val(oldRowValue.description);
       $("#editProductModal").find("#_id").val(oldRowValue._id);
       $("#editProductModal").find("#image").val(row.imageUrl);
+      $("#editProductModal").find("#available").val(oldRowValue.available.toString());
     }
   },
   "click .btn-detailProduct"(e, value, row, index) {
@@ -293,6 +315,7 @@ window.actionEditProductEvents = {
     $("#detailProductModal").find(".price").text(row.price);
     $("#detailProductModal").find(".mount").text(row.mount);
     $("#detailProductModal").find(".description").text(row.description);
+    $("#detailProductModal").find(".available").text(row.available ? "Đang bán" : "Ngừng bán");
 
     $("#detailProductModal")
       .find("#imageUrl")
@@ -306,6 +329,7 @@ window.actionEditProductEvents = {
       mount: row.mount,
       description: row.description,
       imageUrl: row.imageUrl,
+      available: row.available.toString(),
     };
   },
 };
@@ -314,3 +338,14 @@ function actionEditProduct(index, row) {
   return `<button class="btn-detailProduct btn btn-secondary" data-bs-toggle="modal" data-bs-target="#detailProductModal" >Chi tiết</button>
                 <button class="btn-editProduct btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProductModal" >Sửa</button>`;
 }
+
+function availableFormatter(index, row) {
+  var status = "";
+  if(row.available){
+    status = "Đang bán";
+  }else{
+    status = "Ngừng bán";
+  }
+  return status;
+}
+

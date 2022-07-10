@@ -238,7 +238,24 @@ var userObj = [
     address: "〒7330822-HiroshimaShi",
     imageUrl: "images/avatar.jpg",
     point: 50,
-    cart: { items: [] },
+    cart: {
+      items: [
+        {
+          _id:  mongoose.Types.ObjectId("62c45077b2d33797f7c1e821"),
+          quantity: 2,
+          title: "Nước Tương",
+          price: 400,
+          imageUrl: "images/nuoctuongchinsu.jpg",
+        },
+        {
+          _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e823"),
+          quantity: 1,
+          title: "Mắm tôm",
+          price: 350,
+          imageUrl: "images/mamtom.jpg",
+        },
+      ],
+    },
     orderHistory: [],
     available: true,
     resetToken: null,
@@ -254,7 +271,31 @@ var userObj = [
     address: "〒7330822-HiroshimaShi",
     imageUrl: "images/avatar.jpg",
     point: 50,
-    cart: { items: [] },
+    cart: {
+      items: [
+        {
+          _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e820"),
+          quantity: 1,
+          title: "Nước Mắm",
+          price: 570,
+          imageUrl: "images/nuocmam.jpg",
+        },
+        {
+          _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e822"),
+          quantity: 2,
+          title: "Tương ớt",
+          price: 200,
+          imageUrl: "images/tuongotchinsu.jpg",
+        },
+        {
+          _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e824"),
+          quantity: 3,
+          title: "Mắm ruốc",
+          price: 350,
+          imageUrl: "images/mamruoc.jpg",
+        },
+      ],
+    },
     orderHistory: [
       {
         orderId: mongoose.Types.ObjectId("62b08b7df58ff042f6f4ea60"),
@@ -274,6 +315,7 @@ var userObj = [
 
 var productObj = [
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e820"),
     title: "Nước Mắm",
     price: 570,
     type: "thucphamkho",
@@ -283,6 +325,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e821"),
     title: "Nước Tương",
     price: 400,
     type: "thucphamkho",
@@ -292,6 +335,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e822"),
     title: "Tương ớt",
     price: 200,
     type: "thucphamkho",
@@ -301,6 +345,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e823"),
     title: "Mắm tôm",
     price: 350,
     type: "thucphamkho",
@@ -310,6 +355,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e824"),
     title: "Mắm ruốc",
     price: 350,
     type: "thucphamkho",
@@ -319,6 +365,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e825"),
     title: "Tiêu đen",
     price: 950,
     type: "thucphamkho",
@@ -328,6 +375,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e826"),
     title: "Bánh tráng",
     price: 400,
     type: "thucphamkho",
@@ -337,6 +385,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e827"),
     title: "Hạt nêm",
     price: 600,
     type: "thucphamkho",
@@ -346,6 +395,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e828"),
     title: "Muối Hảo Hảo",
     price: 650,
     type: "thucphamkho",
@@ -355,6 +405,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e829"),
     title: "Mì Hảo Hảo",
     price: 99,
     type: "thucphamkho",
@@ -364,6 +415,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e82a"),
     title: "Mì Omachi",
     price: 120,
     type: "thucphamkho",
@@ -373,6 +425,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e82b"),
     title: "Phở Vifon",
     price: 150,
     type: "thucphamkho",
@@ -382,6 +435,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e82c"),
     title: "Sa tế tôm",
     price: 250,
     type: "thucphamkho",
@@ -391,6 +445,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e82d"),
     title: "Bánh phồng",
     price: 450,
     type: "thucphamkho",
@@ -400,6 +455,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e82e"),
     title: "Bún khô",
     price: 270,
     type: "thucphamkho",
@@ -409,6 +465,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e82f"),
     title: "Gà ta",
     price: 650,
     type: "thucphamtuoi",
@@ -418,6 +475,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e830"),
     title: "Lòng heo non",
     price: 900,
     type: "thucphamtuoi",
@@ -427,6 +485,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e831"),
     title: "Thịt bò",
     price: 1200,
     type: "thucphamtuoi",
@@ -436,6 +495,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e832"),
     title: "Thịt heo",
     price: 1000,
     type: "thucphamtuoi",
@@ -445,6 +505,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e833"),
     title: "Gà ta",
     price: 650,
     type: "thucphamtuoi",
@@ -454,6 +515,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e834"),
     title: "Lòng heo",
     price: 900,
     type: "thucphamtuoi",
@@ -463,6 +525,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e835"),
     title: "Thịt bò",
     price: 1200,
     type: "thucphamtuoi",
@@ -472,6 +535,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e836"),
     title: "Thịt heo",
     price: 1000,
     type: "thucphamtuoi",
@@ -481,6 +545,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e837"),
     title: "Bia 333",
     price: 180,
     type: "thucuong",
@@ -490,6 +555,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e838"),
     title: "Nước Sting",
     price: 130,
     type: "thucuong",
@@ -499,6 +565,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e839"),
     title: "Nước Bò Húc",
     price: 190,
     type: "thucuong",
@@ -508,6 +575,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e83a"),
     title: "Bia Tiger",
     price: 290,
     type: "thucuong",
@@ -517,6 +585,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e83b"),
     title: "Xả cây",
     price: 650,
     type: "thucphamtuoi",
@@ -526,6 +595,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e83c"),
     title: "Rau răm",
     price: 400,
     type: "thucphamtuoi",
@@ -535,6 +605,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e83d"),
     title: "Nước Sting",
     price: 130,
     type: "thucuong",
@@ -544,6 +615,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e83e"),
     title: "Nước Bò Húc",
     price: 190,
     type: "thucuong",
@@ -553,6 +625,7 @@ var productObj = [
     available: true,
   },
   {
+    _id: mongoose.Types.ObjectId("62c45077b2d33797f7c1e83f"),
     title: "Bia Tiger",
     price: 290,
     type: "thucuong",

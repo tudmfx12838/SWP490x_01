@@ -34,9 +34,10 @@
                 <th data-field="state" data-checkbox="true"></th>
                 <th data-field="_id" data-visible="false">Mã SP</th>
                 <th data-field="title">Tên SP</th>
-                <th data-field="price">Giá Bán</th>
-                <th data-field="mount">SL</th>
-                <th data-field="description" data-visible="false">Mô tả</th>
+                <th data-field="available" data-width="50" data-formatter="availableFormatter">Trạng thái</th>
+                <th data-field="price" data-width="50">Giá Bán</th>
+                <th data-field="mount" data-width="50">SL</th>
+                <th data-field="description" data-width="200">Mô tả</th>
                 <th data-field="imageUrl" data-visible="false">Ảnh</th>
                 <th data-field="action" data-width="150" data-formatter="actionEditProduct" data-events="actionEditProductEvents">Action</th>
                 </tr>
@@ -144,6 +145,13 @@
                                     <input class="form-control" type="text" name="title" id="title" required>
                                 </div>
                                 <div class="mb-3 mt-3">
+                                    <label class="form-label" for="available">Trạng thái: </label>
+                                    <select class="form-select" name="available" id="available" value="false" required>
+                                        <option value="true">Đang bán</option>
+                                        <option value="false">Ngừng bán</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 mt-3">
                                     <label class="form-label" for="type">Loại sản phẩm: </label>
                                     <select class="form-select" name="type" id="type" value="thucphamtuoi" required>
                                         <option value="thucphamtuoi">Thực phẩm tươi</option>
@@ -194,6 +202,10 @@
                                 <div class="mb-3 mt-3">
                                     <label class="fw-bold form-label" for="title">Tên SP: </label>
                                     <span name="title" class="title"></span>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="fw-bold form-label" for="available">Trạng thái: </label>
+                                    <span name="available" class="available"></span>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="fw-bold form-label" for="type">Loại sản phẩm: </label>
@@ -267,6 +279,10 @@
                                 <div class="mb-3 mt-3">
                                     <label class="fw-bold form-label" for="title">Tên SP: </label>
                                     <span name="title" class="title"></span>
+                                </div>
+                                <div class="mb-3 mt-3">
+                                    <label class="fw-bold form-label" for="available">Trạng thái: </label>
+                                    <span name="available" class="available"></span>
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="fw-bold form-label" for="type">Loại sản phẩm: </label>

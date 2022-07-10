@@ -79,6 +79,7 @@ export const Cart = (state = initCart, action) => {
           sumNumberCart += item.quantity;
         });
       }
+      // alert("cart state  " +  JSON.parse(JSON.stringify(action.payload)));
 
       return {
         ...state,

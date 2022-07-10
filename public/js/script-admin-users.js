@@ -439,6 +439,11 @@ window.actionEditUserEvents = {
   },
 };
 
+function doBFormatter(index, row) {
+  var doB = getFormatDate(row.doB);
+  return doB;
+}
+
 function actionEditEvent(index, row) {
   return `<button class="btn-detailItem btn btn-secondary" data-bs-toggle="modal" data-bs-target="#detailItemModal" >Chi tiết</button>
                   <button class="btn-editItem btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editItemModal" >Sửa</button>`;

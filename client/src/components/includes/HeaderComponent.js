@@ -63,7 +63,7 @@ class Header extends Component {
       ) {
         return (
           <Nav.Link as={NavLink} to="/dangnhap" className="text-danger">
-            Đặng Nhập
+            Đăng Nhập
           </Nav.Link>
         );
       } else {
