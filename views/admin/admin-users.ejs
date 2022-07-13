@@ -39,6 +39,7 @@
                 <th data-field="email" data-visible="false">Mail</th>
                 <th data-field="permission" data-filter-control="select">Quyền</th>
                 <th data-field="name" data-filter-control="input">Tên</th>
+                <th data-field="available" data-formatter="availableFormatter">Trạng thái</th>
                 <th data-field="doB" data-visible="false" data-formatter="doBFormatter">Ngày sinh</th>
                 <th data-field="phoneNumber" data-filter-control="input" data-visible="false">Số ĐT</th>
                 <th data-field="address" data-visible="false">Địa chỉ</th>
@@ -285,6 +286,18 @@
                                     </select>
                                 </div>
                                 <div class="mb-3 mt-3">
+                                    <label class="form-label" for="available">Trạng thái: </label>
+                                    <select 
+                                        class="form-select" 
+                                        name="available" 
+                                        id="available" 
+                                        value="" 
+                                        required>
+                                        <option value="true">Hoạt động</option>
+                                        <option value="false">Vô hiệu hóa</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 mt-3">
                                     <label class="form-label" for="name">Tên: </label>
                                     <input 
                                         class="form-control" 
@@ -386,6 +399,10 @@
                             <div class="mb-3 mt-3">
                                 <label class="fw-bold form-label" for="permission">Quyền: </label>
                                 <span name="permission" class="permission"></span>
+                            </div>
+                            <div class="mb-3 mt-3">
+                                <label class="fw-bold form-label" for="available">Trạng thái: </label>
+                                <span name="available" class="available"></span>
                             </div>
                             <div class="mb-3 mt-3">
                                 <label class="fw-bold form-label" for="name">Tên: </label>

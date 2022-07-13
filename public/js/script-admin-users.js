@@ -12,6 +12,7 @@ var oldRowValue = {
   address: null,
   point: null,
   imageUrl: "",
+  available: "",
 };
 
 /**
@@ -28,6 +29,7 @@ var newRowValue = {
   address: null,
   point: null,
   imageUrl: "",
+  available: "",
 };
 
 function getFormatDate(date) {
@@ -139,6 +141,7 @@ $(function () {
         discount: null,
         description: "",
         imageUrl: "",
+        available: "",
       };
 
       newRowValue = {
@@ -150,6 +153,7 @@ $(function () {
         discount: null,
         description: "",
         imageUrl: "",
+        available: "",
       };
     });
 
@@ -176,6 +180,7 @@ $(function () {
       $("#editItemModal").find("#address").val(oldRowValue.address);
       $("#editItemModal").find("#point").val(oldRowValue.point);
       $("#editItemModal").find("#_id").val(oldRowValue._id);
+      $("#editItemModal").find("#available").val(oldRowValue.available);
       //   alert(JSON.stringify(oldRowValue));
     });
 
@@ -185,6 +190,7 @@ $(function () {
       email: $("#editItemModal").find("#email").val(),
       password: $("#editItemModal").find("#password").val(),
       permission: $("#editItemModal").find("#permission").val(),
+      available: $("#editItemModal").find("#available").val(),
       name: $("#editItemModal").find("#name").val(),
       doB: $("#editItemModal").find("#doB").val(),
       phoneNumber: $("#editItemModal").find("#phoneNumber").val(),
@@ -230,6 +236,22 @@ $(function () {
       $("#confirmEditItemModal")
         .find(".permission")
         .text(oldRowValue.permission + "  -->  " + newRowValue.permission)
+        .css("color", "red");
+    }
+
+    if (String(newRowValue.available) === String(oldRowValue.available)) {
+      $("#confirmEditItemModal")
+        .find(".available")
+        .text(oldRowValue.available ? "Hoạt động" : "Vô hiệu hóa")
+        .css("color", "black");
+    } else {
+      let old_value =
+        oldRowValue.available == "true" ? "Hoạt động" : "Vô hiệu hóa";
+      let new_value =
+        newRowValue.available == "true" ? "Hoạt động" : "Vô hiệu hóa";
+      $("#confirmEditItemModal")
+        .find(".available")
+        .text(old_value + "  -->  " + new_value)
         .css("color", "red");
     }
 
@@ -365,6 +387,7 @@ window.actionEditUserEvents = {
     $("#editItemModal").find("#address").val(address);
     $("#editItemModal").find("#point").val(row.point);
     $("#editItemModal").find("#_id").val(row._id);
+    $("#editItemModal").find("#available").val(row.available.toString());
     // $("#editItemModal").find("#imageUrl").val(row.imageUrl);
 
     oldRowValue = {
@@ -379,6 +402,7 @@ window.actionEditUserEvents = {
       address: address,
       point: row.point,
       imageUrl: row.imageUrl,
+      available: row.available.toString(),
     };
     // } else {
     // $("#editItemModal").find("#title").val(oldRowValue.title);
@@ -422,6 +446,9 @@ window.actionEditUserEvents = {
     $("#detailItemModal")
       .find("#imageUrl")
       .attr("src", row.imageUrl.replace("images", "/images"));
+    $("#detailItemModal")
+      .find(".available")
+      .text(row.available ? "Hoạt động" : "Vô hiệu hóa");
 
     oldRowValue = {
       _id: row._id,
@@ -435,6 +462,7 @@ window.actionEditUserEvents = {
       address: address,
       point: row.point,
       imageUrl: row.imageUrl,
+      available: row.available.toString(),
     };
   },
 };
@@ -442,6 +470,16 @@ window.actionEditUserEvents = {
 function doBFormatter(index, row) {
   var doB = getFormatDate(row.doB);
   return doB;
+}
+
+function availableFormatter(index, row) {
+  var status = "";
+  if (row.available) {
+    status = "Hoạt động";
+  } else {
+    status = "Vô hiệu hóa";
+  }
+  return status;
 }
 
 function actionEditEvent(index, row) {

@@ -62,7 +62,6 @@ const Login = (props) => {
   // }, []);
 
   useEffect(() => {
-    
     // alert(JSON.stringify(props.user.user));
     // alert(JSON.stringify(props.auth.auth));
     if (props.user.user.status === "success") {
@@ -71,9 +70,7 @@ const Login = (props) => {
       //
       props.changeLoginStatus({ status: "logged", user: props.user.user.user });
 
-      // props.UpdateUserCartToPageCart(props.user.user.user.cart);
       navigate("/");
-
     } else if (props.user.user.status === "failed") {
       //
       alert("Đăng nhập thất bại. Email hoặc mật khẩu không đúng!");
@@ -96,8 +93,10 @@ const Login = (props) => {
         return res.json();
       })
       .then((data) => {
-        // alert("result " + (JSON.stringify(data)));
-        setisExistEmaill(JSON.stringify(data));
+        // alert("result " + (JSON.stringify(data)));isExist
+        // setisExistEmaill(JSON.stringify(data));
+        setisExistEmaill(data.isExist);
+
       })
       .catch((error) => console.log(error.message));
   };
@@ -120,6 +119,8 @@ const Login = (props) => {
       newErrors.email = "Email không hợp lệ";
     } else if (isExistEmail === "false") {
       newErrors.email = "Email không tồn tại";
+    } else if (isExistEmail === "locked") {
+      newErrors.email = "Tài khoản này đã bị khóa, liên hệ admin2@gmail.com";
     }
 
     if (!password || password === "") {

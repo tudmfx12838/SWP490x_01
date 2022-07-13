@@ -179,11 +179,16 @@ exports.postCheckEmailExist = (req, res, next) => {
   // User.findOne()
   User.findOne({ email: email })
     .then((userDoc) => {
+      // console.log(userDoc.available);
       if (!userDoc) {
-        res.send(false);
+        res.send({isExist: "false"});
         // console.log("not exist");
       } else {
-        res.send(true);
+        if(userDoc.available == false){
+          res.send({isExist: "locked"});
+        }else{
+          res.send({isExist: "true"});
+        }
         // console.log(" exist");
       }
     })

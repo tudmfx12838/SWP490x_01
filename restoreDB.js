@@ -5,6 +5,7 @@ var url =
 
 var userObj = [
   {
+    _id:  mongoose.Types.ObjectId("62ccee27281733602e444408"),
     email: "admin1@gmail.com",
     password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "admin",
@@ -21,6 +22,7 @@ var userObj = [
     resetTokenExpiration: null,
   },
   {
+    _id:  mongoose.Types.ObjectId("62ccee27281733602e444409"),
     email: "admin2@gmail.com",
     password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "admin",
@@ -37,6 +39,7 @@ var userObj = [
     resetTokenExpiration: null,
   },
   {
+    _id:  mongoose.Types.ObjectId("62ccee27281733602e44440a"),
     email: "user1@gmail.com",
     password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
@@ -53,6 +56,7 @@ var userObj = [
     resetTokenExpiration: null,
   },
   {
+    _id:  mongoose.Types.ObjectId("62ccee27281733602e44440b"),
     email: "user2@gmail.com",
     password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
@@ -69,6 +73,7 @@ var userObj = [
     resetTokenExpiration: null,
   },
   {
+    _id:  mongoose.Types.ObjectId("62ccee27281733602e44440c"),
     email: "user3@gmail.com",
     password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
@@ -85,6 +90,7 @@ var userObj = [
     resetTokenExpiration: null,
   },
   {
+    _id:  mongoose.Types.ObjectId("62ccee27281733602e44440d"),
     email: "user4@gmail.com",
     password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
@@ -101,6 +107,7 @@ var userObj = [
     resetTokenExpiration: null,
   },
   {
+    _id:  mongoose.Types.ObjectId("62ccee27281733602e44440e"),
     email: "user5@gmail.com",
     password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
@@ -117,6 +124,7 @@ var userObj = [
     resetTokenExpiration: null,
   },
   {
+    _id:  mongoose.Types.ObjectId("62ccee27281733602e44440f"),
     email: "user6@gmail.com",
     password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
@@ -133,6 +141,7 @@ var userObj = [
     resetTokenExpiration: null,
   },
   {
+    _id:  mongoose.Types.ObjectId("62ccee27281733602e444410"),
     email: "user7@gmail.com",
     password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
@@ -149,6 +158,7 @@ var userObj = [
     resetTokenExpiration: null,
   },
   {
+    _id:  mongoose.Types.ObjectId("62ccee27281733602e444411"),
     email: "user8@gmail.com",
     password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
@@ -165,6 +175,7 @@ var userObj = [
     resetTokenExpiration: null,
   },
   {
+    _id:  mongoose.Types.ObjectId("62ccee27281733602e444412"),
     email: "user9@gmail.com",
     password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
@@ -181,6 +192,7 @@ var userObj = [
     resetTokenExpiration: null,
   },
   {
+    _id:  mongoose.Types.ObjectId("62ccee27281733602e444413"),
     email: "user10@gmail.com",
     password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
@@ -197,6 +209,7 @@ var userObj = [
     resetTokenExpiration: null,
   },
   {
+    _id:  mongoose.Types.ObjectId("62ccee27281733602e444414"),
     email: "user11@gmail.com",
     password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
@@ -213,6 +226,7 @@ var userObj = [
     resetTokenExpiration: null,
   },
   {
+    _id:  mongoose.Types.ObjectId("62ccee27281733602e444415"),
     email: "user12@gmail.com",
     password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
@@ -229,6 +243,7 @@ var userObj = [
     resetTokenExpiration: null,
   },
   {
+    _id:  mongoose.Types.ObjectId("62ccee27281733602e444416"),
     email: "user13@gmail.com",
     password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
@@ -262,6 +277,7 @@ var userObj = [
     resetTokenExpiration: null,
   },
   {
+    _id:  mongoose.Types.ObjectId("62ccee27281733602e444417"),
     email: "pocket.se7en@gmail.com",
     password: "$2a$12$HD2M/cr0Rt/F9968Njm1tu35qICy47HX0f61cqpGAkw5UcMgrOsRS",
     permission: "user",
@@ -893,7 +909,7 @@ const orderObj = [
     date: "2022-05-28T14:04:27.014Z",
     approveStatus: false,
     hasAccountInfo: {
-      userId: null,
+      userId:  mongoose.Types.ObjectId("62ccee27281733602e444416"),
     },
     deliveryInfo: {
       name: "admin",
@@ -1067,7 +1083,7 @@ const orderObj = [
     date: "2022-06-20T15:18:11.180Z",
     approveStatus: false,
     hasAccountInfo: {
-      userId: mongoose.Types.ObjectId("62b32fb35d7bfb759e64d9ec"),
+      userId: mongoose.Types.ObjectId("62ccee27281733602e444417"),
     },
     deliveryInfo: {
       name: "Dang Minh Tu",
@@ -1120,7 +1136,7 @@ const orderObj = [
     date: "2022-06-20T15:18:11.180Z",
     approveStatus: false,
     hasAccountInfo: {
-      userId: mongoose.Types.ObjectId("62b32fb35d7bfb759e64d9ec"),
+      userId: mongoose.Types.ObjectId("62ccee27281733602e444417"),
     },
     deliveryInfo: {
       name: "Dang Minh Tu",
@@ -1158,7 +1174,7 @@ const orderObj = [
     date: "2022-06-20T15:18:11.180Z",
     approveStatus: false,
     hasAccountInfo: {
-      userId: mongoose.Types.ObjectId("62b32fb35d7bfb759e64d9ec"),
+      userId: mongoose.Types.ObjectId("62ccee27281733602e444417"),
     },
     deliveryInfo: {
       name: "Dang Minh Tu",

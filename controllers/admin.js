@@ -318,9 +318,21 @@ exports.postDeleteProduct = (req, res, next) => {
               // console.log("Delete complete");
               Product.find()
                 .then((products) => {
-                  const inform = `${productIsExistInCart_info.length > 0 ?"Đã vô hiệu hóa sản phẩm" + productIsExistInCart_info + "\n": ""}
-                  ${productIsNotExistInCart_info.length > 0? "\nĐã xóa sản phẩm:" + productIsNotExistInCart_info + "\n" : ""}
-                  \nChú thích: Sản phẩm chưa được thêm vào giỏ khách hàng sẽ bị xóa, ngược lại sẽ vô hiệu hóa sản phẩm và cảnh báo ngừng bán`;
+                  const inform = `${
+                    productIsExistInCart_info.length > 0
+                      ? "Đã vô hiệu hóa sản phẩm" +
+                        productIsExistInCart_info +
+                        "\n"
+                      : ""
+                  }
+                  ${
+                    productIsNotExistInCart_info.length > 0
+                      ? "Đã xóa sản phẩm:" +
+                        productIsNotExistInCart_info +
+                        "\n"
+                      : ""
+                  }
+                  Chú thích: Sản phẩm chưa được thêm vào giỏ khách hàng sẽ bị xóa, ngược lại sẽ vô hiệu hóa sản phẩm và cảnh báo ngừng bán`;
 
                   return res.render("admin/admin-products", {
                     path: "/manage/products",
@@ -642,6 +654,39 @@ exports.postAddUser = (req, res, next) => {
       });
   }
 };
+
+var checkingUserExistInOrder = (userIds, orders) => {
+  const checkingResult = userIds.map((userId) => {
+    var result = false;
+    for (let i = 0; i <= orders.length - 1; i++) {
+      if (orders[i].hasAccountInfo.userId == userId) {
+        result = true;
+        break;
+      }
+    }
+
+    return {
+      _id: userId,
+      isExist: result,
+    };
+  });
+
+  var userIsExistInOrder = checkingResult.filter(
+    (user) => user.isExist === true
+  );
+  userIsExistInOrder = userIsExistInOrder.map((user) => user._id);
+
+  var userIsNotExistInOrder = checkingResult.filter(
+    (user) => user.isExist === false
+  );
+  userIsNotExistInOrder = userIsNotExistInOrder.map((user) => user._id);
+
+  return {
+    userIsExistInOrder: userIsExistInOrder,
+    userIsNotExistInOrder: userIsNotExistInOrder,
+  };
+};
+
 /**
  * The method postAddEvent() implement geting user's ID from DOM and delete them from user's database
  * */
@@ -651,23 +696,84 @@ exports.postDeleteUser = (req, res, next) => {
     return res.redirect("/");
   }
 
-  const eventIds = req.body._id.split(",");
+  const userIds = req.body._id.split(",");
 
-  User.deleteMany({ _id: eventIds })
-    .then((result) => {
-      console.log("Delete complete");
+  Order.find()
+    .then((orders) => {
+      const checkingResult = checkingUserExistInOrder(userIds, orders);
+      // console.log("userIsExistInOrder" + checkingResult.userIsExistInOrder);
+      // console.log("userIsNotExistInOrder" + checkingResult.userIsNotExistInOrder);
+      // console.log(userIds);
+
       User.find()
         .then((users) => {
-          return res.render("admin/admin-users", {
-            pageTitle: "Quản Lý Người Dùng",
-            path: "/manage/users",
-            users: users,
-            oldAddUserValue: [],
-            addUserValidationErrors: [],
-            inform: "Xóa user thành công",
-          });
+          const userIsExistInOrder_info = checkingResult.userIsExistInOrder.map(
+            (userId) => {
+              return users.filter((user) => user._id == userId)[0].email;
+            }
+          );
+          const userIsNotExistInOrder_info =
+            checkingResult.userIsNotExistInOrder.map((userId) => {
+              return users.filter((user) => user._id == userId)[0].email;
+            });
+
+          for (let i = 0; i <= users.length - 1; i++) {
+            for (
+              let j = 0;
+              j <= checkingResult.userIsExistInOrder.length - 1;
+              j++
+            ) {
+              if (users[i]._id == checkingResult.userIsExistInOrder[j]) {
+                // console.log("prods[i].available = false; " + prods[i].title);
+                users[i].available = false;
+                users[i]
+                  .save()
+                  .then((result) => {})
+                  .catch((err) => console.log(err));
+              }
+            }
+          }
+
+          User.deleteMany({ _id: checkingResult.userIsNotExistInOrder })
+            .then((result) => {
+              // console.log("Delete complete");
+
+              User.find()
+                .then((users) => {
+                  const inform = `${
+                    userIsExistInOrder_info.length > 0
+                      ? "Đã vô hiệu hóa tài khoản: " +
+                        userIsExistInOrder_info +
+                        "\n"
+                      : ""
+                  }
+                  ${
+                    userIsNotExistInOrder_info.length > 0
+                      ? "Đã xóa tài khoản: " +
+                        userIsNotExistInOrder_info +
+                        "\n"
+                      : ""
+                  }
+                  \nChú thích: Tài khoản chưa từng đặt hàng sẽ bị xóa, ngược lại sẽ vô hiệu hóa tài khoản`;
+
+                  return res.render("admin/admin-users", {
+                    pageTitle: "Quản Lý Người Dùng",
+                    path: "/manage/users",
+                    users: users,
+                    oldAddUserValue: [],
+                    addUserValidationErrors: [],
+                    inform: inform,
+                  });
+                })
+                .catch((err) => console.log(err));
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       console.log(err);
@@ -689,6 +795,7 @@ exports.postEditUser = (req, res, next) => {
   const updatedEmail = req.body.email;
   const updatedPassword = req.body.password;
   const updatedPermission = req.body.permission;
+  const updatedAvailable = req.body.available;
   const updatedName = req.body.name;
   const updatedDoB = req.body.doB;
   const updatedPhoneNumber = req.body.phoneNumber;
@@ -709,6 +816,7 @@ exports.postEditUser = (req, res, next) => {
       user.phoneNumber = updatedPhoneNumber;
       user.address = updatedAddress;
       user.point = updatedPoint;
+      user.available = updatedAvailable;
 
       if (updatedImageUrl) {
         // fileHelper.deleteFile(event.imageUrl);

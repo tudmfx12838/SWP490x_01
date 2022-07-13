@@ -9,12 +9,17 @@ import {
   InputGroup,
   FormControl,
 } from "react-bootstrap";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const Cart = (props) => {
-  //  console.log(items)
+  let navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [storeKey, setStoreKey] = useState(null);
+
+  const [showRequestRemoveProducts, setShowRequestRemoveProducts] =
+    useState(false);
+  const [inform, setInform] = useState({});
+  const [storeRemoveKey, setStoreRemoveKey] = useState([]);
 
   /**
    * The method handleClose() implement closing confirm delete a product in cart
@@ -33,7 +38,6 @@ const Cart = (props) => {
   const handleShow = (key) => {
     //show confirm modal
     setShow(true);
-
     //store product's info that want to delete
     setStoreKey(key);
   };
@@ -63,8 +67,114 @@ const Cart = (props) => {
     ListCart.push(props.cart.Carts[item]);
   });
 
+  var checkingInvalidProductInCart = (products, listProducts) => {
+    const ListCartInfo = listProducts.map((listProduct, key) => {
+      // let result = {};
+      const getProductInfo = products.filter(
+        (product) => product._id === listProduct._id
+      )[0];
+
+      return {
+        _id: getProductInfo._id,
+        title: getProductInfo.title,
+        mount: getProductInfo.mount,
+        available: getProductInfo.available,
+        key: key,
+      };
+    });
+
+    return ListCartInfo;
+  };
+
   /**
-   * The method TotalPrice() caculate total of price 
+   * The method handleShow() implement showing confirm before delete a product in cart
+   */
+  const handleConfirmOrder = (key) => {
+    // var inform = "Không thể tiến hành đặt hàng vì: \n";
+    const ListCartInfo = checkingInvalidProductInCart(props.products, ListCart);
+
+    var isValid = true;
+    var productSoldOut = "";
+    var productDeactive = "";
+    var listKey = [];
+
+    for (let i = 0; i <= ListCartInfo.length - 1; i++) {
+      if (ListCartInfo[i].available === false) {
+        productDeactive += ListCartInfo[i].title + ", ";
+        isValid = false;
+
+        listKey.push(ListCartInfo[i].key);
+      } else if (ListCartInfo[i].mount <= 0) {
+        productSoldOut += ListCartInfo[i].title + ", ";
+        isValid = false;
+
+        listKey.push(ListCartInfo[i].key);
+      } else {
+        //Do nothing
+      }
+    }
+
+    productDeactive =
+      productDeactive !== ""
+        ? "Sản phẩm: " + productDeactive + " đã ngừng kinh doanh."
+        : "";
+
+    productSoldOut =
+      productSoldOut !== ""
+        ? "Sản phẩm: " + productSoldOut + " đã hết hàng."
+        : "";
+
+    const inform = {
+      productDeactive: productDeactive,
+      productSoldOut: productSoldOut,
+    };
+
+    if (!isValid) {
+      setStoreRemoveKey(listKey);
+      setInform(inform);
+      setShowRequestRemoveProducts(true);
+    } else {
+      navigate("/dathang");
+    }
+  };
+
+  /**
+   * The method handleClose() implement closing confirm delete a product in cart
+   */
+  const handleClose2 = () => {
+    //hide confirm modal
+    setShowRequestRemoveProducts(false);
+    //store product's info by null(nothing to delete)
+    setStoreRemoveKey([]);
+
+    setInform({});
+  };
+
+  /**
+   * The method handleDelete() implement delete a product in cart
+   */
+  const handleRequestRemoveProduct = () => {
+    //hide confirm modal
+    setShowRequestRemoveProducts(false);
+
+    /**
+     * The method DeleteCart() implement delete a product by stored product's info in cart
+     */
+    //Delet shift
+    for (let i = 0; i <= storeRemoveKey.length - 1; i++) {
+      storeRemoveKey[i] = storeRemoveKey[i] - i;
+    }
+    storeRemoveKey.forEach((key) => {
+      props.DeleteCart(key);
+    });
+
+    setStoreRemoveKey([]);
+
+    setInform({});
+  };
+
+  /**
+   * The method TotalPrice() caculate total of price
    * @param price is product's price
    * @param quantity is number of product in cart
    */
@@ -136,9 +246,16 @@ const Cart = (props) => {
           </Table>
         </Row>
         <Row>
-          <Link as={NavLink} className="btn btn-primary" to="/dathang">
+          {/* <Link as={NavLink} className="btn btn-primary" to="/dathang">
             Xác nhận đơn hàng
-          </Link>
+          </Link> */}
+          <Button
+            variant="primary"
+            className="btn btn-primary"
+            onClick={handleConfirmOrder}
+          >
+            Xác nhận đơn hàng
+          </Button>
         </Row>
 
         <Modal
@@ -158,6 +275,35 @@ const Cart = (props) => {
             <Button variant="secondary" onClick={handleClose}>
               Không
             </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal
+          show={showRequestRemoveProducts}
+          onHide={handleClose2}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Xác nhận giỏ hàng không thành công</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>{inform.productDeactive}</p>
+            <p>{inform.productSoldOut}</p>
+
+            {/* <h4>Bạn có muốn xóa các sản phẩm này khỏi giỏ hàng?</h4> */}
+            <h4>Xin gỡ các sản phẩm này trước khi xác nhận giỏ hàng!</h4>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleRequestRemoveProduct}>
+              Có
+            </Button>
+            <Button variant="secondary" onClick={handleClose2}>
+              Không
+            </Button>
+            {/* <Button variant="secondary" onClick={handleClose2}>
+              Hủy
+            </Button> */}
           </Modal.Footer>
         </Modal>
       </Container>
