@@ -20,39 +20,6 @@
         </div>
 
         <div class="row">
-            <table 
-            id="table" 
-            data-click-to-select="true"
-            data-pagination="true"
-            data-show-columns="true"
-            data-show-columns-toggle-all="true"
-            data-search="true"
-            data-toolbar=".toolbar"
-            data-show-search-clear-button="true"
-            data-filter-control="true"
-            data-sortable="true"
-            >
-            <thead>
-                <tr>
-                <th data-field="state" data-checkbox="true"></th>
-                <th data-field="_id" data-visible="false">Mã User</th>
-                <th data-field="email" data-visible="false">Mail</th>
-                <th data-field="permission" data-filter-control="select">Quyền</th>
-                <th data-field="name" data-filter-control="input">Tên</th>
-                <th data-field="available" data-formatter="availableFormatter">Trạng thái</th>
-                <th data-field="doB" data-visible="false" data-formatter="doBFormatter">Ngày sinh</th>
-                <th data-field="phoneNumber" data-filter-control="input" data-visible="false">Số ĐT</th>
-                <th data-field="address" data-visible="false">Địa chỉ</th>
-                <th data-field="imageUrl" data-visible="false">Ảnh</th>
-                <th data-field="point"  data-sortable="true" data-visible="false">Điểm</th>
-                <th data-field="cart" data-visible="false">Giỏ</th>
-                <th data-field="action" data-width="150" data-formatter="actionEditEvent" data-events="actionEditUserEvents">Action</th>
-                </tr>
-            </thead>
-            </table>
-        </div>
-
-        <div class="row">
             <div id="addItemModal" class="modal" data-bs-backdrop="static">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -453,7 +420,7 @@
                         </div>
                         <div class="modal-body">
                                 <div class="mb-3 mt-3">
-                                    <img name="image" id="imageUrl" class="mh-200" style="width: 150px; height: 200px" src="" alt="">
+                                    <img name="image"  onerror="this.src='../../images/defaul-image.jpg';" id="imageUrl" class="mh-200" style="width: 150px; height: 200px" src="" alt="">
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="fw-bold form-label" for="email">Email: </label>
@@ -502,12 +469,46 @@
         
     </main>
 
-   <script id="admin-users-page" 
-            src="/js/script-admin-users.js" 
-            users-data='<%- JSON.stringify(users) %>'
-            addUserValidationErrors='<%- JSON.stringify(addUserValidationErrors) %>'
-            inform='<%= inform %>'
-    >
+    <div class="row">
+        <table 
+        id="table" 
+        data-click-to-select="true"
+        data-pagination="true"
+        data-show-columns="true"
+        data-show-columns-toggle-all="true"
+        data-search="true"
+        data-toolbar=".toolbar"
+        data-show-search-button="true"
+        data-filter-control="true"
+        data-sortable="true"
+        >
+        <thead>
+            <tr>
+            <th data-field="state" data-checkbox="true"></th>
+            <th data-field="_id" data-visible="false">Mã User</th>
+            <th data-field="email" data-visible="false">Mail</th>
+            <th data-field="permission" data-filter-control="select">Quyền</th>
+            <th data-field="name" data-filter-control="input">Tên</th>
+            <th data-field="available" data-filter-control="select" data-formatter="availableFormatter">Trạng thái</th>
+            <th data-field="doB" data-visible="true" data-formatter="doBFormatter">Ngày sinh</th>
+            <th data-field="phoneNumber" data-filter-control="input" data-visible="true">Số ĐT</th>
+            <th data-field="address" data-visible="true">Địa chỉ</th>
+            <th data-field="imageUrl" data-visible="false">Ảnh</th>
+            <th data-field="point"  data-sortable="true" data-visible="true">Điểm</th>
+            <th data-field="cart" data-visible="false">Giỏ</th>
+            <th data-field="action" data-width="150" data-formatter="actionEditEvent" data-events="actionEditUserEvents">Action</th>
+            </tr>
+        </thead>
+        </table>
+    </div>
+
+    <script src="https://unpkg.com/bootstrap-table@1.20.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+    <script id="admin-users-page" 
+                src="/js/script-admin-users.js" 
+                users-data='<%- JSON.stringify(users.reverse()) %>'
+                addUserValidationErrors='<%- JSON.stringify(addUserValidationErrors) %>'
+                inform='<%= inform %>'
+        >
     </script>
 
    <%- include('../includes/page-end.ejs') %>

@@ -69,7 +69,7 @@ $(function () {
 
     if (approvedOrderId !== "") {
       alert(
-        `Không thể xác đơn hàng đã xác nhận \nMã đơn: \n${approvedOrderId} \nVui lòng bấm hủy xác nhận đơn hàng trước khi xóa.`
+        `Không thể xóa đơn hàng đã xác nhận \nMã đơn: \n${approvedOrderId} \nVui lòng bấm hủy xác nhận đơn hàng trước khi xóa.`
       );
     } else {
       $("#confirmDeleteItemModal").find(".orderId").html(orderId);
@@ -90,40 +90,11 @@ $(function () {
     });
 
 });
-window.actionConfirmPayEvents = {
-  "click .btn-confirm-pay": function (e, value, row, index) {
-    var date = getFormatDate(row.date);
-    // alert(date);
 
-    $("#confirmIsPaidModal").find("._id").text(row._id);
-    $("#confirmIsPaidModal").find(".date").text(date);
-    $("#confirmIsPaidModal").find(".name").text(row.deliveryInfo.name);
-    $("#confirmIsPaidModal").find(".total").text(row.cashInfo.afterDiscount);
-    if (row.cashInfo.isPaid) {
-      $("#confirmIsPaidModal")
-        .find(".isPaid")
-        .text("Đã thanh toán")
-        .css("color", "black");
-      $("#confirmIsPaidModal")
-        .find("#btn-submit-confirm-order")
-        .prop("disabled", false);
-    } else {
-      $("#confirmIsPaidModal")
-        .find(".isPaid")
-        .text("Chưa thanh toán")
-        .css("color", "red");
-      $("#confirmIsPaidModal")
-        .find("#btn-submit-confirm-order")
-        .prop("disabled", true);
-    }
-    $("#confirmIsPaidModal").find("#_id").val(row._id);
-  }
-}
 
 window.actionConfirmOrderEvents = {
   "click .btn-confirm": function (e, value, row, index) {
     var date = getFormatDate(row.date);
-    // alert(date);
 
     $("#confirmOrderModal").find("._id").text(row._id);
     $("#confirmOrderModal").find(".date").text(date);
@@ -180,6 +151,43 @@ window.actionConfirmOrderEvents = {
   },
 };
 
+window.actionConfirmPayEvents = {
+  "click .btn-confirm-pay": function (e, value, row, index) {
+    var date = getFormatDate(row.date);
+    // alert(date);
+
+    $("#confirmIsPaidModal").find("._id").text(row._id);
+    $("#confirmIsPaidModal").find(".date").text(date);
+    $("#confirmIsPaidModal").find(".name").text(row.deliveryInfo.name);
+    $("#confirmIsPaidModal").find(".total").text(row.cashInfo.afterDiscount);
+    if (row.cashInfo.isPaid) {
+      $("#confirmIsPaidModal")
+        .find(".isPaid")
+        .text("Đã thanh toán")
+        .css("color", "black");
+      $("#confirmIsPaidModal")
+        .find("#btn-submit-confirm-order")
+        .prop("disabled", false);
+    } else {
+      $("#confirmIsPaidModal")
+        .find(".isPaid")
+        .text("Chưa thanh toán")
+        .css("color", "red");
+      $("#confirmIsPaidModal")
+        .find("#btn-submit-confirm-order")
+        .prop("disabled", true);
+    }
+    $("#confirmIsPaidModal").find("#_id").val(row._id);
+  }
+}
+
+window.productsInfoEvents = {
+  "click .btn-edit-note": function (e, value, row, index) {
+    $("#editNoteModal").find("#note").val(row.deliveryInfo.node);
+    $("#editNoteModal").find("#_id").val(row._id);
+  }
+}
+
 function deliveryInfoFormatter(index, row) {
   return `<p><b>Tên:</b> ${row.deliveryInfo.name}</p>
             <p><b>Email:</b>  ${row.deliveryInfo.email}</p>
@@ -210,7 +218,10 @@ function productsInfoFormatter(index, row) {
   //   row.cashInfo.isPaid ? "Đã thanh toán" : "Chưa Thanh Toán"
   // }</p>`;
 
-  return cashInfo;
+  const noteBotton = `<button class="btn-edit-note btn btn-success" data-bs-toggle="modal" data-bs-target="#editNoteModal" >Sửa ghi chú</button>`;
+
+
+  return cashInfo + noteBotton;
 }
 
 function approveStatusFormatter(index, row) {
@@ -239,14 +250,34 @@ function isPaidStatusFormatter(index, row) {
     disable_btn = "disabled"
   }
 
-
   const isPaidStatus = `<p ${isPaidCss}>${
     row.cashInfo.isPaid === false ? "Chưa thanh toán" : "Đã thanh toán"
   }<p>`;
 
+  // const approveBotton = `<button ${disable_btn} class="btn-confirm-pay btn btn-primary red-border" data-bs-toggle="modal" data-bs-target="#confirmIsPaidModal" >Xác nhận</button>`;
+
+  return `${isPaidStatus}`;
+}
+
+function confirmIsPaidFormatter(index, row) {
+  let isPaidCss = "";
+  let disable_btn = "";
+  if (!row.cashInfo.isPaid) {
+    isPaidCss = 'style="color: red;"';
+    disable_btn = "";
+  } else {
+    isPaidCss = 'style="color: black;"';
+    disable_btn = "disabled"
+  }
+
+
+  // const isPaidStatus = `<p ${isPaidCss}>${
+  //   row.cashInfo.isPaid === false ? "Chưa thanh toán" : "Đã thanh toán"
+  // }<p>`;
+
   const approveBotton = `<button ${disable_btn} class="btn-confirm-pay btn btn-primary red-border" data-bs-toggle="modal" data-bs-target="#confirmIsPaidModal" >Xác nhận</button>`;
 
-  return `${isPaidStatus} ${approveBotton}`;
+  return `${approveBotton}`;
 }
 
 function actionEditEvent(index, row) {

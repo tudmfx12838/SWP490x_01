@@ -18,32 +18,6 @@
                 <button id="btn-delete" class="btn-toolbar btn btn-danger"> x </button>
             </div>
         </div>
-
-        <div class="row">
-            <table 
-            id="table" 
-            data-click-to-select="true"
-            data-pagination="true"
-            data-show-columns="true"
-            data-show-columns-toggle-all="true"
-            data-search="true"
-            data-toolbar=".toolbar"
-            >
-            <thead>
-                <tr>
-                <th data-field="state" data-checkbox="true"></th>
-                <th data-field="_id" data-visible="false">Mã SP</th>
-                <th data-field="title">Tên SP</th>
-                <th data-field="available" data-width="50" data-formatter="availableFormatter">Trạng thái</th>
-                <th data-field="price" data-width="50">Giá Bán</th>
-                <th data-field="mount" data-width="50">SL</th>
-                <th data-field="description" data-width="200">Mô tả</th>
-                <th data-field="imageUrl" data-visible="false">Ảnh</th>
-                <th data-field="action" data-width="150" data-formatter="actionEditProduct" data-events="actionEditProductEvents">Action</th>
-                </tr>
-            </thead>
-            </table>
-        </div>
         
         <div class="row">
             <div id="addProductModal" class="modal" data-bs-backdrop="static">
@@ -274,7 +248,7 @@
                         </div>
                         <div class="modal-body">
                                 <div class="mb-3 mt-3">
-                                    <img name="image" id="imageUrl" class="mh-200" style="width: 150px; height: 200px" src="" alt="">
+                                    <img name="image" onerror="this.src='../../images/defaul-image.jpg';" id="imageUrl" class="mh-200" style="width: 150px; height: 200px" src="" alt="">
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="fw-bold form-label" for="title">Tên SP: </label>
@@ -320,13 +294,44 @@
         </div>
     </main>
 
-   <script 
-        id="admin-products-page" 
-        src="/js/script-admin-products.js" 
-        products-data='<%- JSON.stringify(products) %>' 
-        addProductValidationErrors='<%- JSON.stringify(addProductValidationErrors) %>'
-        inform='<%= inform %>'
-   >
+    <div class="row">
+        <table 
+        id="table" 
+        data-click-to-select="true"
+        data-pagination="true"
+        data-show-columns="true"
+        data-show-columns-toggle-all="true"
+        data-search="true"
+        data-show-search-button="true"
+        data-search-highlight="true"
+        data-filter-control="true"
+        data-sortable="true"
+        data-toolbar=".toolbar"
+        >
+        <thead>
+            <tr>
+            <th data-field="state" data-checkbox="true"></th>
+            <th data-field="_id" data-visible="true">Mã SP</th>
+            <th data-field="title">Tên SP</th>
+            <th data-field="available" data-width="50" data-filter-control="select" data-formatter="availableFormatter">Trạng thái</th>
+            <th data-field="price" data-sortable="true" data-width="50">Giá Bán</th>
+            <th data-field="mount" data-sortable="true" data-width="50">SL</th>
+            <th data-field="description" data-width="200">Mô tả</th>
+            <th data-field="imageUrl" data-visible="true">Ảnh</th>
+            <th data-field="action" data-width="150" data-formatter="actionEditProduct" data-events="actionEditProductEvents">Action</th>
+            </tr>
+        </thead>
+        </table>
+    </div>
+
+    <script src="https://unpkg.com/bootstrap-table@1.20.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+    <script 
+            id="admin-products-page" 
+            src="/js/script-admin-products.js" 
+            products-data='<%- JSON.stringify(products.reverse()) %>' 
+            addProductValidationErrors='<%- JSON.stringify(addProductValidationErrors) %>'
+            inform='<%= inform %>'
+    >
     </script>
 
    <%- include('../includes/page-end.ejs') %>

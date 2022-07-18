@@ -48,6 +48,8 @@ const UserInfo = (props) => {
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
+  
 
   const [form2, setForm2] = useState({});
   const [errors2, setErrors2] = useState({});
@@ -234,6 +236,7 @@ const UserInfo = (props) => {
   };
 
   function handleResetChangePasswordButton() {
+    setOldPassword("");
     setPassword("");
     setConfirmPassword("");
     setField2({});
@@ -249,8 +252,14 @@ const UserInfo = (props) => {
     const validEmail = (val) =>
       /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
-    const { password, confirmPassword } = form2;
+    const { oldPassword, password, confirmPassword } = form2;
     const newErrors = {};
+
+    if (!oldPassword || oldPassword === "") {
+      newErrors.oldPassword = "Xin nhập mật khẩu!";
+    } else if (!minLength(oldPassword, 3)) {
+      newErrors.oldPassword = "Xin nhập mật khẩu lớn hơn 3 ký tự";
+    }
 
     if (!password || password === "") {
       newErrors.password = "Xin nhập mật khẩu!";
@@ -272,6 +281,7 @@ const UserInfo = (props) => {
 
     const changedpassword = {
       sessionId: props.auth.auth.sessionId,
+      oldPassword: oldPassword,
       password: password,
     };
 
@@ -299,14 +309,14 @@ const UserInfo = (props) => {
     })
       .then((respone) => respone.json())
       .then((respone) => {
-        alert(JSON.stringify(respone));
+        // alert(JSON.stringify(respone));
         if (respone.isEditted) {
           alert(respone.inform);
-          setShow(false);
+          setShowChangePasswordModal(false);
           navigate("/");
         } else {
           alert(respone.inform);
-          setShow(true);
+          setShowChangePasswordModal(true);
           navigate("/nguoidung");
         }
       })
@@ -385,11 +395,34 @@ const UserInfo = (props) => {
           </Modal.Header>
           <Modal.Body>
             <Form onSubmit={(event) => handleSubmitChangePassword(event)}>
-              <Form.Group as={Row} className="mb-3" controlId="password">
-                <Form.Label column sm={3}>
-                  Mật khẩu
+            <Form.Group as={Row} className="mb-3" controlId="oldPassword">
+                <Form.Label column sm={4}>
+                  Mật khẩu cũ
                 </Form.Label>
-                <Col sm={9}>
+                <Col sm={8}>
+                  <Form.Control
+                    className={!!errors2.oldPassword && "red-border"}
+                    onChange={(event) => {
+                      setField2("oldPassword", event.target.value);
+                      setOldPassword(event.target.value);
+                    }}
+                    type="password"
+                    name="oldPassword"
+                    value={oldPassword}
+                    placeholder="Xin nhập mật khẩu cũ"
+                    isInvalid={!!errors2.oldPassword}
+                    // required
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors2.oldPassword}
+                  </Form.Control.Feedback>
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} className="mb-3" controlId="password">
+                <Form.Label column sm={4}>
+                  Mật khẩu mới
+                </Form.Label>
+                <Col sm={8}>
                   <Form.Control
                     className={!!errors2.password && "red-border"}
                     onChange={(event) => {
@@ -399,7 +432,7 @@ const UserInfo = (props) => {
                     type="password"
                     name="password"
                     value={password}
-                    placeholder="Xin nhập mật khẩu đăng ký"
+                    placeholder="Xin nhập mật khẩu mới"
                     isInvalid={!!errors2.password}
                     // required
                   />
@@ -409,10 +442,10 @@ const UserInfo = (props) => {
                 </Col>
               </Form.Group>
               <Form.Group as={Row} className="mb-3" controlId="confirmPassword">
-                <Form.Label column sm={3}>
-                  Xác nhận MK
+                <Form.Label column sm={4}>
+                  Xác nhận lại
                 </Form.Label>
-                <Col sm={9}>
+                <Col sm={8}>
                   <Form.Control
                     className={!!errors2.confirmPassword && "red-border"}
                     onChange={(event) => {
@@ -422,7 +455,7 @@ const UserInfo = (props) => {
                     type="password"
                     name="confirmPassword"
                     value={confirmPassword}
-                    placeholder="Xin xác nhận mật khẩu đăng ký"
+                    placeholder="Xin xác nhận mật khẩu mới"
                     isInvalid={!!errors2.confirmPassword}
                     // required
                   />

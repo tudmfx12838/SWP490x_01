@@ -11,6 +11,7 @@ const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const fileHelper = require("../util/file");
 const product = require("../models/product");
+const order = require("../models/order");
 
 exports.getProducts = (req, res, next) => {
   Product.find()
@@ -327,9 +328,7 @@ exports.postDeleteProduct = (req, res, next) => {
                   }
                   ${
                     productIsNotExistInCart_info.length > 0
-                      ? "Đã xóa sản phẩm:" +
-                        productIsNotExistInCart_info +
-                        "\n"
+                      ? "Đã xóa sản phẩm:" + productIsNotExistInCart_info + "\n"
                       : ""
                   }
                   Chú thích: Sản phẩm chưa được thêm vào giỏ khách hàng sẽ bị xóa, ngược lại sẽ vô hiệu hóa sản phẩm và cảnh báo ngừng bán`;
@@ -749,9 +748,7 @@ exports.postDeleteUser = (req, res, next) => {
                   }
                   ${
                     userIsNotExistInOrder_info.length > 0
-                      ? "Đã xóa tài khoản: " +
-                        userIsNotExistInOrder_info +
-                        "\n"
+                      ? "Đã xóa tài khoản: " + userIsNotExistInOrder_info + "\n"
                       : ""
                   }
                   \nChú thích: Tài khoản chưa từng đặt hàng sẽ bị xóa, ngược lại sẽ vô hiệu hóa tài khoản`;
@@ -872,13 +869,8 @@ exports.postDeleteOrder = (req, res, next) => {
 
   const orderIds = req.body._id.split(",");
 
-  // console.log(req.body._id);
-  // console.log(eventIds);
-
   Order.deleteMany({ _id: orderIds })
     .then((result) => {
-      // console.log("Delete complete");
-      // res.redirect("/admin/manage/orders");
       Order.find()
         .then((orders) => {
           // res.json(products);
@@ -909,26 +901,92 @@ exports.postConfirmOrder = (req, res, next) => {
   Order.findOne({ _id: orderId })
     .then((order) => {
       if (!order) {
-        return res.redirect("/");
+        return Order.find()
+          .then((orders) => {
+            res.render("admin/admin-orders", {
+              pageTitle: "Quản Lý Đơn Hàng",
+              path: "/manage/orders",
+              orders: orders,
+              inform: "Xác nhận đơn hàng thất bại. Đơn hàng này không tồn tại",
+            });
+          })
+          .catch((err) => console.log(err));
       } else {
-        // console.log(JSON.stringify(order));
+        //Checking isPaid or not
         if (order.cashInfo.isPaid) {
-          order.approveStatus = true;
-          return order.save().then((result) => {
-            // console.log("Confirmed");
-            // res.redirect("/admin/manage/orders");
-            Order.find()
-              .then((orders) => {
-                // res.json(products);
-                res.render("admin/admin-orders", {
-                  pageTitle: "Quản Lý Đơn Hàng",
-                  path: "/manage/orders",
-                  orders: orders,
-                  inform: "Xác nhận đơn hàng thành công",
+          const productIds = order.products.map((product) => product.productId);
+          // console.log(productIds);
+
+          //find all product in this order by id
+          Product.find({ _id: productIds })
+            .then((products) => {
+              var isNotEnoughProduct = [];
+
+              //Checking enough product or not
+              for (let i = 0; i <= products.length - 1; i++) {
+                const orderedInfo = order.products.filter(
+                  (p) => p.productId.toString() === products[i]._id.toString()
+                )[0];
+                const remainMount = products[i].mount - orderedInfo.quantity;
+
+                if (remainMount < 0) {
+                  console.log(
+                    " remainMount " +
+                      remainMount +
+                      " , orderedInfo.title " +
+                      orderedInfo.title
+                  );
+                  const notEnoughMes = `Sản phẩm ${orderedInfo.title}: số lương tồn kho còn ${products[i].mount} , số lượng khách đặt ${orderedInfo.quantity}`;
+                  isNotEnoughProduct.push(notEnoughMes);
+                }
+              }
+
+              //If not enough product, response confirm as fail
+              if (isNotEnoughProduct.length > 0) {
+                const inform =
+                  "Xác nhận đơn hàng thất bại!!!\n" +
+                  isNotEnoughProduct.join("\n");
+                Order.find()
+                  .then((orders) => {
+                    res.render("admin/admin-orders", {
+                      pageTitle: "Quản Lý Đơn Hàng",
+                      path: "/manage/orders",
+                      orders: orders,
+                      inform: inform,
+                    });
+                  })
+                  .catch((err) => console.log(err));
+              } else {
+                //If enough product, reduce product in stock and confirm this order
+
+                for (let i = 0; i <= products.length - 1; i++) {
+                  const orderedInfo = order.products.filter(
+                    (p) => p.productId.toString() === products[i]._id.toString()
+                  )[0];
+                  products[i].mount = products[i].mount - orderedInfo.quantity;
+                  products[i]
+                    .save()
+                    .then((result) => {})
+                    .catch((err) => console.log(err));
+                }
+
+                order.approveStatus = true;
+                return order.save().then((result) => {
+                  Order.find()
+                    .then((orders) => {
+                      // res.json(products);
+                      res.render("admin/admin-orders", {
+                        pageTitle: "Quản Lý Đơn Hàng",
+                        path: "/manage/orders",
+                        orders: orders,
+                        inform: `Xác nhận đơn hàng ${order._id} thành công`,
+                      });
+                    })
+                    .catch((err) => console.log(err));
                 });
-              })
-              .catch((err) => console.log(err));
-          });
+              }
+            })
+            .catch((err) => console.log(err));
         } else {
           Order.find()
             .then((orders) => {
@@ -957,33 +1015,47 @@ exports.postCancelConfirmOrder = (req, res, next) => {
 
   const orderId = req.body._id;
 
-  console.log(orderId);
   Order.findOne({ _id: orderId })
     .then((order) => {
       if (!order) {
         return res.redirect("/");
       } else {
-        // console.log(JSON.stringify(order));
+        //Checking isPaid or not
         if (order.cashInfo.isPaid) {
-          order.approveStatus = false;
-          return order.save().then((result) => {
-            // console.log("Cancelled");
-            Order.find()
-              .then((orders) => {
-                // res.json(products);
-                res.render("admin/admin-orders", {
-                  pageTitle: "Quản Lý Đơn Hàng",
-                  path: "/manage/orders",
-                  orders: orders,
-                  inform: "Hủy xác nhận đơn hàng thành công",
-                });
-              })
-              .catch((err) => console.log(err));
-          });
+          const productIds = order.products.map((product) => product.productId);
+
+          Product.find({ _id: productIds })
+            .then((products) => {
+              //increate stock by order's product quantity
+              for (let i = 0; i <= products.length - 1; i++) {
+                const orderedInfo = order.products.filter(
+                  (p) => p.productId.toString() === products[i]._id.toString()
+                )[0];
+                products[i].mount = products[i].mount + orderedInfo.quantity;
+                products[i]
+                  .save()
+                  .then((result) => {})
+                  .catch((err) => console.log(err));
+              }
+
+              order.approveStatus = false;
+              return order.save().then((result) => {
+                Order.find()
+                  .then((orders) => {
+                    res.render("admin/admin-orders", {
+                      pageTitle: "Quản Lý Đơn Hàng",
+                      path: "/manage/orders",
+                      orders: orders,
+                      inform: `Hủy xác nhận đơn hàng ${order._id} thành công`,
+                    });
+                  })
+                  .catch((err) => console.log(err));
+              });
+            })
+            .catch((err) => console.log(err));
         } else {
           Order.find()
             .then((orders) => {
-              // res.json(products);
               res.render("admin/admin-orders", {
                 pageTitle: "Quản Lý Đơn Hàng",
                 path: "/manage/orders",
@@ -1042,6 +1114,42 @@ exports.postConfirmIsPaidOrder = (req, res, next) => {
             })
             .catch((err) => console.log(err));
         }
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.postEditNoteOrder = (req, res, next) => {
+  const orderId = req.body._id;
+  const updateNote = req.body.note;
+
+  Order.findOne({ _id: orderId })
+    .then((order) => {
+      if (!order) {
+        return Order.find()
+          .then((orders) => {
+            res.render("admin/admin-orders", {
+              pageTitle: "Quản Lý Đơn Hàng",
+              path: "/manage/orders",
+              orders: orders,
+              inform: "Đơn hàng này không tồn tại",
+            });
+          })
+          .catch((err) => console.log(err));
+      } else {
+        order.deliveryInfo.node = updateNote;
+        return order.save().then((result) => {
+          Order.find()
+            .then((orders) => {
+              res.render("admin/admin-orders", {
+                pageTitle: "Quản Lý Đơn Hàng",
+                path: "/manage/orders",
+                orders: orders,
+                inform: "Cập nhật ghi chú thành công",
+              });
+            })
+            .catch((err) => console.log(err));
+        });
       }
     })
     .catch((err) => console.log(err));

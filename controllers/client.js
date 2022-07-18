@@ -131,7 +131,11 @@ exports.postClientOrder = (req, res, next) => {
 
               // console.log(resultOrder);
               console.log("order successfully");
-              res.send({hasAccount: true, order: resultOrder, inform: resultOrder._id});
+              res.send({
+                hasAccount: true,
+                order: resultOrder,
+                inform: resultOrder._id,
+              });
             })
             .catch((err) => {
               console.log(err);
@@ -165,7 +169,7 @@ exports.postClientOrder = (req, res, next) => {
       .then((resultOrder) => {
         console.log(resultOrder);
         console.log("order successfully");
-        res.send({hasAccount: false, order: null, inform: resultOrder._id});
+        res.send({ hasAccount: false, order: null, inform: resultOrder._id });
       })
       .catch((err) => {
         console.log(err);
@@ -181,13 +185,13 @@ exports.postCheckEmailExist = (req, res, next) => {
     .then((userDoc) => {
       // console.log(userDoc.available);
       if (!userDoc) {
-        res.send({isExist: "false"});
+        res.send({ isExist: "false" });
         // console.log("not exist");
       } else {
-        if(userDoc.available == false){
-          res.send({isExist: "locked"});
-        }else{
-          res.send({isExist: "true"});
+        if (userDoc.available == false) {
+          res.send({ isExist: "locked" });
+        } else {
+          res.send({ isExist: "true" });
         }
         // console.log(" exist");
       }
@@ -239,7 +243,7 @@ exports.postCheckCouponExist = (req, res, next) => {
 
 exports.postGetOrderHistoryByOrderId = (req, res, next) => {
   console.log(JSON.stringify(req.body));
-  const orderId = req.body.orderId;  //mongoose.Types.ObjectId(req.body.orderCode);
+  const orderId = req.body.orderId; //mongoose.Types.ObjectId(req.body.orderCode);
 
   // User.findOne()
   Order.findById(orderId)
@@ -266,7 +270,7 @@ exports.postGetOrderHistoryByOrderId = (req, res, next) => {
 
 exports.postCancelOrderWithOrderId = (req, res, next) => {
   // console.log(JSON.stringify(req.body));
-  const orderId = req.body.orderId;  //mongoose.Types.ObjectId(req.body.orderCode);
+  const orderId = req.body.orderId; //mongoose.Types.ObjectId(req.body.orderCode);
   const approveStatus = req.body.approveStatus;
 
   // User.findOne()
@@ -279,25 +283,24 @@ exports.postCancelOrderWithOrderId = (req, res, next) => {
           orderId: null,
         });
       } else {
-        if(approveStatus === true){
+        if (approveStatus === true) {
           res.send({
             result: false,
             inform: "Mã đơn hàng này đã xác nhận nên không thể hủy",
             orderId: null,
           });
-        }else{
+        } else {
           Order.deleteOne({ _id: orderDoc._id })
-          .then((result) => {
-            res.send({
-              result: true,
-              inform: `Mã đơn hàng ${orderDoc._id} đã hủy thành công`,
-              orderId: orderDoc._id,
+            .then((result) => {
+              res.send({
+                result: true,
+                inform: `Mã đơn hàng ${orderDoc._id} đã hủy thành công`,
+                orderId: orderDoc._id,
+              });
+            })
+            .catch((err) => {
+              console.log(err);
             });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-
         }
       }
     })
@@ -596,37 +599,54 @@ exports.postClientEditUserInfo = (req, res, next) => {
 };
 
 exports.postClientChangeAccountPassword = (req, res, next) => {
-  console.log(JSON.stringify(req.body));
+  // console.log(JSON.stringify(req.body));
   const sessionId = req.body.sessionId;
-  // const email = req.body.email;
+  const oldPassword = req.body.oldPassword;
   const password = req.body.password;
+
   store.get(sessionId, (error, session) => {
     // console.log(session);
     if (session !== null) {
       User.findOne({ email: session.user.email })
         .then((user) => {
           if (user !== null) {
+            //Checking old password
             bcrypt
-              .hash(password, 12) //Ma hoa pw thanh ma hash, agr2 la so vong bam, gia tri cang cao cang ton tgian nhung  cang an toan, 12 la du
-              .then((hashedPassword) => {
-                user.password = hashedPassword;
-                user
-                  .save()
-                  .then((result) => {
-                    store.destroy(sessionId);
+              .compare(oldPassword, user.password)
+              .then((doMatch) => {
+                if (doMatch) {
+                  bcrypt
+                    .hash(password, 12) //Ma hoa pw thanh ma hash, agr2 la so vong bam, gia tri cang cao cang ton tgian nhung  cang an toan, 12 la du
+                    .then((hashedPassword) => {
+                      user.password = hashedPassword;
+                      user
+                        .save()
+                        .then((result) => {
+                          store.destroy(sessionId);
 
-                    res.send({
-                      inform:
-                        "Thay đổi mật khẩu thành công \nVui lòng đăng nhập lại!",
-                      isEditted: true,
+                          res.send({
+                            inform:
+                              "Thay đổi mật khẩu thành công \nVui lòng đăng nhập lại!",
+                            isEditted: true,
+                          });
+                          // console.log(user);
+                        })
+                        .catch((err) => console.log(err));
                     });
-                    // console.log(user);
-                  })
-                  .catch((err) => console.log(err));
+                } else {
+                  res.send({
+                    inform:
+                      "Thay đổi mật khẩu thất bại, mật khẩu cũ không đúng",
+                    isEditted: false,
+                  });
+                }
+              })
+              .catch((err) => {
+                console.log(err);
               });
           } else {
             res.send({
-              inform: "Thay đổi mật khẩu thất bại",
+              inform: "Thay đổi mật khẩu thất bại, user không tồn tại",
               isEditted: false,
             });
           }
@@ -634,7 +654,7 @@ exports.postClientChangeAccountPassword = (req, res, next) => {
         .catch((err) => console.log(err));
     } else {
       res.send({
-        inform: "Thay đổi mật khẩu thất bại",
+        inform: "Thay đổi mật khẩu thất bại, session không tồn tại",
         isEditted: false,
       });
     }

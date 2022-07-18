@@ -4,52 +4,30 @@
 
 <body>
    <%- include('../includes/page-navigation.ejs') %>
-    <main class="container">
+    <main>
+        <table
+        id="table"
+        data-url="json/data1.json1"
+        data-filter-control="true"
+        data-show-search-clear-button="true">
+        <thead>
+          <tr>
+            <th data-field="id">ID</th>
+            <th data-field="name" data-filter-control="input">Item Name</th>
+            <th data-field="price" data-filter-control="select">Item Price</th>
+          </tr>
+        </thead>
+      </table>
+      
 
-        <div class="row">
-            <div class="text-center">
-                <h1>Quản Lý Sản Phẩm</h1>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="toolbar">
-                <button id="btn-add" class="btn-toolbar btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">+</button>
-                <button id="btn-delete" class="btn-toolbar btn btn-danger"> x </button>
-            </div>
-        </div>
-
-        <div class="row">
-            <table 
-            id="table" 
-            data-click-to-select="true"
-            data-pagination="true"
-            data-show-columns="true"
-            data-show-columns-toggle-all="true"
-            data-filter-control="true"
-            data-search="true"
-            data-toolbar=".toolbar"
-            >
-            <thead>
-                <tr>
-                <th data-field="state" data-checkbox="true"></th>
-                <th data-field="_id" data-visible="false" data-filter-control="input">Mã SP</th>
-                <th data-field="title">Tên SP</th>
-                <th data-field="price">Giá Bán</th>
-                <th data-field="mount" data-filter-control="select">SL</th>
-                <th data-field="description" data-visible="false">Mô tả</th>
-                </tr>
-            </thead>
-            </table>
-        </div>
-        
     </main>
 
-   <script 
-        id="admin-products-page" 
-        src="/js/script-admin-test.js" 
-        products-data='<%- JSON.stringify(products) %>' 
-   >
-    </script>
+
+    <script src="https://unpkg.com/bootstrap-table@1.20.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+    <script>
+        $(function() {
+          $('#table').bootstrapTable()
+        })
+      </script>
 
    <%- include('../includes/page-end.ejs') %>

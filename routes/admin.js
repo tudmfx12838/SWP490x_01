@@ -92,6 +92,12 @@ router.post(
   adminController.postConfirmIsPaidOrder
 );
 
+router.post(
+  "/admin/manage/edit-note-order",
+  isAuth,
+  adminController.postEditNoteOrder
+);
+
 
 
 

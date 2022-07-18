@@ -18,40 +18,6 @@
                 <button id="btn-delete" class="btn-toolbar btn btn-danger"> x </button>
             </div>
         </div>
-        <!-- title: "Mừng ngày 30/4/2021",
-        startDate: new Date("2021-04-30T00:00:00.000+00:00"),
-        endDate: new Date("2021-05-01T00:00:00.000+00:00"),
-        hasCoupon: false,
-        coupon: "",
-        description: "Mừng ngày 30/4/2021 giảm 10% khi mua hàng online(30/04/2021 ~ 01/05/2021)",
-        imageUrl: "images\/mung30042021.jpg" -->
-        <div class="row">
-            <table 
-            id="table" 
-            data-click-to-select="true"
-            data-pagination="true"
-            data-show-columns="true"
-            data-show-columns-toggle-all="true"
-            data-search="true"
-            data-toolbar=".toolbar"
-            >
-            <thead>
-                <tr>
-                <th data-field="state" data-checkbox="true"></th>
-                <th data-field="_id" data-visible="false">Mã SK</th>
-                <th data-field="title">Tên SK</th>
-                <th data-field="startDate" data-formatter="startDateFormatter">Ngày bắt đầu</th>
-                <th data-field="endDate" data-formatter="endDateFormatter">Ngày kết thúc</th>
-                <th data-field="hasCoupon" data-visible="false">Có Mã KM</th>
-                <th data-field="coupon" >Mã KM</th>
-                <th data-field="discount" data-visible="false">Giảm giá %</th>
-                <th data-field="description" data-visible="false">Mô tả</th>
-                <th data-field="imageUrl" data-visible="false">Ảnh</th>
-                <th data-field="action" data-width="150" data-formatter="actionEditEvent" data-events="actionEditEventEvents">Action</th>
-                </tr>
-            </thead>
-            </table>
-        </div>
 
         <div class="row">
             <div id="addItemModal" class="modal" data-bs-backdrop="static">
@@ -250,7 +216,7 @@
                         </div>
                         <div class="modal-body">
                                 <div class="mb-3 mt-3">
-                                    <img name="image" id="imageUrl" class="mh-200" style="width: 150px; height: 200px" src="" alt="">
+                                    <img name="image" id="imageUrl" onerror="this.src='../../images/defaul-image.jpg';" class="mh-200" style="width: 150px; height: 200px" src="" alt="">
                                 </div>
                                 <div class="mb-3 mt-3">
                                     <label class="fw-bold form-label" for="title">Tên sự kiện: </label>
@@ -293,9 +259,38 @@
         </div>
     </main>
 
+    <div class="row">
+        <table 
+        id="table" 
+        data-click-to-select="true"
+        data-pagination="true"
+        data-show-columns="true"
+        data-show-columns-toggle-all="true"
+        data-search="true"
+        data-show-search-clear-button="true"
+        data-toolbar=".toolbar"
+        >
+        <thead>
+            <tr>
+            <th data-field="state" data-checkbox="true"></th>
+            <th data-field="_id" data-visible="false">Mã SK</th>
+            <th data-field="title">Tên SK</th>
+            <th data-field="startDate" data-formatter="startDateFormatter">Ngày bắt đầu</th>
+            <th data-field="endDate" data-formatter="endDateFormatter">Ngày kết thúc</th>
+            <th data-field="hasCoupon" data-visible="true">Có Mã KM</th>
+            <th data-field="coupon" >Mã KM</th>
+            <th data-field="discount" data-visible="true">Giảm giá %</th>
+            <th data-field="description" data-visible="true">Mô tả</th>
+            <th data-field="imageUrl" data-visible="false">Ảnh</th>
+            <th data-field="action" data-width="150" data-formatter="actionEditEvent" data-events="actionEditEventEvents">Action</th>
+            </tr>
+        </thead>
+        </table>
+    </div>
+
    <script id="admin-events-page" 
             src="/js/script-admin-events.js" 
-            events-data='<%- JSON.stringify(events) %>'
+            events-data='<%- JSON.stringify(events.reverse()) %>'
             inform='<%= inform %>'
    ></script>
 

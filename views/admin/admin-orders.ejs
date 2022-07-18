@@ -18,36 +18,6 @@
                 <button id="btn-delete" class="btn-toolbar btn btn-danger"> x </button>
             </div>
         </div>
-        <!-- title: "Mừng ngày 30/4/2021",
-        startDate: new Date("2021-04-30T00:00:00.000+00:00"),
-        endDate: new Date("2021-05-01T00:00:00.000+00:00"),
-        hasCoupon: false,
-        coupon: "",
-        description: "Mừng ngày 30/4/2021 giảm 10% khi mua hàng online(30/04/2021 ~ 01/05/2021)",
-        imageUrl: "images\/mung30042021.jpg" -->
-        <div class="row">
-            <table 
-            id="table-orders" 
-            data-click-to-select="true"
-            data-pagination="true"
-            data-show-columns="true"
-            data-show-columns-toggle-all="true"
-            data-search="true"
-            data-toolbar=".toolbar"
-            >
-            <thead>
-                <tr>
-                <th data-field="state" data-checkbox="true"></th>
-                <th data-field="_id" data-visible="false" >Mã đơn</th>
-                <th data-field="deliveryInfo" data-width="400" data-formatter="deliveryInfoFormatter">Thông tin Khách Hàng</th>
-                <th data-field="products" data-width="400" data-formatter="productsInfoFormatter">Thông tin Hàng Hóa</th>
-                <th data-field="isPaid" data-formatter="isPaidStatusFormatter" data-events="actionConfirmPayEvents">Thanh Toán</th>
-                <th data-field="approveStatus" data-formatter="approveStatusFormatter" >Trạng thái</th>
-                <th data-field="action" data-width="180" data-formatter="actionEditEvent" data-events="actionConfirmOrderEvents">Hành động</th>
-                </tr>
-            </thead>
-            </table>
-        </div>
 
         <div class="row">
             <div id="confirmOrderModal" class="modal" data-bs-backdrop="static">
@@ -202,16 +172,71 @@
                     </div>
                 </div>
             </div>
+
+            <div id="editNoteModal" class="modal" data-bs-backdrop="static">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Sửa ghi chú</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="product-form"  action="/admin/manage/edit-note-order/" method="POST" enctype="multipart/form-data">
+                                <div class="mb-3 mt-3">
+                                    <label class="form-label" for="note">Ghi chú: </label>
+                                    <textarea class="form-control" 
+                                            name="note" 
+                                            id="note" 
+                                            value=""
+                                            >
+                                    </textarea>
+                                </div>
+                                <input type="hidden" name="_id" id="_id" val="">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <button class="btn btn-primary" type="submit">Cập nhật</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
         </div>
     </main>
+    
+    <div class="row">
+        <table 
+        id="table-orders" 
+        data-click-to-select="true"
+        data-pagination="true"
+        data-show-columns="true"
+        data-show-columns-toggle-all="true"
+        data-search="true"
+        data-filter-control="true"
+        data-sortable="true"
+        data-toolbar=".toolbar"
+        >
+        <thead>
+            <tr>
+            <th data-field="state" data-checkbox="true"></th>
+            <th data-field="_id" data-visible="true" data-filter-control="input">Mã đơn</th>
+            <th data-field="deliveryInfo" data-width="400" data-formatter="deliveryInfoFormatter">Thông tin Khách Hàng</th>
+            <th data-field="products" data-width="400" data-formatter="productsInfoFormatter" data-events="productsInfoEvents">Thông tin Hàng Hóa</th>
+            <th data-field="isPaid" data-formatter="isPaidStatusFormatter" data-filter-control="select">Trạng thái thanh toán</th>
+            <th data-field="actionConfirmPay" data-width="180" data-formatter="confirmIsPaidFormatter" data-events="actionConfirmPayEvents">Xác nhận thanh toán</th>
+            <th data-field="approveStatus" data-formatter="approveStatusFormatter" data-filter-control="select">Trạng thái đơn hàng</th>
+            <th data-field="actionOrder" data-width="180" data-formatter="actionEditEvent" data-events="actionConfirmOrderEvents">Xác nhận đơn hàng</th>
+            </tr>
+        </thead>
+        </table>
+    </div>
 
-   <script 
-   id="admin-orders-page" 
-   src="/js/script-admin-orders.js"
-   orders-data='<%- JSON.stringify(orders) %>'  
-   inform='<%= inform %>'
-   >
+    <script src="https://unpkg.com/bootstrap-table@1.20.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+    <script 
+        id="admin-orders-page" 
+        src="/js/script-admin-orders.js"
+        orders-data='<%- JSON.stringify(orders.reverse()) %>'  
+        inform='<%= inform %>'
+        >
     </script>
 
    <%- include('../includes/page-end.ejs') %>
