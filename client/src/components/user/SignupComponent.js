@@ -424,10 +424,10 @@ const Signup = (props) => {
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
               <Col sm={{ span: 10, offset: 3 }}>
-                <Button type="submit">Đăng Ký</Button>
+                <Button className="btn btn-primary" type="submit">Đăng Ký</Button>
                 <Button
                   type="button"
-                  className="btn btn-success"
+                  className="btn btn-success ml-3"
                   onClick={() => {
                     handleResetButton();
                   }}

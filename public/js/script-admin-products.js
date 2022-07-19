@@ -24,6 +24,7 @@ var newRowValue = {
   available: "",
 };
 
+
 $(function () {
   var inform = $("#admin-products-page").attr("inform");
   if (inform !== "") {
@@ -46,6 +47,7 @@ $(function () {
   var $table = $("#table");
   var $btn_delete = $("#btn-delete");
   $btn_delete.prop("disabled", true);
+  $btn_delete.toggle(false);
 
   // var json = "<%- JSON.stringify(products) %>";
   var json = $("#admin-products-page").attr("products-data");
@@ -53,6 +55,8 @@ $(function () {
   // alert(json);
 
   $table.bootstrapTable({ data: myArr });
+
+
 
   /**
    * The event will be trigged when user check or uncheck on checkbox to enable or disable button as delete
@@ -64,6 +68,7 @@ $(function () {
         "disabled",
         !$table.bootstrapTable("getSelections").length
       );
+      $btn_delete.toggle($table.bootstrapTable("getSelections").length);
     }
   );
 

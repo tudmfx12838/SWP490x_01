@@ -17,6 +17,7 @@ import ChangePassword from "./user/ChangePasswordComponent";
 import Cart from "./pages/CartComponent";
 import Order from "./pages/OrderComponent";
 import UserInfo from "./pages/UserInfoComponent";
+import SearchResult from "./pages/SearchResultComponent";
 
 import axios from "axios";
 
@@ -27,6 +28,15 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { ActionCreators } from "../redux/ActionCreators";
+
+/**
+ * The method useQuery() define method useQuery for getting query param
+ */
+function useQuery() {
+  const { search } = useLocation();
+
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+}
 
 /**
  * The method withRouter() config method withRouter following latest version of react router
@@ -219,6 +229,32 @@ class Main extends Component {
       );
     };
 
+    const ShowSearchResultWithKeyWord = () => {
+      // alert("call me " + JSON.stringify(useParams()));
+      const resultParam = useParams().resultParam;
+      let query = useQuery();
+
+      if (resultParam === "ketquatimkiem") {
+        const keyword = query.get("tukhoa");
+        const products = this.props.products.products;
+
+        const keywordUppercase = keyword.toUpperCase();
+
+        const result = products.filter((product) => {
+          const titleUppercase = product.title.toUpperCase();
+          if (titleUppercase.includes(keywordUppercase)) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+
+        return <SearchResult products={result} AddCart={this.props.AddCart} />;
+      }else{
+        return <SearchResult products={[]} AddCart={this.props.AddCart} />;
+      }
+    };
+
     const ChangePasswordWithToken = () => {
       // alert(useParams().productId);
       // <Route
@@ -233,6 +269,7 @@ class Main extends Component {
       <React.Fragment>
         <Header
           numberCart={this.props.cart.numberCart}
+          products={this.props.products.products}
           auth={this.props.auth}
           user={this.props.user}
           fetchUserLogout={this.props.fetchUserLogout}
@@ -241,6 +278,11 @@ class Main extends Component {
         {/* <NavbarHeader/> */}
 
         <Routes>
+          <Route
+            path="/timkiem/:resultParam"
+            element={<ShowSearchResultWithKeyWord />}
+          />
+
           <Route
             exact
             path="/trangchu"

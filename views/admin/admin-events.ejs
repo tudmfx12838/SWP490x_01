@@ -1,5 +1,5 @@
 <%- include('../includes/page-head.ejs') %>
-
+    <link rel="stylesheet" href="/css/custom.css">
 </head>
 
 <body>
@@ -12,10 +12,16 @@
             </div>
         </div>
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="toolbar">
                 <button id="btn-add" class="btn-toolbar btn btn-success" data-bs-toggle="modal" data-bs-target="#addItemModal">+</button>
                 <button id="btn-delete" class="btn-toolbar btn btn-danger"> x </button>
+            </div>
+        </div> -->
+        <div class="row">
+            <div id="customToolbar">
+                <button id="btn-add" class="btn-toolbar btn btn-success" data-bs-toggle="modal" data-bs-target="#addItemModal">Thêm</button>
+                <button id="btn-delete" class="btn-toolbar btn btn-danger">Xóa</button>
             </div>
         </div>
 
@@ -267,8 +273,8 @@
         data-show-columns="true"
         data-show-columns-toggle-all="true"
         data-search="true"
-        data-show-search-clear-button="true"
-        data-toolbar=".toolbar"
+        data-show-search-button="true"
+        data-toolbar="#customToolbar"
         >
         <thead>
             <tr>

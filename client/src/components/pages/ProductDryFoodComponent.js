@@ -13,10 +13,20 @@ import { Link, NavLink } from "react-router-dom";
 import Event from "../EventComponent";
 
 function RenderProductItem({ products, type, callback }) {
+  var md = 3;
+  var lg = 5;
+  if(products.length < 5 && products.length >= 3){
+    md = 3;
+    lg = 4;
+  }else if(products.length < 3){
+    md = 2;
+    lg = 2;
+  }
+
   return (
     <div className="product-container">
       <div className="product-content">
-        <Row xs={2} md={3} lg={5} className="g-4">
+        <Row xs={2} md={md} lg={lg} className="g-4">
           {Array.from(products).map((p, idx) => (
             <Col key={p._id}>
               <Card style={{}} className="mb-3 product-card">
@@ -35,15 +45,25 @@ function RenderProductItem({ products, type, callback }) {
                 </Link>
                 <Card.Text className="product-cost">Giá: {p.price}</Card.Text>
                 <Card.Text className="product-cost">
-                  {p.mount > 0 ? "(Còn hàng)" : "(Hết hàng)"}
+                  {p.available === false
+                    ? "(Ngừng bán)"
+                    : p.mount > 0
+                    ? "(Còn hàng)"
+                    : "(Hết hàng)"}
                 </Card.Text>
                 <Button
                   variant="secondary"
                   className="product-add-button"
                   onClick={() => callback(p)}
-                  disabled={p.mount <= 0 ? true : false}
+                  // disabled={p.mount <= 0 ? true : false}
+                  disabled={p.mount > 0 && p.available ? false : true}
                 >
-                  {p.mount <= 0 ? "Hết hàng" : "Thêm"}
+                  {/* {p.mount <= 0 ? "Hết hàng" : "Thêm"} */}
+                  {p.available === false
+                    ? "Ngừng bán"
+                    : p.mount <= 0
+                    ? "Hết hàng"
+                    : "Thêm"}
                 </Button>
               </Card>
             </Col>
@@ -55,10 +75,11 @@ function RenderProductItem({ products, type, callback }) {
 }
 
 const ProductDry = ({ products, AddCart }) => {
-  const productTypes = products.filter((product) => product.type === "thucphamkho");
+  const productTypes = products.filter(
+    (product) => product.type === "thucphamkho"
+  );
   return (
     <Container>
-
       <Row>
         <Breadcrumb>
           {/* <Breadcrumb.Item> <Link to='/'>Trang chủ</Link></Breadcrumb.Item> */}
@@ -66,7 +87,11 @@ const ProductDry = ({ products, AddCart }) => {
           <Breadcrumb.Item active>/ Thực phẩm khô</Breadcrumb.Item>
         </Breadcrumb>
       </Row>
-      <RenderProductItem products={productTypes} type={"thucphamkho"} callback={AddCart}/>
+      <RenderProductItem
+        products={productTypes}
+        type={"thucphamkho"}
+        callback={AddCart}
+      />
     </Container>
   );
 };

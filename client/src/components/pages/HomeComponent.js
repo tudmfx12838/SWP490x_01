@@ -15,10 +15,20 @@ import Event from "../EventComponent";
 const baseUrl = "/assets/";
 
 function RenderHomeItem({ products, type, callback }) {
+  var md = 3;
+  var lg = 5;
+  if(products.length < 5 && products.length >= 3){
+    md = 3;
+    lg = 4;
+  }else if(products.length < 3){
+    md = 2;
+    lg = 2;
+  }
+
   return (
     <div className="product-container">
       <div className="product-content">
-        <Row xs={2} md={3} lg={5} className="g-4">
+        <Row xs={2} md={md} lg={lg} className="g-4">
           {Array.from(products.slice(0, 5)).map((p, idx) => (
             <Col key={p._id}>
               <Card style={{}} className="mb-3 product-card">

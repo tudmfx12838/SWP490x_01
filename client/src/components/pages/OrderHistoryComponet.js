@@ -85,12 +85,12 @@ const OrderHistory = (props) => {
     }
   };
 
-  function handleCancelOrder(){
+  function handleCancelOrder() {
     // alert("CancelInfo " + JSON.stringify(cancelInfo));
-    
-    if(cancelInfo.approveStatus){
+
+    if (cancelInfo.approveStatus) {
       alert("Đơn hàng đã được xác nhận không thể hủy!");
-    }else{
+    } else {
       props.fetchCancelOrderWithOrderId(cancelInfo);
     }
     handleClose();
@@ -98,7 +98,7 @@ const OrderHistory = (props) => {
 
   const handleShowConfirmModal = (orderId, approveStatus) => {
     //show confirm modal
-    setCancelInfo({orderId: orderId, approveStatus: approveStatus});
+    setCancelInfo({ orderId: orderId, approveStatus: approveStatus });
     setShow(true);
   };
 
@@ -110,7 +110,7 @@ const OrderHistory = (props) => {
     setShow(false);
   };
 
-  function RenderSearchResult({orders}) {
+  function RenderSearchResult({ orders }) {
     // alert(
     //   " orders history " +
     //     JSON.stringify(orders) +
@@ -201,7 +201,7 @@ const OrderHistory = (props) => {
                       </tbody>
                     </Table>
                     <Button
-                    // hasAccountInfo.userId
+                      // hasAccountInfo.userId
                       type="button"
                       className="btn btn-danger"
                       // disabled={item.approveStatus === false ? false : true}
@@ -223,28 +223,28 @@ const OrderHistory = (props) => {
     }
   }
 
-  function RenderConfirmModal(){
-    return(
+  function RenderConfirmModal() {
+    return (
       <Modal
-          show={show}
-          onHide={handleClose}
-          backdrop="static"
-          keyboard={false}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Xác nhận hủy đơn hàng</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Bạn có muốn hủy đơn hàng này?</Modal.Body>
-          <Modal.Footer>
-            <Button variant="primary" onClick={handleCancelOrder}>
-              Có
-            </Button>
-            <Button variant="secondary" onClick={handleClose}>
-              Không
-            </Button>
-          </Modal.Footer>
-        </Modal>
-    )
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Xác nhận hủy đơn hàng</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Bạn có muốn hủy đơn hàng này?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleCancelOrder}>
+            Có
+          </Button>
+          <Button variant="secondary" onClick={handleClose}>
+            Không
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
   }
 
   if (!props.auth.auth.isLoggedIn && props.user.user.user === null) {
@@ -305,6 +305,9 @@ const OrderHistory = (props) => {
   } else {
     return (
       <Container>
+        <Row className="col-md-12">
+          <h1 className="text-center">---Lịch sử đặt hàng---</h1>
+        </Row>
         <Row>
           <Accordion>
             {orderHistory.map((item, key) => {
@@ -390,7 +393,7 @@ const OrderHistory = (props) => {
                     <Button
                       type="button"
                       className="btn btn-danger"
-                      // disabled={item.approveStatus === false ? false : true}
+                      disabled={item.approveStatus === false ? false : true}
                       onClick={() => {
                         handleShowConfirmModal(item._id, item.approveStatus);
                       }}

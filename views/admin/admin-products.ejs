@@ -1,5 +1,6 @@
 <%- include('../includes/page-head.ejs') %>
     <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/custom.css">
 </head>
 
 <body>
@@ -13,9 +14,9 @@
         </div>
 
         <div class="row">
-            <div class="toolbar">
-                <button id="btn-add" class="btn-toolbar btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">+</button>
-                <button id="btn-delete" class="btn-toolbar btn btn-danger"> x </button>
+            <div id="customToolbar">
+                <button id="btn-add" class="btn-toolbar btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">Thêm</button>
+                <button id="btn-delete" class="btn-toolbar btn btn-danger">Xóa</button>
             </div>
         </div>
         
@@ -306,7 +307,7 @@
         data-search-highlight="true"
         data-filter-control="true"
         data-sortable="true"
-        data-toolbar=".toolbar"
+        data-toolbar="#customToolbar"
         >
         <thead>
             <tr>
