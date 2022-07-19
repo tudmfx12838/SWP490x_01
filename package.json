@@ -7,11 +7,11 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "server-nodemon": "node index.js",
+    "server-nodemon": "nodemon index.js",
     "restoredb": "node restoreDB.js",
-    "server": "node index.js",
+    "server": "nodemon index.js",
     "client": "npm run start --prefix client",
-    "start": "concurrently \"npm run server-nodemon\" \"npm run client\""
+    "dev": "concurrently \"npm run server-nodemon\" \"npm run client\""
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
