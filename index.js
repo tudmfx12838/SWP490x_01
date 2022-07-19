@@ -28,7 +28,7 @@ const store = new MongoDbStote({
   // expires  them vao de tu xoa sau het phien
 });
 
-const csrfProtection = csrf({cookie: true});
+const csrfProtection = csrf({ cookie: true });
 // {
 // cookie: {
 //      httpOnly: true,
@@ -96,9 +96,6 @@ app.use(cors());
  * */
 app.set("view engine", "ejs");
 app.set("views", "views");
-
-
-
 
 /**
  * Config bodyParser to get data from req.body
@@ -197,8 +194,11 @@ app.use(errorController.getPageError);
 mongoose
   .connect(MONGODB_URL, { dbName: "myShopDB" })
   .then((result) => {
-    app.listen(4000);
-    console.log("App listening on port 4000");
+    // app.listen(4000);
+    // console.log("App listening on port 4000");
+    app.listen(process.env.PORT || 8080, '0.0.0.0', () => {
+      console.log('Server is running');
+    })
   })
   .catch((err) => {
     console.log(err);
