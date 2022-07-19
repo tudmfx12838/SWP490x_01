@@ -11,7 +11,8 @@
     "restoredb": "node restoreDB.js",
     "server": "node index.js",
     "client": "npm run startClient --prefix client",
-    "start": "concurrently \"npm run server-nodemon\" \"npm run client\""
+    "dev": "concurrently \"npm run server-nodemon\" \"npm run client\"",
+    "start": "npm run server-nodemon"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
