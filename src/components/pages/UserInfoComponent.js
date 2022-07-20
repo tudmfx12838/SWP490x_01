@@ -17,6 +17,9 @@ import { getAddressByZip } from "japan-address-autofill";
 import getFormatDate from "../../includes/getFormatDate";
 import { useNavigate, Navigate } from "react-router-dom";
 
+// const backendPath = "http://localhost:4000";
+const backendPath = "https://webbanhang-backend.herokuapp.com";
+
 const UserInfo = (props) => {
   let navigate = useNavigate();
 
@@ -299,7 +302,7 @@ const UserInfo = (props) => {
   }
 
   function fetchChangeAccountPassword(changedpassword) {
-    return fetch("http://localhost:4000/client/changeAccountPassword", {
+    return fetch(backendPath + "/client/changeAccountPassword", {
       method: "POST",
       body: JSON.stringify(changedpassword),
       headers: {

@@ -3,8 +3,8 @@ import { UpdateUserCartToPageCart, setEmptyCart } from "./CartActions";
 import { baseUrl } from "../shared/baseUrl";
 import axios from "axios";
 
-//const backendPath = "http://localhost:4000";
- const backendPath = "https://webbanhang-backend.herokuapp.com";
+ const backendPath = "http://localhost:4000";
+//const backendPath = "https://webbanhang-backend.herokuapp.com";
 
 export const fetchProducts = () => (dispatch) => {
   return fetch(backendPath + "/products")

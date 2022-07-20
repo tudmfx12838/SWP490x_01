@@ -16,6 +16,9 @@ import { Formik } from "formik";
 import { getAddressByZip } from "japan-address-autofill";
 import axios from "axios";
 
+// const backendPath = "http://localhost:4000";
+const backendPath = "https://webbanhang-backend.herokuapp.com";
+
 const Order = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -140,6 +143,14 @@ const Order = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    
+    if(coupon === ""){
+      // alert("call me" + coupon);
+      setIsExistCoupon({
+        result: true,
+        discount: 0,
+      });
+    }
 
     const products = ListCart.map((item) => {
       return {
@@ -201,7 +212,7 @@ const Order = (props) => {
       alert("Xin nhập mã giảm giá để kiểm tra!");
       setIsExistCoupon({ result: true, discount: 0 });
     } else {
-      fetch("http://localhost:4000/client/checkCouponExist", {
+      fetch(backendPath + "/client/checkCouponExist", {
         method: "POST",
         body: JSON.stringify({ coupon: coupon }),
         headers: {
