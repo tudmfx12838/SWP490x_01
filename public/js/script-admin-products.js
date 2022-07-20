@@ -24,7 +24,6 @@ var newRowValue = {
   available: "",
 };
 
-
 $(function () {
   var inform = $("#admin-products-page").attr("inform");
   if (inform !== "") {
@@ -47,7 +46,7 @@ $(function () {
   var $table = $("#table");
   var $btn_delete = $("#btn-delete");
   $btn_delete.prop("disabled", true);
-  $btn_delete.toggle(false);
+  $btn_delete.hide();
 
   // var json = "<%- JSON.stringify(products) %>";
   var json = $("#admin-products-page").attr("products-data");
@@ -55,8 +54,6 @@ $(function () {
   // alert(json);
 
   $table.bootstrapTable({ data: myArr });
-
-
 
   /**
    * The event will be trigged when user check or uncheck on checkbox to enable or disable button as delete
@@ -68,7 +65,11 @@ $(function () {
         "disabled",
         !$table.bootstrapTable("getSelections").length
       );
-      $btn_delete.toggle($table.bootstrapTable("getSelections").length);
+      if ($table.bootstrapTable("getSelections").length > 0) {
+        $btn_delete.show();
+      } else {
+        $btn_delete.hide();
+      }
     }
   );
 
@@ -232,8 +233,10 @@ $(function () {
         .text(oldRowValue.available ? "Đang bán" : "Ngừng bán")
         .css("color", "black");
     } else {
-      let old_value = oldRowValue.available == "true" ? "Đang bán" : "Ngừng bán";
-      let new_value = newRowValue.available == "true" ? "Đang bán" : "Ngừng bán";
+      let old_value =
+        oldRowValue.available == "true" ? "Đang bán" : "Ngừng bán";
+      let new_value =
+        newRowValue.available == "true" ? "Đang bán" : "Ngừng bán";
       $("#confirmEditProductModal")
         .find(".available")
         .text(old_value + "  -->  " + new_value)
@@ -311,7 +314,9 @@ window.actionEditProductEvents = {
       $("#editProductModal").find("#description").val(oldRowValue.description);
       $("#editProductModal").find("#_id").val(oldRowValue._id);
       $("#editProductModal").find("#image").val(row.imageUrl);
-      $("#editProductModal").find("#available").val(oldRowValue.available.toString());
+      $("#editProductModal")
+        .find("#available")
+        .val(oldRowValue.available.toString());
     }
   },
   "click .btn-detailProduct"(e, value, row, index) {
@@ -320,7 +325,9 @@ window.actionEditProductEvents = {
     $("#detailProductModal").find(".price").text(row.price);
     $("#detailProductModal").find(".mount").text(row.mount);
     $("#detailProductModal").find(".description").text(row.description);
-    $("#detailProductModal").find(".available").text(row.available ? "Đang bán" : "Ngừng bán");
+    $("#detailProductModal")
+      .find(".available")
+      .text(row.available ? "Đang bán" : "Ngừng bán");
 
     $("#detailProductModal")
       .find("#imageUrl")
@@ -346,11 +353,10 @@ function actionEditProduct(index, row) {
 
 function availableFormatter(index, row) {
   var status = "";
-  if(row.available){
+  if (row.available) {
     status = "Đang bán";
-  }else{
+  } else {
     status = "Ngừng bán";
   }
   return status;
 }
-

@@ -48,7 +48,7 @@ $(function () {
   var $table = $("#table");
   var $btn_delete = $("#btn-delete");
   $btn_delete.prop("disabled", true);
-  $btn_delete.toggle(false);
+  $btn_delete.hide();
 
   /**
    * The get data and init to table's data
@@ -69,7 +69,11 @@ $(function () {
         "disabled",
         !$table.bootstrapTable("getSelections").length
       );
-      $btn_delete.toggle($table.bootstrapTable("getSelections").length);
+      if ($table.bootstrapTable("getSelections").length > 0) {
+        $btn_delete.show();
+      } else {
+        $btn_delete.hide();
+      }
     }
   );
 

@@ -21,7 +21,7 @@ $(function () {
   var $table = $("#table-orders");
   var $btn_delete = $("#btn-delete");
   $btn_delete.prop("disabled", true);
-  $btn_delete.toggle(false);
+  $btn_delete.hide();
 
   var json = $("#admin-orders-page").attr("orders-data");
   //   alert(json);
@@ -40,7 +40,11 @@ $(function () {
         "disabled",
         !$table.bootstrapTable("getSelections").length
       );
-      $btn_delete.toggle($table.bootstrapTable("getSelections").length);
+      if ($table.bootstrapTable("getSelections").length > 0) {
+        $btn_delete.show();
+      } else {
+        $btn_delete.hide();
+      }
     }
   );
 
