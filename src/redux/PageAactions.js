@@ -4,7 +4,9 @@ import { baseUrl } from "../shared/baseUrl";
 import axios from "axios";
 
 export const fetchProducts = () => (dispatch) => {
-  return fetch("http://localhost:4000/products")
+  // return fetch("http://localhost:4000/products")
+  return fetch("https://webbanhang-backend.herokuapp.com/products")
+  
     .then(
       (respone) => {
         if (respone.ok) {
@@ -41,7 +43,7 @@ export const productsFailed = (errmess) => ({
 export const fetchOrderInfo = (dataOrder) => (dispatch) => {
   // alert(JSON.stringify(dataOrder));
   // alert("09");
-  return fetch("http://localhost:4000/client/order", {
+  return fetch("https://webbanhang-backend.herokuapp.com/client/order", {
     method: "POST",
     body: JSON.stringify(dataOrder),
     headers: {
@@ -71,7 +73,7 @@ export const fetchOrderInfo = (dataOrder) => (dispatch) => {
 
 export const fetchUserLogin = (dataLogin) => (dispatch) => {
   
-  return fetch("http://localhost:4000/client/login", {
+  return fetch("https://webbanhang-backend.herokuapp.com/client/login", {
     method: "POST",
     body: JSON.stringify(dataLogin),
     headers: {
@@ -161,7 +163,7 @@ export const fetchEditUserInfo = (editUserInfo) => (dispatch) => {
   // alert("fetchEditUserInfo " + JSON.stringify(editUserInfo));
   // dispatch(updateUserCart(editUserInfo.Carts));
   // /client/updateCartFromClientToServer
-  return fetch("http://localhost:4000/client/editUserInfo", {
+  return fetch("https://webbanhang-backend.herokuapp.com/client/editUserInfo", {
     method: "POST",
     body: JSON.stringify(editUserInfo),
     headers: {
@@ -189,7 +191,7 @@ export const updateEdittedUserInfo = (edittedUserInfo) => ({
 
 export const fetchUserLogout = (sessionId) => (dispatch) => {
   // alert(email);
-  return fetch("http://localhost:4000/client/logout", {
+  return fetch("https://webbanhang-backend.herokuapp.com/client/logout", {
     method: "POST",
     body: JSON.stringify({ sessionId: sessionId }),
     headers: {
@@ -215,7 +217,7 @@ export const fetchUserLogout = (sessionId) => (dispatch) => {
 
 export const fetchAuthentication = (sessionId) => (dispatch) => {
   // alert(JSON.stringify(sessionId));
-  return fetch("http://localhost:4000/client/checkingAuth", {
+  return fetch("https://webbanhang-backend.herokuapp.com/client/checkingAuth", {
     method: "POST",
     body: JSON.stringify({ sessionId: sessionId }),
     headers: {
@@ -284,9 +286,9 @@ export const updateAuth = (auth) => ({
 export const fetchSignupAccountInfo = (dataSignup) => (dispatch) => {
   // alert("response.data.CSRFToken");
 
-  alert("dataSignup  " + dataSignup);
+  // alert("dataSignup  " + dataSignup);
 
-  fetch("http://localhost:4000/client/signup", {
+  fetch("https://webbanhang-backend.herokuapp.com/client/signup", {
     method: "POST",
     body: JSON.stringify(dataSignup),
     headers: {
@@ -395,7 +397,7 @@ export const fetchSignupAccountInfo = (dataSignup) => (dispatch) => {
 };
 
 export const fetchConfirmBeforeResetPassword = (email) => (dispatch) => {
-  return fetch("http://localhost:4000/client/confirmBeforeResetPassword", {
+  return fetch("https://webbanhang-backend.herokuapp.com/client/confirmBeforeResetPassword", {
     method: "POST",
     body: JSON.stringify(email),
     headers: {
@@ -415,7 +417,7 @@ export const fetchUpdateCart = (updateCartInfo) => (dispatch) => {
   // alert("fetchUpdateCart " + JSON.stringify(updateCartInfo));
   dispatch(updateUserCart(updateCartInfo.Carts));
   // /client/updateCartFromClientToServer
-  return fetch("http://localhost:4000/client/updateCartFromClientToServer", {
+  return fetch("https://webbanhang-backend.herokuapp.com/client/updateCartFromClientToServer", {
     method: "POST",
     body: JSON.stringify(updateCartInfo),
     headers: {
@@ -453,7 +455,7 @@ export const fetchOrderHistoryWithOrderId = (orderId) => (dispatch) => {
   // alert("fetchUpdateCart " + JSON.stringify(updateCartInfo));
   // dispatch(updateUserCart(updateCartInfo.Carts));
   // /client/updateCartFromClientToServer
-  return fetch("http://localhost:4000/client/getOrderHistoryByOrderId", {
+  return fetch("https://webbanhang-backend.herokuapp.com/client/getOrderHistoryByOrderId", {
     method: "POST",
     body: JSON.stringify({ orderId: orderId }),
     headers: {
@@ -475,7 +477,7 @@ export const fetchCancelOrderWithOrderId = (orderInfo) => (dispatch) => {
   // alert("fetchUpdateCart " + JSON.stringify(updateCartInfo));
   // dispatch(updateUserCart(updateCartInfo.Carts));
   // /client/updateCartFromClientToServer
-  return fetch("http://localhost:4000/client/cancelOrderWithOrderId", {
+  return fetch("https://webbanhang-backend.herokuapp.com/client/cancelOrderWithOrderId", {
     method: "POST",
     body: JSON.stringify({ orderId: orderInfo.orderId, approveStatus: orderInfo.approveStatus}),
     headers: {
