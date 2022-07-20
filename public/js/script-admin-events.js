@@ -29,9 +29,9 @@ var newRowValue = {
 function getFormatDate(date) {
   var date_obj = new Date(date);
   var day =
-  date_obj.getDate() < 10 ? "0" + date_obj.getDate() : date_obj.getDate();
+    date_obj.getDate() < 10 ? "0" + date_obj.getDate() : date_obj.getDate();
   var month =
-  date_obj.getMonth() + 1 < 10
+    date_obj.getMonth() + 1 < 10
       ? "0" + (date_obj.getMonth() + 1)
       : date_obj.getMonth() + 1;
   var formattedDate = date_obj.getFullYear() + "-" + month + "-" + day;
@@ -39,9 +39,12 @@ function getFormatDate(date) {
 }
 
 $(function () {
+  // const backendPath = "http://localhost:4000";
+  const backendPath = "https://webbanhang-backend.herokuapp.com";
+
   var inform = $("#admin-events-page").attr("inform");
   if (inform !== "") {
-    window.location.replace("http://localhost:4000/admin/manage/events");
+    window.location.replace(backendPath + "/admin/manage/events");
     alert(inform);
   }
 
@@ -455,5 +458,3 @@ function actionEditEvent(index, row) {
   return `<button class="btn-detailItem btn btn-secondary" data-bs-toggle="modal" data-bs-target="#detailItemModal" >Chi tiết</button>
                 <button class="btn-editItem btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editItemModal" >Sửa</button>`;
 }
-
-

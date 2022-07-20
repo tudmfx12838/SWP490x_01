@@ -11,10 +11,12 @@ function getFormatDate(date) {
 }
 
 $(function () {
+  // const backendPath = "http://localhost:4000";
+  const backendPath = "https://webbanhang-backend.herokuapp.com";
 
   var inform = $("#admin-orders-page").attr("inform");
   if (inform !== "") {
-    window.location.replace("http://localhost:4000/admin/manage/orders");
+    window.location.replace(backendPath + "/admin/manage/orders");
     alert(inform);
   }
 

@@ -25,9 +25,11 @@ var newRowValue = {
 };
 
 $(function () {
+  // const backendPath = "http://localhost:4000";
+  const backendPath = "https://webbanhang-backend.herokuapp.com";
   var inform = $("#admin-products-page").attr("inform");
   if (inform !== "") {
-    window.location.replace("http://localhost:4000/admin/manage/products");
+    window.location.replace(backendPath + "/admin/manage/products");
     alert(inform);
   }
 
