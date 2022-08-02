@@ -14,6 +14,8 @@ import axios from "axios";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Event from "../EventComponent";
 
+// const backendPath = "http://localhost:4000";
+const backendPath = "https://webbanhang-backend.herokuapp.com";
 const baseUrl = "/assets/";
 
 const ResetPassword = (props) => {
@@ -40,7 +42,7 @@ const ResetPassword = (props) => {
 
   const fetchCheckEmailExist = (email) => {
     setisExistEmaill("false");
-    fetch("http://localhost:4000/client/checkEmailExist", {
+    fetch(backendPath + "/client/checkEmailExist", {
       method: "POST",
       body: JSON.stringify({ email: email }),
       headers: {

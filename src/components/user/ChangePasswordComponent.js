@@ -14,6 +14,8 @@ import axios from "axios";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Event from "../EventComponent";
 
+// const backendPath = "http://localhost:4000";
+const backendPath = "https://webbanhang-backend.herokuapp.com";
 const baseUrl = "/assets/";
 
 const ChangePassword = (props) => {
@@ -40,7 +42,7 @@ const ChangePassword = (props) => {
 
   // useEffect(() => {
   //   alert(props.token);
-   
+
   // }, [props.token]);
 
   function validateForm() {
@@ -100,7 +102,7 @@ const ChangePassword = (props) => {
   }
 
   function fetchChangeAccountPasswordWithToken(changedpassword) {
-    return fetch("http://localhost:4000/client/changeAccountPasswordWithToken", {
+    return fetch(backendPath + "/client/changeAccountPasswordWithToken", {
       method: "POST",
       body: JSON.stringify(changedpassword),
       headers: {

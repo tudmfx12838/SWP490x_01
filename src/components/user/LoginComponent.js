@@ -90,7 +90,7 @@ const Login = (props) => {
 
   const fetchCheckEmailExist = (email) => {
     setisExistEmaill("false");
-    fetch("http://localhost:4000/client/checkEmailExist", {
+    fetch(backendPath + "/client/checkEmailExist", {
       method: "POST",
       body: JSON.stringify({ email: email }),
       headers: {
