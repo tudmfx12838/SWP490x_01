@@ -25,7 +25,7 @@ var newRowValue = {
 };
 
 $(function () {
-  // const backendPath = "http://localhost:4000";
+  // const backendPath = "http://localhost:4000"; 
   const backendPath = "https://webbanhang-backend.herokuapp.com";
   var inform = $("#admin-products-page").attr("inform");
   if (inform !== "") {
