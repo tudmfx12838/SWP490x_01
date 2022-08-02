@@ -13,10 +13,18 @@ import {
 import axios from "axios";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Event from "../EventComponent";
+import { GoogleLogin, GoogleLogout } from "react-google-login";
 
+ const backendPath = "http://localhost:4000";
+//const backendPath = "https://webbanhang-backend.herokuapp.com";
 const baseUrl = "/assets/";
 
 const Login = (props) => {
+  const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  const [url, setUrl] = useState("");
+  const [loginStatus, setLoginStatus] = useState(false);
+
   let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [isExistEmail, setisExistEmaill] = useState("");
@@ -40,7 +48,7 @@ const Login = (props) => {
 
   const getCSRFToken = async () => {
     const response = await axios.get(
-      "http://localhost:4000/client/getCSRFToken"
+      backendPath + "/client/getCSRFToken"
     );
     axios.defaults.headers.post["X-CSRF-Token"] = response.data.CSRFToken;
   };
@@ -82,7 +90,7 @@ const Login = (props) => {
 
   const fetchCheckEmailExist = (email) => {
     setisExistEmaill("false");
-    fetch("http://localhost:4000/client/checkEmailExist", {
+    fetch(backendPath + "/client/checkEmailExist", {
       method: "POST",
       body: JSON.stringify({ email: email }),
       headers: {
@@ -167,6 +175,18 @@ const Login = (props) => {
     setisExistEmaill(null);
   }
 
+  const responseGoogle = (response) => {
+    alert(response);
+    setName(response.profileObj.name);
+    setEmail(response.profileObj.email);
+    setUrl(response.profileObj.imageUrl);
+    setLoginStatus(true);
+  };
+  const logout = () => {
+    console.log("logout");
+    setLoginStatus(false);
+  };
+
   if (!props.auth.auth.isLoggedIn) {
     return (
       <Container>
@@ -244,6 +264,23 @@ const Login = (props) => {
             </Form>
           </Col>
           {/* <Col xs={1} md={2} lg={3}></Col> */}
+        </Row>
+        <Row className="mt-3">
+          
+          <Col
+            sm={{ span: 11, offset: 1 }}
+            md={{ span: 10, offset: 1 }}
+            lg={{ span: 7, offset: 2 }}
+          >
+            Đăng nhập bằng tài khoản google?
+            <GoogleLogin
+              clientId="381027275440-24fistgbmqcruf02c1vm39m0q1hgo5fo.apps.googleusercontent.com"
+              buttonText="Login"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={"single_host_origin"}
+            />
+          </Col>
         </Row>
       </Container>
     );

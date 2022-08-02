@@ -16,6 +16,9 @@ import { useNavigate, Navigate } from "react-router-dom";
 import Event from "../EventComponent";
 
 import { getAddressByZip } from "japan-address-autofill";
+
+const backendPath = "http://localhost:4000";
+//const backendPath = "https://webbanhang-backend.herokuapp.com";
 const baseUrl = "/assets/";
 
 // const redirect = useNavigate();
@@ -55,7 +58,7 @@ const Signup = (props) => {
 
   const fetchCheckEmailExist = (email) => {
     setisExistEmaill("false");
-    fetch("http://localhost:4000/client/checkEmailExist", {
+    fetch(backendPath + "/client/checkEmailExist", {
       method: "POST",
       body: JSON.stringify({ email: email }),
       headers: {

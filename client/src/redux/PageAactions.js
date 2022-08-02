@@ -3,8 +3,11 @@ import { UpdateUserCartToPageCart, setEmptyCart } from "./CartActions";
 import { baseUrl } from "../shared/baseUrl";
 import axios from "axios";
 
+  const backendPath = "http://localhost:4000";
+//const backendPath = "https://webbanhang-backend.herokuapp.com";
+
 export const fetchProducts = () => (dispatch) => {
-  return fetch("http://localhost:4000/products")
+  return fetch(backendPath + "/products")
     .then(
       (respone) => {
         if (respone.ok) {
@@ -41,7 +44,7 @@ export const productsFailed = (errmess) => ({
 export const fetchOrderInfo = (dataOrder) => (dispatch) => {
   // alert(JSON.stringify(dataOrder));
   // alert("09");
-  return fetch("http://localhost:4000/client/order", {
+  return fetch(backendPath + "/client/order", {
     method: "POST",
     body: JSON.stringify(dataOrder),
     headers: {
@@ -70,8 +73,7 @@ export const fetchOrderInfo = (dataOrder) => (dispatch) => {
 };
 
 export const fetchUserLogin = (dataLogin) => (dispatch) => {
-  
-  return fetch("http://localhost:4000/client/login", {
+  return fetch(backendPath + "/client/login", {
     method: "POST",
     body: JSON.stringify(dataLogin),
     headers: {
@@ -161,7 +163,7 @@ export const fetchEditUserInfo = (editUserInfo) => (dispatch) => {
   // alert("fetchEditUserInfo " + JSON.stringify(editUserInfo));
   // dispatch(updateUserCart(editUserInfo.Carts));
   // /client/updateCartFromClientToServer
-  return fetch("http://localhost:4000/client/editUserInfo", {
+  return fetch(backendPath + "/client/editUserInfo", {
     method: "POST",
     body: JSON.stringify(editUserInfo),
     headers: {
@@ -189,7 +191,7 @@ export const updateEdittedUserInfo = (edittedUserInfo) => ({
 
 export const fetchUserLogout = (sessionId) => (dispatch) => {
   // alert(email);
-  return fetch("http://localhost:4000/client/logout", {
+  return fetch(backendPath + "/client/logout", {
     method: "POST",
     body: JSON.stringify({ sessionId: sessionId }),
     headers: {
@@ -215,7 +217,7 @@ export const fetchUserLogout = (sessionId) => (dispatch) => {
 
 export const fetchAuthentication = (sessionId) => (dispatch) => {
   // alert(JSON.stringify(sessionId));
-  return fetch("http://localhost:4000/client/checkingAuth", {
+  return fetch(backendPath + "/client/checkingAuth", {
     method: "POST",
     body: JSON.stringify({ sessionId: sessionId }),
     headers: {
@@ -286,7 +288,7 @@ export const fetchSignupAccountInfo = (dataSignup) => (dispatch) => {
 
   alert("dataSignup  " + dataSignup);
 
-  fetch("http://localhost:4000/client/signup", {
+  fetch(backendPath + "/client/signup", {
     method: "POST",
     body: JSON.stringify(dataSignup),
     headers: {
@@ -302,7 +304,7 @@ export const fetchSignupAccountInfo = (dataSignup) => (dispatch) => {
     })
     .catch((error) => console.log(error.message));
 
-  // fetch("http://localhost:4000/client/getCSRFToken")
+  // fetch(backendPath + "/client/getCSRFToken")
   //   .then((res) => {
   //     alert(res.data.CSRFToken);
   //   })
@@ -310,7 +312,7 @@ export const fetchSignupAccountInfo = (dataSignup) => (dispatch) => {
 
   //  return result;
   // axios
-  //   .get("http://localhost:4000/client/getCSRFToken")
+  //   .get(backendPath + "/client/getCSRFToken")
   //   .then((response) => {
   //     alert(response.data.CSRFToken);
   //     // token = response.data.CSRFToken;
@@ -343,13 +345,13 @@ export const fetchSignupAccountInfo = (dataSignup) => (dispatch) => {
   // alert(JSON.stringify(dataSignup));
   // const getCSRFToken = async () => {
   //   const response = await axios.get(
-  //     "http://localhost:4000/client/getCSRFToken"
+  //     backendPath + "/client/getCSRFToken"
   //   );
   //   axios.defaults.headers.post["xsrf-token"] = response.data.CSRFToken;
   //   // alert(response.data.CSRFToken);
   //   // return response.data.CSRFToken;
   //   axios
-  //     .post("http://localhost:4000/client/signup", dataSignup)
+  //     .post(backendPath + "/client/signup", dataSignup)
   //     .then((respone) => {})
   //     .catch((err) => {
   //       console.log(err);
@@ -358,7 +360,7 @@ export const fetchSignupAccountInfo = (dataSignup) => (dispatch) => {
   // getCSRFToken();
 
   // axios
-  //   .get("http://localhost:4000/client/getCSRFToken")
+  //   .get(backendPath + "/client/getCSRFToken")
   //   .then((response) => {
   //     // alert(response.data.CSRFToken);
   //     // token = response.data.CSRFToken;
@@ -371,14 +373,14 @@ export const fetchSignupAccountInfo = (dataSignup) => (dispatch) => {
   //     // alert(JSON.stringify(dataSignup));
   //     axios.defaults.headers.post['X-CSRF-Token'] = token;
   //     // axios
-  //   .post("http://localhost:4000/client/signup", dataSignup)
+  //   .post(backendPath + "/client/signup", dataSignup)
   //   .then((respone) => {});
   // })
   // .catch((err) => {
   //   console.log(err);
   // });
 
-  // return fetch("http://localhost:4000/client/signup", {
+  // return fetch(backendPath + "/client/signup", {
   //   method: "POST",
   //   body: JSON.stringify(dataSignup),
   //   headers: {
@@ -395,7 +397,7 @@ export const fetchSignupAccountInfo = (dataSignup) => (dispatch) => {
 };
 
 export const fetchConfirmBeforeResetPassword = (email) => (dispatch) => {
-  return fetch("http://localhost:4000/client/confirmBeforeResetPassword", {
+  return fetch(backendPath + "/client/confirmBeforeResetPassword", {
     method: "POST",
     body: JSON.stringify(email),
     headers: {
@@ -415,7 +417,7 @@ export const fetchUpdateCart = (updateCartInfo) => (dispatch) => {
   // alert("fetchUpdateCart " + JSON.stringify(updateCartInfo));
   dispatch(updateUserCart(updateCartInfo.Carts));
   // /client/updateCartFromClientToServer
-  return fetch("http://localhost:4000/client/updateCartFromClientToServer", {
+  return fetch(backendPath + "/client/updateCartFromClientToServer", {
     method: "POST",
     body: JSON.stringify(updateCartInfo),
     headers: {
@@ -453,7 +455,7 @@ export const fetchOrderHistoryWithOrderId = (orderId) => (dispatch) => {
   // alert("fetchUpdateCart " + JSON.stringify(updateCartInfo));
   // dispatch(updateUserCart(updateCartInfo.Carts));
   // /client/updateCartFromClientToServer
-  return fetch("http://localhost:4000/client/getOrderHistoryByOrderId", {
+  return fetch(backendPath + "/client/getOrderHistoryByOrderId", {
     method: "POST",
     body: JSON.stringify({ orderId: orderId }),
     headers: {
@@ -475,9 +477,12 @@ export const fetchCancelOrderWithOrderId = (orderInfo) => (dispatch) => {
   // alert("fetchUpdateCart " + JSON.stringify(updateCartInfo));
   // dispatch(updateUserCart(updateCartInfo.Carts));
   // /client/updateCartFromClientToServer
-  return fetch("http://localhost:4000/client/cancelOrderWithOrderId", {
+  return fetch(backendPath + "/client/cancelOrderWithOrderId", {
     method: "POST",
-    body: JSON.stringify({ orderId: orderInfo.orderId, approveStatus: orderInfo.approveStatus}),
+    body: JSON.stringify({
+      orderId: orderInfo.orderId,
+      approveStatus: orderInfo.approveStatus,
+    }),
     headers: {
       "Content-Type": "application/json",
     },
