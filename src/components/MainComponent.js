@@ -21,6 +21,7 @@ import SearchResult from "./pages/SearchResultComponent";
 
 import axios from "axios";
 
+
 //withRouter cau hinh ket noi React voi Redux
 // import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
@@ -28,6 +29,10 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { ActionCreators } from "../redux/ActionCreators";
+import ReactGA from 'react-ga';
+const TRACKING_ID = "G-M8Q7W3FESF"; 
+
+ReactGA.initialize(TRACKING_ID);
 
 /**
  * The method useQuery() define method useQuery for getting query param
@@ -153,6 +158,8 @@ class Main extends Component {
   }
 
   componentDidMount() {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+
     this.props.fetchProducts();
     this.props.changeLoginStatus({ status: "idle", user: null });
 
@@ -172,6 +179,8 @@ class Main extends Component {
   // };
 
   componentDidUpdate() {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+    
     // this.getCSRFToken();
     // alert(
     //   "componentDidUpdate, user: " +
