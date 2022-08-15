@@ -175,7 +175,7 @@ const Login = (props) => {
   }
 
   const responseGoogle = (response) => {
-    alert(response);
+    // alert(response);
     setName(response.profileObj.name);
     setEmail(response.profileObj.email);
     setUrl(response.profileObj.imageUrl);
