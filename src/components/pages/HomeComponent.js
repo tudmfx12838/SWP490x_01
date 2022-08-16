@@ -109,7 +109,7 @@ const Home = (props) => {
 
   return (
     <Container>
-      <Event />
+      {/* <Event /> */}
       <RenderMenuHeader title={"Thực phẩm khô"} path={"/sanpham/thucphamkho"} />
       <RenderHomeItem
         products={dryFoodItem}
