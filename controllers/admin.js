@@ -138,6 +138,7 @@ exports.postAddProduct = (req, res, next) => {
       mount: mount,
       description: description,
       imageUrl: imageUrl,
+      available: true,
     });
 
     product
@@ -151,7 +152,7 @@ exports.postAddProduct = (req, res, next) => {
               path: "/manage/products",
               pageTitle: "Quản lý Sản Phẩm",
               products: products,
-              oldAddProductValue: oldAddProductValue,
+              oldAddProductValue: null,
               addProductValidationErrors: errors.array(),
               editProductValidationErrors: [],
               inform: "Thêm sản phẩm thành công",
